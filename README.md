@@ -3,8 +3,8 @@
 
 ###  Author
 
-|<img src="https://avatars.githubusercontent.com/u/114010099?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/126383419?v=4" width="150" height="150"/>||
-|:-:|:-:|:-:|
+|<img src="https://avatars.githubusercontent.com/u/114010099?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/126383419?v=4" width="150" height="150"/>|
+|:-:|:-:|
 |**iOS Developer**<br/>송지혁<br/>[00306](https://github.com/00306)|**Product Designer**<br/>박민교<br/>[SONIA](https://github.com/sonia-nines)|
 
 
