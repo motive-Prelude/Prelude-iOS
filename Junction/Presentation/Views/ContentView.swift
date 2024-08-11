@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var navigationManager: NavigationManager
+    
     var body: some View {
-        VStack {
-            MainView()
-            Text("Hello World!")
+        NavigationStack(path: $navigationManager.screenPath) {
+            OnboardingView()
+                .navigationDestination(for: AppScreen.self) { appscreen in
+                    appscreen.destination
+                }
         }
     }
 }

@@ -6,7 +6,7 @@
 //
 
 import Combine
-import Foundation
+import UIKit
 
 enum AssistantInteractionError: Error {
     case emptyRunStepResponse
@@ -20,6 +20,7 @@ class AssistantInteractionFacadeImpl: AssistantInteractionFacade {
     private let createRunUseCase: CreateRunUseCase
     private let listRunStepUseCase: ListRunStepUseCase
     private let retrieveMessageUseCase: RetrieveMessageUseCase
+    private let uploadImageUseCase: UploadImageUseCase
     
     private var assistantID: String {
         guard let assistantID = Bundle.main.object(forInfoDictionaryKey: "ASSISTANT_ID") as? String else { return "" }
@@ -39,43 +40,77 @@ class AssistantInteractionFacadeImpl: AssistantInteractionFacade {
          createMessageUseCase: CreateMessageUseCase,
          createRunUseCase: CreateRunUseCase,
          listRunStepUseCase: ListRunStepUseCase,
-         retrieveMessageUseCase: RetrieveMessageUseCase) {
+         retrieveMessageUseCase: RetrieveMessageUseCase,
+         uploadImageUseCase: UploadImageUseCase) {
         self.createThreadUseCase = createThreadUseCase
         self.createMessageUseCase = createMessageUseCase
         self.createRunUseCase = createRunUseCase
         self.listRunStepUseCase = listRunStepUseCase
         self.retrieveMessageUseCase = retrieveMessageUseCase
+        self.uploadImageUseCase = uploadImageUseCase
     }
     
-    public func interact(with message: String) -> AnyPublisher<String, Error> {
-        return createThread(messages: [message])
+    public func interact(with message: String, image: UIImage?) -> AnyPublisher<Judgement, Error> {
+        var capturedFileId: String? = nil
+        
+        let fileIdPublisher: AnyPublisher<String?, Error> = {
+            if let image = image {
+                return uploadImageUseCase.execute(image)
+                    .map { $0.id }
+                    .retry(100)
+                    .eraseToAnyPublisher()
+            } else {
+                return Just(nil)
+                    .setFailureType(to: Error.self)
+                    .eraseToAnyPublisher()
+            }
+        }()
+        
+        return fileIdPublisher
+            .flatMap { [weak self] fileId in
+                if capturedFileId == nil {
+                    capturedFileId = fileId
+                }
+                
+                return self?.createThread(messages: [message], fileId: fileId) ?? Fail(error: NSError(domain: "AssistantInteractionFacade", code: 1, userInfo: [NSLocalizedDescriptionKey: "Self is nil"])).eraseToAnyPublisher()
+            }
             .flatMap { [weak self] threadResponse in
-                self?.createMessageAndRun(threadResponse: threadResponse, message: message) ?? Fail(error: NSError(domain: "AssistantInteractionFacade", code: 1, userInfo: [NSLocalizedDescriptionKey: "Self is nil"])).eraseToAnyPublisher()
+                return self?.createMessageAndRun(threadResponse: threadResponse, text: message, fileId: capturedFileId) ?? Fail(error: NSError(domain: "AssistantInteractionFacade", code: 1, userInfo: [NSLocalizedDescriptionKey: "Self is nil"])).eraseToAnyPublisher()
             }
             .flatMap { [weak self] runResponse in
                 self?.listRunStepAndRetrieveMessage(runResponse: runResponse) ?? Fail(error: NSError(domain: "AssistantInteractionFacade", code: 1, userInfo: [NSLocalizedDescriptionKey: "Self is nil"])).eraseToAnyPublisher()
             }
+            .tryMap { responseString in
+                guard let data = responseString.data(using: .utf8) else {
+                    throw NSError(domain: "AssistantInteractionFacade", code: 2, userInfo: [NSLocalizedDescriptionKey: "Failed to convert String to Data"])
+                }
+                return try JSONDecoder().decode(Judgement.self, from: data)
+            }
             .eraseToAnyPublisher()
     }
     
-    private func createThread(messages: [String]) -> AnyPublisher<ThreadResponse, Error> {
-        createThreadUseCase.execute(messages: messages)
+    
+    
+    private func createThread(messages: [String], fileId: String?) -> AnyPublisher<ThreadResponse, Error> {
+        return createThreadUseCase.execute(messages: messages, fileId: fileId)
             .handleEvents(receiveOutput: { [weak self] response in
                 self?.threadResponse = response
             })
             .eraseToAnyPublisher()
     }
     
-    private func createMessageAndRun(threadResponse: ThreadResponse, message: String) -> AnyPublisher<RunResponse, Error> {
-        return createMessage(threadID: threadResponse.id, message: message)
-            .flatMap { [weak self] messageResponse in
-                self?.createRun(threadID: messageResponse.threadId) ?? Fail(error: NSError(domain: "AssistantInteractionFacade", code: 1, userInfo: [NSLocalizedDescriptionKey: "Self is nil"])).eraseToAnyPublisher()
-            }
-            .eraseToAnyPublisher()
+    private func createMessageAndRun(threadResponse: ThreadResponse, text: String?, fileId: String?) -> AnyPublisher<RunResponse, Error> {
+        return createRun(threadID: threadResponse.id).eraseToAnyPublisher()
+        
+//        return createMessage(threadID: threadResponse.id, text: text, fileId: fileId)
+//            .flatMap { [weak self] messageResponse in
+//                self?.createRun(threadID: messageResponse.threadId) ?? Fail(error: NSError(domain: "AssistantInteractionFacade", code: 1, userInfo: [NSLocalizedDescriptionKey: "Self is nil"])).eraseToAnyPublisher()
+//            }
+//            .eraseToAnyPublisher()
     }
     
-    private func createMessage(threadID: String, message: String) -> AnyPublisher<CreateMessageResponse, Error> {
-        createMessageUseCase.execute(threadID: threadID, message: message)
+    private func createMessage(threadID: String, text: String?, fileId: String?) -> AnyPublisher<CreateMessageResponse, Error> {
+        createMessageUseCase.execute(threadID: threadID, text: text, fileId: fileId)
             .handleEvents(receiveOutput: { [weak self] response in
                 self?.messageResponse = response
             })

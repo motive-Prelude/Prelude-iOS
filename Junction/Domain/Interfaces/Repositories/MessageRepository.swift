@@ -9,6 +9,6 @@ import Combine
 
 
 protocol MessageRepository {
-    func createMessage(threadID: String, content: String) -> AnyPublisher<CreateMessageResponse, Error>
+    func createMessage(threadID: String, text: String?, fileId: String?) -> AnyPublisher<CreateMessageResponse, Error>
     func retrieveMessage(threadID: String, messageID: String) -> AnyPublisher<RetrieveMessageResponse, Error>
 }

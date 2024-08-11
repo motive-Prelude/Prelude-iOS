@@ -15,10 +15,12 @@ final class MessageRepositoryImpl: MessageRepository {
         self.apiService = apiService
     }
     
-    func createMessage(threadID: String, content: String) -> AnyPublisher<CreateMessageResponse, Error> {
-        let body = apiService.createMessageBody(role: "user", content: content)
+    func createMessage(threadID: String, text: String?, fileId: String?) -> AnyPublisher<CreateMessageResponse, Error> {
+        let body = apiService.createMessageBody(role: "user", text: text, fileId: fileId)
         
-        guard let request = apiService.createRequest(withURL: EndPoint.messages(threadID: threadID).urlString, body: body as MessageContent) else { return Fail(error: URLError(.badURL)).eraseToAnyPublisher() }
+        guard let request = apiService.createRequest(withURL: EndPoint.messages(threadID: threadID).urlString, body: body as MessageBody) else { return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
+            
+        }
         
         return apiService.fetchData(with: request)
     }

@@ -12,6 +12,7 @@ struct JunctionApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(NavigationManager())
         }
     }
 }

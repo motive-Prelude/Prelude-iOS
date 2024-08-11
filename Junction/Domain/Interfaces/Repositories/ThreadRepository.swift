@@ -8,5 +8,5 @@
 import Combine
 
 protocol ThreadRepository {
-    func createThread(messages: [String]) -> AnyPublisher<ThreadResponse, Error>
+    func createThread(messages: [String], fileId: String?) -> AnyPublisher<ThreadResponse, Error>
 }

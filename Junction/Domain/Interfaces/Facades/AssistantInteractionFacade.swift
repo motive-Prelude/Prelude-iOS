@@ -6,8 +6,8 @@
 //
 
 import Combine
-import Foundation
+import UIKit
 
 protocol AssistantInteractionFacade {
-    func interact(with message: String) -> AnyPublisher<String, Error>
+    func interact(with message: String, image: UIImage?) -> AnyPublisher<Judgement, Error>
 }
