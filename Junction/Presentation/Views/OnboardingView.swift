@@ -9,7 +9,11 @@ import SwiftUI
 
 struct OnboardingView: View {
     @EnvironmentObject var navigationManager: NavigationManager
-    let onboardingText = "걱정은 이제 그만!\n지금부터 함께 고민해요"
+    let onboardingText = """
+    Stop worrying!
+    Let’s figure it out
+    together
+"""
     
     var body: some View {
         ZStack {
@@ -26,11 +30,12 @@ struct OnboardingView: View {
                 
                 Text(onboardingText)
                     .font(.pretendSemiBold20)
+                    .multilineTextAlignment(.center)
                 
                 Spacer()
                 
                 
-                Text("시작하기")
+                Text("Let's Begin")
                     .font(.pretendBold16)
                     .foregroundStyle(.offwhite)
                     .frame(maxWidth: .infinity)

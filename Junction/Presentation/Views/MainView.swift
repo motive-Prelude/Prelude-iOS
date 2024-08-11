@@ -17,6 +17,11 @@ struct MainView: View {
     @State private var healthInfo: HealthInfo?
     @State private var foodName = ""
     
+    let headerText = """
+    Tell us about the food
+    you’re worried about
+    """
+    
     var userSelectPrompt: String {
         if foodName.isEmpty { return "" }
         return "유저가 알려준 음식의 이름은 \(foodName)이야"
@@ -27,17 +32,17 @@ struct MainView: View {
             Color.offwhite
                 .contentShape(Rectangle())
                 .onTapGesture { UIApplication.shared.endEditing(true) }
-
+            
             VStack(spacing: 0) {
                 header
                     .onTapGesture { UIApplication.shared.endEditing(true) }
-
+                
                 form
                     .padding(.horizontal, 24)
                 
                 Spacer()
                 
-                Text("안전한지 확인하기")
+                Text("Done")
                     .font(.pretendBold16)
                     .foregroundStyle(.offwhite)
                     .frame(maxWidth: .infinity)
@@ -103,11 +108,11 @@ struct MainView: View {
     private var header: some View {
         HStack {
             VStack(alignment: .leading, spacing: 12) {
-                Text("걱정되는 음식을 알려주세요")
+                Text(headerText)
                     .font(.pretendBold24)
                     .padding(.top, 82)
                     .foregroundStyle(.offblack)
-                Text("음식의 사진 또는 이름으로 검색할 수 있어요")
+                Text("Take a photo or type in!")
                     .font(.pretendRegular14)
             }
             .padding(.leading, 24)
@@ -137,7 +142,7 @@ struct MainView: View {
     
     private var pictureSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("텍스트 또는 음식 사진으로 확인")
+            Text("Photo of the food or its name")
                 .font(.pretendSemiBold18)
                 .foregroundStyle(.offblack)
             
@@ -180,11 +185,11 @@ struct MainView: View {
     
     private var foodNameSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("음식 이름으로 확인")
+            Text("Food name")
                 .font(.pretendSemiBold18)
                 .foregroundStyle(.offblack)
             
-            TextField("음식 이름", text: $foodName)
+            TextField("Type here", text: $foodName)
                 .font(.pretendRegular16)
                 .foregroundStyle(.offblack)
                 .padding(.vertical, 13)

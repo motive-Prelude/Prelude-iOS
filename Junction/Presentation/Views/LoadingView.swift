@@ -18,11 +18,11 @@ struct LoadingView: View {
                     .looping()
                     .padding(.bottom, 12)
                 
-                Text("잠시만 기다려주세요")
+                Text("We’re checking if it’s safe!")
                     .font(.pretendSemiBold18)
                     .foregroundStyle(.offblack)
                 
-                Text("최대 10초 정도 소요될 수 있어요")
+                Text("This process can take up to 10 seconds")
                     .font(.pretendRegular14)
                     .foregroundStyle(.gray3)
                 

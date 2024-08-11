@@ -29,7 +29,7 @@ struct HealthCheckView: View {
                 Spacer()
                 
                 HStack(spacing: 12) {
-                    Text("수정할래요")
+                    Text("No, need to edit")
                         .font(.pretendBold16)
                         .foregroundStyle(.offblack)
                         .padding(.vertical, 18)
@@ -45,7 +45,7 @@ struct HealthCheckView: View {
                         .padding(.leading, 24)
                     
                     
-                    Text("맞아요")
+                    Text("Yes")
                         .font(.pretendBold16)
                         .foregroundStyle(.offwhite)
                         .padding(.vertical, 18)
@@ -83,11 +83,11 @@ struct HealthCheckView: View {
     
     private var instructions: some View {
         VStack(spacing: 4) {
-            Text("다 입력하셨어요!")
+            Text("All done!")
                 .font(.pretendMedium16)
                 .foregroundStyle(.gray8)
             
-            Text("아래 정보가 맞나요?")
+            Text("Is this correct?")
                 .font(.pretendSemiBold26)
                 .foregroundStyle(.offblack)
         }
@@ -99,7 +99,7 @@ struct HealthCheckView: View {
             healthTags(text: "\(healthInfo.height)cm")
             healthTags(text: "\(healthInfo.weight)kg")
             healthTags(text: "\(healthInfo.bloodPressure.rawValue)")
-            healthTags(text: "\(healthInfo.diabetes.rawValue)")
+            healthTags(text: "Diabetes \(healthInfo.diabetes.rawValue)")
         }
     }
     

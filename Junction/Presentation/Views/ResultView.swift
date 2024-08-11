@@ -61,7 +61,7 @@ struct ResultView: View {
                     .fill(.offwhite)
                     .frame(height: 80)
                     .overlay(alignment: .bottom) {
-                        Text("처음으로 돌아가기")
+                        Text("Return")
                             .font(.pretendBold16)
                             .foregroundStyle(.offwhite)
                             .frame(maxWidth: .infinity)
@@ -90,18 +90,20 @@ struct ResultView: View {
                     .padding(.top, 97)
                 
                 VStack(spacing: 4) {
-                    Text(result == .positive ? "걱정 안해도 돼요!" : "주의가 필요해요!")
+                    Text(result == .positive ? "No need to worry!" : "Be a little cautious!")
                         .font(.pretendSemiBold28)
                         .foregroundStyle(.offblack)
                     
                     HStack(spacing: 0) {
+                        
+                        
+                        Text("Results on ")
+                            .font(.pretendMedium18)
+                            .foregroundStyle(.offblack)
+                        
                         Text(judgement.productName)
                             .font(.pretendMedium18)
                             .foregroundStyle(result == .positive ? .green1 : .pink1)
-                        
-                        Text("에 대한 결과에요")
-                            .font(.pretendMedium18)
-                            .foregroundStyle(.offblack)
                     }
                     .padding(.bottom, 59)
                 }
@@ -151,9 +153,11 @@ struct ResultView: View {
                 .font(.system(size: 16))
                 .foregroundStyle(.pink1)
             
-            Text("ChatGPT는 실수를 할 수 있습니다. 중요한 정보는 재확인하세요.")
+            Text("ChatGPT can make mistakes. Check important info.")
                 .font(.pretendRegular12)
                 .foregroundStyle(.gray3)
+            
+            Spacer()
         }
         .padding(.bottom, 24)
     }

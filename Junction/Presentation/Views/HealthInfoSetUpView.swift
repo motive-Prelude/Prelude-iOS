@@ -9,27 +9,35 @@ import Combine
 import SwiftUI
 
 enum Diabetes: String, CaseIterable, Codable {
-    case suffer = "당뇨 있어요"
-    case notAffected = "당뇨 없어요"
+    case suffer = "Yes"
+    case notAffected = "No"
 }
 
 enum BloodPresure: String, CaseIterable, Codable {
-    case high = "고혈압이 있어요"
-    case low = "저혈압이 있어요"
-    case normal = "정상 혈압이에요"
+    case high = "Hypertension"
+    case low = "Hypotension"
+    case normal = "Fine"
 }
 
 enum PregnantWeek: String, CaseIterable, Codable {
-    case early = "임신 초기(1~13주)"
-    case mid = "임신 중기(14~27주)"
-    case late = "임신 후기(28~40주)"
+    case early = "1~13 weeks"
+    case mid = "14~27 weeks"
+    case late = "28~40 weeks"
+    case postpartum = "postpartum"
 }
 
 struct HealthInfoSetUpView: View {
     @StateObject private var viewModel = HealthInfoSetUpViewModel()
     @EnvironmentObject var navigationManager: NavigationManager
-    
-    let instructionText = "먼저 몇 가지\n건강 정보를 알려주세요"
+    let headerText = """
+    These are the details we need
+    to provide personalized
+    results
+    """
+    let instructionText = """
+First we need your
+health information
+"""
     
     var body: some View {
         ZStack {
@@ -74,7 +82,7 @@ struct HealthInfoSetUpView: View {
             header
             setup
             Spacer()
-            Text("다음")
+            Text("Next")
                 .font(.pretendBold16)
                 .foregroundStyle(.offwhite)
                 .frame(maxWidth: .infinity)
@@ -94,11 +102,11 @@ struct HealthInfoSetUpView: View {
     
     private var header: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text("맞춤 결과를 제공하기 위해 필요한 정보들이에요")
+            Text(headerText)
                 .font(.pretendBold24)
                 .foregroundStyle(.offblack)
                 .lineSpacing(4)
-                .frame(height: 70)
+                .frame(height: 100)
                 .padding(.top, 82)
             Spacer()
             HStack {
@@ -111,7 +119,7 @@ struct HealthInfoSetUpView: View {
             .padding(.trailing, 16)
         }
         .padding(.leading, 24)
-        .frame(height: 250)
+        .frame(height: 260)
         .background { Color.gray10 }
         .contentShape(Rectangle())
         .onTapGesture {
@@ -131,7 +139,7 @@ struct HealthInfoSetUpView: View {
     
     private var pregnantWeekSelection: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text("현재 임신 몇 주차이신가요?")
+            Text("How many weeks pregnant are you?")
                 .font(.pretendSemiBold20)
                 .foregroundStyle(.offblack)
             
@@ -155,13 +163,13 @@ struct HealthInfoSetUpView: View {
     
     private var bmiSelection: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text("몸무게와 키를 입력해주세요")
+            Text("What is your height and weight?")
                 .font(.pretendSemiBold20)
                 .foregroundStyle(.offblack)
             
             HStack(spacing: 16) {
                 HStack(alignment: .bottom, spacing: 4) {
-                    TextField("키", text: $viewModel.height)
+                    TextField("Height", text: $viewModel.height)
                         .font(.pretendMedium16)
                         .frame(width: 82)
                         .padding(.vertical, 7)
@@ -174,7 +182,7 @@ struct HealthInfoSetUpView: View {
                 }
                 
                 HStack(alignment: .bottom, spacing: 4) {
-                    TextField("몸무게", text: $viewModel.weight)
+                    TextField("Weight", text: $viewModel.weight)
                         .font(.pretendMedium16)
                         .frame(width: 82)
                         .padding(.vertical, 7)
@@ -191,7 +199,7 @@ struct HealthInfoSetUpView: View {
     
     private var bloodPressureSelection: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text("고혈압 또는 저혈압이 있으신가요?")
+            Text("Any problem with your blood pressure?")
                 .font(.pretendSemiBold20)
                 .foregroundStyle(.offblack)
             
@@ -215,7 +223,7 @@ struct HealthInfoSetUpView: View {
     
     private var diabetesSelection: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text("당뇨가 있으신가요?")
+            Text("Do you have history of diabetes?")
                 .font(.pretendSemiBold20)
                 .foregroundStyle(.offblack)
             
