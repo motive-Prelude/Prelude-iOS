@@ -11,7 +11,7 @@ import SwiftUI
 class ResultViewModel: ObservableObject {
     private let assistantInteractionFacade: AssistantInteractionFacadeImpl
     
-    private var cancellables = Set<AnyCancellable>()
+    var cancellables = Set<AnyCancellable>()
     @Published var receivedMessage: String?
     @Published var imageErrorMessage: String?
     @Published var userHealthInfo: HealthInfo?
