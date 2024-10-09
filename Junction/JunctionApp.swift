@@ -9,10 +9,13 @@ import SwiftUI
 
 @main
 struct JunctionApp: App {
+    @StateObject var store = Store()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(NavigationManager())
+                .environmentObject(store)
         }
     }
 }
