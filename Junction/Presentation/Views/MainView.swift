@@ -6,15 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MainView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var mainViewModel = MainViewModel()
-    
-    
     @State private var uiImage: UIImage?
     @State private var isShowingImagePicker = false
-    @State private var healthInfo: HealthInfo?
     @State private var foodName = ""
     
     
@@ -73,43 +71,6 @@ struct MainView: View {
                     .padding(.bottom, 36)
                     .padding(.horizontal, 24)
             }
-            
-            
-            
-            //            Button("테스트") {
-            //                mainViewModel.sendMessageForQuiz("이 임산부의 건강 상태는 혈압 낮음, 당뇨 없음, 임신 초기야.", image: uiImage)
-            //            }
-            //
-            //            Button("health") {
-            //                healthInfo = mainViewModel.loadHealthInfo()
-            //            }
-            //
-            //            Text(healthInfo?.bloodPressure.rawValue ?? "안됨 저장")
-            //
-            //
-            //            Button(action: {
-            //                isShowingImagePicker = true
-            //            }) {
-            //                Text("Open Camera")
-            //                    .padding()
-            //                    .background(Color.blue)
-            //                    .foregroundColor(.white)
-            //                    .cornerRadius(10)
-            //            }
-            //
-            //            ScrollView {
-            //                Text(mainViewModel.judgement?.recognition.description ?? "")
-            //                Text(mainViewModel.judgement?.productName ?? "")
-            //                Text(mainViewModel.judgement?.conclusion ?? "")
-            //                ForEach(mainViewModel.judgement?.details ?? [JudgementDetail(title: "", content: "")], id: \.self) { detail in
-            //                    VStack {
-            //                        Text(detail.title)
-            //                            .bold()
-            //
-            //                        Text(detail.content)
-            //                    }
-            //                }
-            //            }
             .sheet(isPresented: $isShowingImagePicker) {
                 ImagePicker(image: $uiImage, sourceType: .camera)
             }
@@ -213,7 +174,6 @@ struct MainView: View {
                 .padding(.vertical, 13)
                 .padding(.leading, 14)
                 .background { RoundedRectangle(cornerRadius: 16).stroke(.gray8, lineWidth: 1) }
-            
         }
     }
 }
