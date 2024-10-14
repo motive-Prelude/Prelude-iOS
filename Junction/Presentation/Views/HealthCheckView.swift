@@ -10,6 +10,7 @@ import SwiftUI
 struct HealthCheckView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @Environment(\.dismiss) var dismiss
+    @StateObject var healthCheckViewModel = HealthCheckViewModel()
     let healthInfo: HealthInfo
     
     var body: some View {
@@ -57,8 +58,10 @@ struct HealthCheckView: View {
                         }
                     
                         .onTapGesture {
-                            saveHealthInfo()
-                            navigationManager.screenPath.append(.main)
+                            Task {
+                                await healthCheckViewModel.submit(healthInfo: healthInfo)
+                                await MainActor.run { navigationManager.screenPath.append(.main) }
+                            }
                         }
                         .padding(.trailing, 24)
                     
@@ -68,17 +71,6 @@ struct HealthCheckView: View {
             .navigationBarBackButtonHidden()
         }
         .ignoresSafeArea()
-    }
-    
-    private func saveHealthInfo() {
-        do {
-            let encoder = JSONEncoder()
-            let data = try encoder.encode(healthInfo)
-            UserDefaults.standard.set(data, forKey: "HealthInfo")
-            print("HealthInfo saved successfully.")
-        } catch {
-            print("Failed to save HealthInfo: \(error)")
-        }
     }
     
     private var instructions: some View {
