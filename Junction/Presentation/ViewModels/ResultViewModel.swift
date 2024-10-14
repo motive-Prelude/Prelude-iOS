@@ -30,7 +30,6 @@ class ResultViewModel: ObservableObject {
     )) {
         
         self.assistantInteractionFacade = assistantInteractionFacade
-        self.loadHealthInfo()
         
         $userHealthInfo
             .sink { healthInfo in
@@ -66,14 +65,5 @@ class ResultViewModel: ObservableObject {
                 })
                 .store(in: &self.cancellables)
         }.eraseToAnyPublisher()
-    }
-    
-    func loadHealthInfo() {
-        if let data = UserDefaults.standard.data(forKey: "HealthInfo") {
-            let decoder = JSONDecoder()
-            if let healthInfo = try? decoder.decode(HealthInfo.self, from: data) {
-                self.userHealthInfo = healthInfo
-            }
-        }
     }
 }
