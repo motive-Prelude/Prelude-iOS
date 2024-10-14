@@ -17,6 +17,7 @@ struct MainView: View {
     @State private var healthInfo: HealthInfo?
     @State private var foodName = ""
     
+    
     let headerText = """
     Tell us about the food
     you’re worried about
@@ -41,6 +42,18 @@ struct MainView: View {
                     .padding(.horizontal, 24)
                 
                 Spacer()
+                
+                Text("remaining Times: \(mainViewModel.userInfo?.remainingTimes ?? 0)")
+                
+                Rectangle()
+                    .fill(.green)
+                    .frame(height: 50)
+                    .onTapGesture {
+                        Task {
+                            await mainViewModel.submit()
+                        }
+                    }
+                
                 
                 Text("Done")
                     .font(.pretendBold16)
@@ -103,7 +116,12 @@ struct MainView: View {
         }
         .ignoresSafeArea()
         .navigationBarBackButtonHidden()
+        .onAppear {
+            guard mainViewModel.userInfo == nil else { return }
+            mainViewModel.fetchUserInfo()
+        }
     }
+    
     
     private var header: some View {
         HStack {
