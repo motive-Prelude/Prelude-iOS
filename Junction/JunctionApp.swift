@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct JunctionApp: App {
@@ -14,7 +15,9 @@ struct JunctionApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+//            MainView()
                 .environmentObject(NavigationManager())
+                .modelContainer(SwiftDataManager.shared.container)
                 .environmentObject(store)
         }
     }

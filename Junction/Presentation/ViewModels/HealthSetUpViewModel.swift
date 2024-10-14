@@ -51,18 +51,18 @@ class HealthInfoSetUpViewModel: ObservableObject {
             .eraseToAnyPublisher()
     }
     
-    func submit(navigationManager: NavigationManager) {
+    func submit(completion: @escaping (Result<HealthInfo, Error>) -> Void) {
         makeHealthInfo()
-            .sink { completion in
-                switch completion {
+            .sink(receiveCompletion: { completionStatus in
+                switch completionStatus {
                     case .finished:
                         break
                     case .failure(let error):
-                        print("Error occurred: \(error.localizedDescription)")
+                        completion(.failure(error))
                 }
-            } receiveValue: { healthInfo in
-                navigationManager.screenPath.append(.healthCheck(healthInfo: healthInfo))
-            }
+            }, receiveValue: { healthInfo in
+                completion(.success(healthInfo))
+            })
             .store(in: &cancellables)
     }
     

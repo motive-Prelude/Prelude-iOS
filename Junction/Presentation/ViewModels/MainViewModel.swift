@@ -12,9 +12,12 @@ class MainViewModel: ObservableObject {
     private let assistantInteractionFacade: AssistantInteractionFacadeImpl
     
     private var cancellables = Set<AnyCancellable>()
+    private let cloudkitManager: CloudKitManager
+    private let swiftDataManager: SwiftDataManager
     @Published var receivedMessage: String?
     @Published var imageErrorMessage: String?
-    @Published var userHealthInfo: HealthInfo?
+    @Published var healthInfo: HealthInfo?
+    @Published var userInfo: UserInfo?
     
     @Published var prompt = ""
     @Published var judgement: Judgement?
@@ -26,12 +29,22 @@ class MainViewModel: ObservableObject {
         listRunStepUseCase: DIContainer.shared.resolve(ListRunStepUseCase.self)!,
         retrieveMessageUseCase: DIContainer.shared.resolve(RetrieveMessageUseCase.self)!,
         uploadImageUseCase: DIContainer.shared.resolve(UploadImageUseCase.self)!
-    )) {
+    ), swiftDataManager: SwiftDataManager = SwiftDataManager.shared, cloudKitManager: CloudKitManager = CloudKitManager.shared) {
         
         self.assistantInteractionFacade = assistantInteractionFacade
-        self.loadHealthInfo()
+        self.swiftDataManager = swiftDataManager
+        self.cloudkitManager = cloudKitManager
         
-        $userHealthInfo
+        $userInfo
+            .sink { userInfo in
+                self.objectWillChange.send()
+                self.healthInfo = userInfo?.healthInfo
+                
+                
+            }
+            .store(in: &cancellables)
+        
+        $healthInfo
             .sink { healthInfo in
                 guard let healthInfo = healthInfo else { return }
                 self.prompt = """
@@ -40,37 +53,32 @@ class MainViewModel: ObservableObject {
                     혈압은 \(healthInfo.bloodPressure.rawValue). \(healthInfo.diabetes.rawValue).
                     다음에 올 사용자의 질문에 instruction 내용을 바탕으로 성실히 답변해줘!\n
                     
-
+                    
                     """
             }
+            .store(in: &cancellables)
+        
+        cloudKitManager.cloudKitNotificationSubject
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                Task {
+                    guard let record = await self.cloudkitManager.fetch(recordString: "UserInfo") else { return }
+                    
+                    await MainActor.run {
+                        guard let healthInfo = self.healthInfo, let newUserInfo = UserInfo(from: record, healthInfo: healthInfo) else { return }
+                        self.objectWillChange.send()
+                        self.userInfo = newUserInfo
+                        
+                        print(self.userInfo?.remainingTimes ?? "No remaining times")
+                    }
+                }
+            }
+            .store(in: &cancellables)
+        
     }
     
-//    func uploadImage(image: UIImage) {
-//        return uploadImageUseCase.execute(image)
-//            .handleEvents(receiveOutput: { fileResponse in
-//                self.receivedMessage = "Uploaded file: \(fileResponse.filename) with ID: \(fileResponse.id)"
-//            }, receiveCompletion: { completion in
-//                if case .failure(let error) = completion {
-//                    print("Image upload failed with error: \(error)")
-//                    self.imageErrorMessage = "Image upload failed with"
-//                }
-//            })
-//            .sink(receiveCompletion: { completion in
-//                switch completion {
-//                    case .failure(let error):
-//                        print("Upload failed with error: \(error)")
-//                        self.imageErrorMessage = "Upload failed with \(error)"
-//                        
-//                    case .finished:
-//                        print("Upload finished successfully.")
-//                        self.imageErrorMessage = "Upload finished successfully."
-//                }
-//            }, receiveValue: { fileResponse in
-//                print("File ID: \(fileResponse.id)")
-//                print("Filename: \(fileResponse.filename)")
-//            })
-//            .store(in: &cancellables)
-//    }
+    func fetchUserInfo() { self.userInfo = swiftDataManager.fetchLatest(data: UserInfo.self) }
+    
     
     func sendMessage(_ message: String, image: UIImage?) -> AnyPublisher<Void, Error> {
         return Future { promise in
@@ -90,12 +98,16 @@ class MainViewModel: ObservableObject {
         }.eraseToAnyPublisher()
     }
     
-    func loadHealthInfo() {
-        if let data = UserDefaults.standard.data(forKey: "HealthInfo") {
-            let decoder = JSONDecoder()
-            if let healthInfo = try? decoder.decode(HealthInfo.self, from: data) {
-                self.userHealthInfo = healthInfo
-            }
-        }
+    func submit() async {
+        userInfo?.remainingTimes -= 1
+        guard let userInfoRecord = userInfo?.toCKRecord() else { return }
+        await cloudkitManager.update(record: userInfoRecord, type: UserInfo.self)
+        
+        guard let record = await cloudkitManager.fetch(recordString: "UserInfo") else { return }
+        guard let healthInfo = healthInfo, let newUserInfo = UserInfo(from: record, healthInfo: healthInfo) else { return }
+        
+        await MainActor.run { self.userInfo = newUserInfo }
+        swiftDataManager.saveData(newUserInfo)
     }
+    
 }
