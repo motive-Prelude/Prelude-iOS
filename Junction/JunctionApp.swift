@@ -6,13 +6,17 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct JunctionApp: App {
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+//            MainView()
                 .environmentObject(NavigationManager())
+                .modelContainer(SwiftDataManager.shared.container)
         }
     }
 }
