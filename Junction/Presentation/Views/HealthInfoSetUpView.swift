@@ -93,7 +93,9 @@ health information
                     
                 }
                 .onTapGesture {
-                    viewModel.submit(navigationManager: navigationManager)
+                    viewModel.submit { result in
+                        if case .success(let healthInfo) = result { navigationManager.screenPath.append(.healthCheck(healthInfo: healthInfo)) }
+                    }
                 }
                 .disabled(viewModel.formCheck())
                 .padding(.horizontal, 24)
