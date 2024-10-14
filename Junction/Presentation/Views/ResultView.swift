@@ -5,6 +5,7 @@
 //  Created by 송지혁 on 8/11/24.
 //
 
+import Combine
 import SwiftUI
 
 enum JudgeResult {
@@ -26,6 +27,17 @@ struct ResultView: View {
                 LoadingView()
                     .onAppear {
                         resultViewModel.sendMessage(userSelectedPrompt, image: image)
+                            .sink { completion in
+                                switch completion {
+                                    case .failure(let error):
+                                        dismiss()
+                                    case .finished:
+                                        print("good")
+                                }
+                            } receiveValue: { _ in
+                                
+                            }
+                            .store(in: &resultViewModel.cancellables)
                     }
             } else {
                 resultView
@@ -162,3 +174,4 @@ struct ResultView: View {
         .padding(.bottom, 24)
     }
 }
+

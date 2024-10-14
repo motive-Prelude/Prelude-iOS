@@ -68,6 +68,10 @@
 		074BFFE82CBA3CBA000773CA /* Convertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074BFFE72CBA3CBA000773CA /* Convertible.swift */; };
 		074BFFEA2CBAA940000773CA /* HealthCheckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074BFFE92CBAA940000773CA /* HealthCheckViewModel.swift */; };
 		07590B312C9D9BBE00BE6B14 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07590B302C9D9BBE00BE6B14 /* StoreKit.framework */; };
+		07590B2C2C9D99DF00BE6B14 /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07590B2B2C9D99DF00BE6B14 /* PaymentView.swift */; };
+		07590B312C9D9BBE00BE6B14 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07590B302C9D9BBE00BE6B14 /* StoreKit.framework */; };
+		07590B392C9DACCC00BE6B14 /* Products.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07590B382C9DACCC00BE6B14 /* Products.plist */; };
+		07A275232CB61A120043B767 /* Prelude(프렐류드).storekit in Resources */ = {isa = PBXBuildFile; fileRef = 07A275222CB61A120043B767 /* Prelude(프렐류드).storekit */; };
 		07DC00592CACDF40003E99FA /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 07DC00582CACDF40003E99FA /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
@@ -135,12 +139,17 @@
 		074BFFE72CBA3CBA000773CA /* Convertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Convertible.swift; sourceTree = "<group>"; };
 		074BFFE92CBAA940000773CA /* HealthCheckViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCheckViewModel.swift; sourceTree = "<group>"; };
 		07590B302C9D9BBE00BE6B14 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		07590B2B2C9D99DF00BE6B14 /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
+		07590B302C9D9BBE00BE6B14 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		07590B382C9DACCC00BE6B14 /* Products.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Products.plist; sourceTree = "<group>"; };
+		07A275222CB61A120043B767 /* Prelude(프렐류드).storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Prelude(프렐류드).storekit"; sourceTree = "<group>"; };
 		07DC00582CACDF40003E99FA /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		07A643E82CB62A5000AA4EB2 /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
 		07A643E92CB65EF700AA4EB2 /* UserInfo */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UserInfo; sourceTree = "<group>"; };
+		07A275242CB622B60043B767 /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
 		07DC00742CB4112C003E99FA /* Errors */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Errors; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -179,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				07A643E82CB62A5000AA4EB2 /* Shared */,
+				07A275242CB622B60043B767 /* Shared */,
 				074148D52C6800F300D79562 /* Resources */,
 				071C843A2C66E3690055C393 /* Info.plist */,
 				071C83F42C66E30A0055C393 /* Data */,
@@ -189,6 +199,8 @@
 				071C83E12C66E1CC0055C393 /* Junction.entitlements */,
 				071C84382C66E3260055C393 /* Secrets.xcconfig */,
 				071C83E22C66E1CC0055C393 /* Preview Content */,
+				07A275222CB61A120043B767 /* Prelude(프렐류드).storekit */,
+				07590B382C9DACCC00BE6B14 /* Products.plist */,
 			);
 			path = Junction;
 			sourceTree = "<group>";
@@ -273,6 +285,7 @@
 				074148E32C681B2A00D79562 /* HealthCheckView.swift */,
 				074148EA2C683F8300D79562 /* ResultView.swift */,
 				074148EE2C68418F00D79562 /* LoadingView.swift */,
+				07590B2B2C9D99DF00BE6B14 /* PaymentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -472,6 +485,7 @@
 			fileSystemSynchronizedGroups = (
 				07A643E82CB62A5000AA4EB2 /* Shared */,
 				07A643E92CB65EF700AA4EB2 /* UserInfo */,
+				07A275242CB622B60043B767 /* Shared */,
 				07DC00742CB4112C003E99FA /* Errors */,
 			);
 			name = Junction;
@@ -526,6 +540,7 @@
 			files = (
 				074148DE2C6801CD00D79562 /* Pretendard-Medium.otf in Resources */,
 				071C83E42C66E1CC0055C393 /* Preview Assets.xcassets in Resources */,
+				07590B392C9DACCC00BE6B14 /* Products.plist in Resources */,
 				074148DC2C68012C00D79562 /* Pretendard-Bold.otf in Resources */,
 				071C83E02C66E1CC0055C393 /* Assets.xcassets in Resources */,
 				07DC00592CACDF40003E99FA /* Localizable.xcstrings in Resources */,
@@ -533,6 +548,7 @@
 				071C84392C66E3260055C393 /* Secrets.xcconfig in Resources */,
 				074148F32C68427A00D79562 /* loadingAnimation.json in Resources */,
 				074148DA2C68012C00D79562 /* Pretendard-SemiBold.otf in Resources */,
+				07A275232CB61A120043B767 /* Prelude(프렐류드).storekit in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,6 +598,7 @@
 				071C83DC2C66E1CB0055C393 /* JunctionApp.swift in Sources */,
 				071C84292C66E30A0055C393 /* RetrieveMessageResponse.swift in Sources */,
 				071C842A2C66E30A0055C393 /* RunRequest.swift in Sources */,
+				07590B2C2C9D99DF00BE6B14 /* PaymentView.swift in Sources */,
 				071C842E2C66E30A0055C393 /* AssistantInteractionFacade.swift in Sources */,
 				074148D42C6800CA00D79562 /* Font+.swift in Sources */,
 				071C842C2C66E30A0055C393 /* RunStepResponse.swift in Sources */,
