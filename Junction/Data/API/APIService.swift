@@ -11,6 +11,11 @@ enum HTTPMethod: String {
     case GET, POST, PUT, DELETE, PATCH, HEAD
 }
 
+enum HTTPBody {
+    case json(Encodable)
+    case data(Data, contentType: String)
+}
+
 final class APIService {
     func fetchData<T: Decodable>(with request: URLRequest) -> AnyPublisher<T, Error> {
         
