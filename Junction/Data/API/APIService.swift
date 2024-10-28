@@ -17,20 +17,20 @@ enum HTTPBody {
 }
 
 final class APIService {
-    func fetchData<T: Decodable>(with request: URLRequest) -> AnyPublisher<T, Error> {
-        
-        return URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { output in
-                guard let httpResponse = output.response as? HTTPURLResponse else {
-                    throw URLError(.badServerResponse)
-                }
-                
-                return output.data
-            }
-            .decode(type: T.self, decoder: JSONDecoder())
-            .receive(on: DispatchQueue.main)
-            .eraseToAnyPublisher()
+    func fetchData<T: Decodable>(with request: URLRequest) async throws -> T {
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            let decodedData = try JSONDecoder().decode(T.self, from: data)
+            return decodedData
+            
+        } catch {
+            throw APIError.unknown
+        }
     }
+    
+    func makeURLRequest(to url: URL,
+                        method: HTTPMethod = .POST,
+                        headers: [String: String] = [:],
     
     func createRequest<T: Encodable>(withURL urlString: String, method: String = "POST", body: T?) -> URLRequest? {
         guard let url = URL(string: urlString) else { return nil }
