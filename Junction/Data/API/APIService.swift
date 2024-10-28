@@ -61,34 +61,20 @@ final class APIService {
         return request
     }
     
-    func uploadImage(withURL urlString: String, _ image: UIImage, purpose: String = "vision", fileName: String = "image.jpeg") -> AnyPublisher<FileUploadResponse, Error> {
-        
-        guard let url = URL(string: urlString) else {
-            return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        setCommonHeaders(for: &request)
+    @discardableResult
+    func uploadImage(to url: URL,
+                     image: UIImage,
+                     purpose: String = "vision",
+                     fileName: String = "image.jpeg") async throws -> FileUploadResponse {
         
         let boundary = "Boundary-\(UUID().uuidString)"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        let contentType = "multipart/form-data; boundary=\(boundary)"
         
-        let body = createMultipartBody(with: image, boundary: boundary, purpose: purpose, fileName: fileName)
+        let bodyData = makeMultipartBody(with: image, boundary: boundary, purpose: purpose, fileName: fileName)
+        let request = try makeURLRequest(to: url, method: .POST, body: .data(bodyData, contentType: contentType))
         
-        request.httpBody = body
+        return try await fetchData(with: request)
         
-        return URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { output in
-                guard let httpResponse = output.response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                    throw URLError(.badServerResponse)
-                }
-                return output.data
-            }
-            .decode(type: FileUploadResponse.self, decoder: JSONDecoder())
-            .receive(on: DispatchQueue.main)
-            .eraseToAnyPublisher()
     }
     
     // Multipart body를 생성하는 메서드
