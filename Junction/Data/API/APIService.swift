@@ -7,6 +7,9 @@
 
 import Combine
 import UIKit
+enum HTTPMethod: String {
+    case GET, POST, PUT, DELETE, PATCH, HEAD
+}
 
 final class APIService {
     func fetchData<T: Decodable>(with request: URLRequest) -> AnyPublisher<T, Error> {
