@@ -7,6 +7,11 @@
 
 import Combine
 import UIKit
+
+enum APIError: Error {
+    case unknown
+}
+
 enum HTTPMethod: String {
     case GET, POST, PUT, DELETE, PATCH, HEAD
 }
@@ -87,25 +92,33 @@ final class APIService {
     }
     
     // Multipart body를 생성하는 메서드
-    private func createMultipartBody(with image: UIImage, boundary: String, purpose: String, fileName: String) -> Data {
+    private func makeMultipartBody(with image: UIImage, boundary: String, purpose: String, fileName: String) -> Data {
         var body = Data()
         let boundaryPrefix = "--\(boundary)\r\n"
         
-        // purpose 필드 추가
-        body.append(boundaryPrefix.data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"purpose\"\r\n\r\n".data(using: .utf8)!)
-        body.append("\(purpose)\r\n".data(using: .utf8)!)
+        guard
+            let boundaryPrefixData = boundaryPrefix.data(using: .utf8),
+            let purposeHeaderData = "Content-Disposition: form-data; name=\"purpose\"\r\n\r\n".data(using: .utf8),
+            let purposeData = "\(purpose)\r\n".data(using: .utf8),
+            let fileHeaderData = "Content-Disposition: form-data; name=\"file\"; filename=\"\(fileName)\"\r\n".data(using: .utf8),
+            let contentTypeData = "Content-Type: image/jpeg\r\n\r\n".data(using: .utf8),
+            let imageData = image.jpegData(compressionQuality: 1.0),
+            let closingBoundaryData = "--\(boundary)--\r\n".data(using: .utf8)
+        else {
+            return Data()
+        }
         
-        // 파일 데이터 추가
-        let imageData = image.jpegData(compressionQuality: 1.0) ?? Data()
+        body.append(boundaryPrefixData)
+        body.append(purposeHeaderData)
+        body.append(purposeData)
         
-        body.append(boundaryPrefix.data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
-        body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+        body.append(boundaryPrefixData)
+        body.append(fileHeaderData)
+        body.append(contentTypeData)
         body.append(imageData)
         body.append("\r\n".data(using: .utf8)!)
         
-        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        body.append(closingBoundaryData)
         
         return body
     }
