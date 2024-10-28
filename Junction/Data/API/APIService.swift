@@ -31,22 +31,25 @@ final class APIService {
     func makeURLRequest(to url: URL,
                         method: HTTPMethod = .POST,
                         headers: [String: String] = [:],
-    
-    func createRequest<T: Encodable>(withURL urlString: String, method: String = "POST", body: T?) -> URLRequest? {
-        guard let url = URL(string: urlString) else { return nil }
-        print(url)
-        
+                        body: HTTPBody? = nil
+    ) throws -> URLRequest {
         var request = URLRequest(url: url)
-        request.httpMethod = method
+        request.httpMethod = method.rawValue
         
         setCommonHeaders(for: &request)
         
+        for (key, value) in headers {
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        
         if let body {
-            do {
-                request.httpBody = try JSONEncoder().encode(body)
-            } catch let error {
-                print(error.localizedDescription)
-                return nil
+            switch body {
+                case .json(let encodable):
+                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                    request.httpBody = try JSONEncoder().encode(encodable)
+                case .data(let data, let contentType):
+                    request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+                    request.httpBody = data
             }
         }
         
