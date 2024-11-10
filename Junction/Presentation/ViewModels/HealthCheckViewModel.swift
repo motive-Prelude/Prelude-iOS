@@ -10,12 +10,14 @@ import Foundation
 
 class HealthCheckViewModel: ObservableObject {
     
+    private let userStore: UserStore
     private let cloudkitManager: CloudKitManager
     private let swiftDataManager: SwiftDataManager
     
-    init(cloudkitManager: CloudKitManager = CloudKitManager.shared, swiftDataManager: SwiftDataManager = SwiftDataManager.shared) {
+    init(cloudkitManager: CloudKitManager = CloudKitManager.shared, swiftDataManager: SwiftDataManager = SwiftDataManager.shared, userStore: UserStore = .shared) {
         self.cloudkitManager = cloudkitManager
         self.swiftDataManager = swiftDataManager
+        self.userStore = userStore
     }
     
     func submit(healthInfo: HealthInfo) async {
@@ -24,13 +26,14 @@ class HealthCheckViewModel: ObservableObject {
         if let record = result {
             guard let userInfo = UserInfo(from: record, healthInfo: healthInfo) else { return }
             swiftDataManager.saveData(userInfo)
+            await cloudkitManager.update(record: userInfo.toCKRecord(), type: UserInfo.self)
+            await cloudkitManager.update(record: healthInfo.toCKRecord(), type: HealthInfo.self)
         } else {
             let newUserInfo = UserInfo(remainingTimes: 0, healthInfo: healthInfo)
             swiftDataManager.saveData(newUserInfo)
+            try? await cloudkitManager.save(record: newUserInfo.toCKRecord())
+            try? await cloudkitManager.save(record: healthInfo.toCKRecord())
         }
     }
-    
-    
-    
     
 }
