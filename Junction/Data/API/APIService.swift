@@ -150,6 +150,24 @@ final class APIService {
         return body
     }
     
+    func makeThreadAndRunBody(assistantID: String, role: String, messages: [String], fileID: String) -> ThreadAndRunBody {
+        var messageContents = [MessageContent]()
+        
+        if !fileID.isEmpty {
+            let imageContent = MessageContentData(type: "image_file", text: nil, imageFile: ImageFileContent(fileID: fileID, detail: "high"))
+            messageContents.append(MessageContent(role: role, content: [imageContent]))
+        }
+        
+        for message in messages {
+            print(message)
+            let textContent = MessageContentData(type: "text", text: message, imageFile: nil)
+            messageContents.append(MessageContent(role: role, content: [textContent]))
+        }
+        
+        
+        return ThreadAndRunBody(assistantID: assistantID, thread: MessageBody(messages: messageContents))
+    }
+    
     func createRunBody(assistantID: String) -> RunRequest {
         return RunRequest(assistantID: assistantID)
     }
