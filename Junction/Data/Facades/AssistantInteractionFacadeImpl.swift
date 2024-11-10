@@ -15,9 +15,7 @@ enum AssistantInteractionError: Error {
 
 class AssistantInteractionFacadeImpl: AssistantInteractionFacade {
     
-    private let createThreadUseCase: CreateThreadUseCase
-    private let createMessageUseCase: CreateMessageUseCase
-    private let createRunUseCase: CreateRunUseCase
+    private let createThreadAndRunUseCase: CreateThreadAndRunUseCase
     private let listRunStepUseCase: ListRunStepUseCase
     private let retrieveMessageUseCase: RetrieveMessageUseCase
     private let uploadImageUseCase: UploadImageUseCase
@@ -34,17 +32,11 @@ class AssistantInteractionFacadeImpl: AssistantInteractionFacade {
     @Published var retrieveMessageResponse: RetrieveMessageResponse?
     @Published var errorMessage: String?
     
-    private var cancellables = Set<AnyCancellable>()
-    
-    init(createThreadUseCase: CreateThreadUseCase,
-         createMessageUseCase: CreateMessageUseCase,
-         createRunUseCase: CreateRunUseCase,
+    init(createThreadAndRunUseCase: CreateThreadAndRunUseCase,
          listRunStepUseCase: ListRunStepUseCase,
-         retrieveMessageUseCase: RetrieveMessageUseCase,
+        retrieveMessageUseCase: RetrieveMessageUseCase,
          uploadImageUseCase: UploadImageUseCase) {
-        self.createThreadUseCase = createThreadUseCase
-        self.createMessageUseCase = createMessageUseCase
-        self.createRunUseCase = createRunUseCase
+        self.createThreadAndRunUseCase = createThreadAndRunUseCase
         self.listRunStepUseCase = listRunStepUseCase
         self.retrieveMessageUseCase = retrieveMessageUseCase
         self.uploadImageUseCase = uploadImageUseCase
