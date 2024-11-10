@@ -5,7 +5,6 @@
 //  Created by 송지혁 on 8/9/24.
 //
 
-import Combine
 import UIKit
 
 enum APIError: Error {
@@ -24,7 +23,8 @@ enum HTTPBody {
 final class APIService {
     func fetchData<T: Decodable>(with request: URLRequest) async throws -> T {
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
+            let (data, _) = try await URLSession.shared.data(for: request)
+            
             let decodedData = try JSONDecoder().decode(T.self, from: data)
             return decodedData
             
@@ -37,7 +37,7 @@ final class APIService {
                         method: HTTPMethod = .POST,
                         headers: [String: String] = [:],
                         body: HTTPBody? = nil
-    ) throws -> URLRequest {
+    ) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         
@@ -51,7 +51,7 @@ final class APIService {
             switch body {
                 case .json(let encodable):
                     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                    request.httpBody = try JSONEncoder().encode(encodable)
+                    request.httpBody = try? JSONEncoder().encode(encodable)
                 case .data(let data, let contentType):
                     request.setValue(contentType, forHTTPHeaderField: "Content-Type")
                     request.httpBody = data
@@ -71,7 +71,7 @@ final class APIService {
         let contentType = "multipart/form-data; boundary=\(boundary)"
         
         let bodyData = makeMultipartBody(with: image, boundary: boundary, purpose: purpose, fileName: fileName)
-        let request = try makeURLRequest(to: url, method: .POST, body: .data(bodyData, contentType: contentType))
+        let request = makeURLRequest(to: url, method: .POST, body: .data(bodyData, contentType: contentType))
         
         return try await fetchData(with: request)
         
@@ -117,10 +117,10 @@ final class APIService {
         request.setValue("assistants=v2", forHTTPHeaderField: "OpenAI-Beta")
     }
     
-    func createThreadBody(role: String, messages: [String], fileId: String?) -> MessageBody {
+    func makeThreadBody(role: String, messages: [String], fileId: String) -> MessageBody {
         var messageContents = [MessageContent]()
         
-        if let fileId = fileId {
+        if !fileId.isEmpty {
             let imageContent = MessageContentData(type: "image_file", text: nil, imageFile: ImageFileContent(fileID: fileId, detail: "high"))
             messageContents.append(MessageContent(role: role, content: [imageContent]))
         }
@@ -133,13 +133,13 @@ final class APIService {
         return MessageBody(messages: messageContents)
     }
     
-    func createMessageBody(role: String, text: String?, fileId: String?) -> MessageBody {
+    func makeMessageBody(role: String, text: String, fileId: String) -> MessageBody {
         var body = MessageBody(messages: [])
         
-        if let fileId = fileId {
+        if !fileId.isEmpty {
             let imageContent = MessageContentData(type: "image_file", text: nil, imageFile: ImageFileContent(fileID: fileId, detail: "high"))
             body.messages.append(MessageContent(role: role, content: [imageContent]))
-        } else if let text = text {
+        } else if !text.isEmpty {
             let textContent = MessageContentData(type: "text", text: text, imageFile: nil)
             body.messages.append(MessageContent(role: role, content: [textContent]))
         } else {
