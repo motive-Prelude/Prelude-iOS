@@ -14,7 +14,7 @@ final class CreateThreadUseCase {
         self.repository = repository
     }
     
-    func execute(messages: [String], fileId: String?) -> AnyPublisher<ThreadResponse, Error> {
-        return repository.createThread(messages: messages, fileId: fileId)
+    func execute(messages: [String], fileId: String) async throws -> ThreadResponse {
+        try await repository.createThread(messages: messages, fileId: fileId)
     }
 }

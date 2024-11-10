@@ -5,8 +5,6 @@
 //  Created by 송지혁 on 7/22/24.
 //
 
-import Combine
-
 protocol ThreadRepository {
-    func createThread(messages: [String], fileId: String?) -> AnyPublisher<ThreadResponse, Error>
+    func createThread(messages: [String], fileId: String) async throws -> ThreadResponse
 }
