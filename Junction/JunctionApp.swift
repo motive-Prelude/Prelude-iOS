@@ -18,6 +18,7 @@ struct JunctionApp: App {
 //            MainView()
                 .environmentObject(NavigationManager())
                 .modelContainer(SwiftDataManager.shared.container)
+                .environmentObject(AlertManager.shared)
                 .environmentObject(store)
         }
     }
