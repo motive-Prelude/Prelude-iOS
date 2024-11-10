@@ -14,11 +14,13 @@ final class UserInfo {
     var id: String
     var remainingTimes: Int = 0
     var healthInfo: HealthInfo?
+    var lastModified: Date
     
-    init(id: String = "UserInfo", remainingTimes: Int, healthInfo: HealthInfo? = nil) {
+    init(id: String = "UserInfo", remainingTimes: Int, healthInfo: HealthInfo? = nil, lastModified: Date = Date()) {
         self.id = id
         self.remainingTimes = remainingTimes
         self.healthInfo = healthInfo
+        self.lastModified = lastModified
     }
 }
 

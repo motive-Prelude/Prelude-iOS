@@ -5,96 +5,106 @@
 //  Created by 송지혁 on 8/9/24.
 //
 
-import Combine
 import UIKit
 
+enum APIError: Error {
+    case unknown
+}
+
+enum HTTPMethod: String {
+    case GET, POST, PUT, DELETE, PATCH, HEAD
+}
+
+enum HTTPBody {
+    case json(Encodable)
+    case data(Data, contentType: String)
+}
+
 final class APIService {
-    func fetchData<T: Decodable>(with request: URLRequest) -> AnyPublisher<T, Error> {
-        
-        return URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { output in
-                guard let httpResponse = output.response as? HTTPURLResponse else {
-                    throw URLError(.badServerResponse)
-                }
-                
-                return output.data
-            }
-            .decode(type: T.self, decoder: JSONDecoder())
-            .receive(on: DispatchQueue.main)
-            .eraseToAnyPublisher()
+    func fetchData<T: Decodable>(with request: URLRequest) async throws -> T {
+        do {
+            let (data, _) = try await URLSession.shared.data(for: request)
+            
+            let decodedData = try JSONDecoder().decode(T.self, from: data)
+            return decodedData
+            
+        } catch {
+            throw APIError.unknown
+        }
     }
     
-    func createRequest<T: Encodable>(withURL urlString: String, method: String = "POST", body: T?) -> URLRequest? {
-        guard let url = URL(string: urlString) else { return nil }
-        print(url)
-        
+    func makeURLRequest(to url: URL,
+                        method: HTTPMethod = .POST,
+                        headers: [String: String] = [:],
+                        body: HTTPBody? = nil
+    ) -> URLRequest {
         var request = URLRequest(url: url)
-        request.httpMethod = method
+        request.httpMethod = method.rawValue
         
         setCommonHeaders(for: &request)
         
+        for (key, value) in headers {
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+        
         if let body {
-            do {
-                request.httpBody = try JSONEncoder().encode(body)
-            } catch let error {
-                print(error.localizedDescription)
-                return nil
+            switch body {
+                case .json(let encodable):
+                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                    request.httpBody = try? JSONEncoder().encode(encodable)
+                case .data(let data, let contentType):
+                    request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+                    request.httpBody = data
             }
         }
         
         return request
     }
     
-    func uploadImage(withURL urlString: String, _ image: UIImage, purpose: String = "vision", fileName: String = "image.jpeg") -> AnyPublisher<FileUploadResponse, Error> {
-        
-        guard let url = URL(string: urlString) else {
-            return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        setCommonHeaders(for: &request)
+    @discardableResult
+    func uploadImage(to url: URL,
+                     image: UIImage,
+                     purpose: String = "vision",
+                     fileName: String = "image.jpeg") async throws -> FileUploadResponse {
         
         let boundary = "Boundary-\(UUID().uuidString)"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        let contentType = "multipart/form-data; boundary=\(boundary)"
         
-        let body = createMultipartBody(with: image, boundary: boundary, purpose: purpose, fileName: fileName)
+        let bodyData = makeMultipartBody(with: image, boundary: boundary, purpose: purpose, fileName: fileName)
+        let request = makeURLRequest(to: url, method: .POST, body: .data(bodyData, contentType: contentType))
         
-        request.httpBody = body
+        return try await fetchData(with: request)
         
-        return URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { output in
-                guard let httpResponse = output.response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                    throw URLError(.badServerResponse)
-                }
-                return output.data
-            }
-            .decode(type: FileUploadResponse.self, decoder: JSONDecoder())
-            .receive(on: DispatchQueue.main)
-            .eraseToAnyPublisher()
     }
     
     // Multipart body를 생성하는 메서드
-    private func createMultipartBody(with image: UIImage, boundary: String, purpose: String, fileName: String) -> Data {
+    private func makeMultipartBody(with image: UIImage, boundary: String, purpose: String, fileName: String) -> Data {
         var body = Data()
         let boundaryPrefix = "--\(boundary)\r\n"
         
-        // purpose 필드 추가
-        body.append(boundaryPrefix.data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"purpose\"\r\n\r\n".data(using: .utf8)!)
-        body.append("\(purpose)\r\n".data(using: .utf8)!)
+        guard
+            let boundaryPrefixData = boundaryPrefix.data(using: .utf8),
+            let purposeHeaderData = "Content-Disposition: form-data; name=\"purpose\"\r\n\r\n".data(using: .utf8),
+            let purposeData = "\(purpose)\r\n".data(using: .utf8),
+            let fileHeaderData = "Content-Disposition: form-data; name=\"file\"; filename=\"\(fileName)\"\r\n".data(using: .utf8),
+            let contentTypeData = "Content-Type: image/jpeg\r\n\r\n".data(using: .utf8),
+            let imageData = image.jpegData(compressionQuality: 1.0),
+            let closingBoundaryData = "--\(boundary)--\r\n".data(using: .utf8)
+        else {
+            return Data()
+        }
         
-        // 파일 데이터 추가
-        let imageData = image.jpegData(compressionQuality: 1.0) ?? Data()
+        body.append(boundaryPrefixData)
+        body.append(purposeHeaderData)
+        body.append(purposeData)
         
-        body.append(boundaryPrefix.data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileName)\"\r\n".data(using: .utf8)!)
-        body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+        body.append(boundaryPrefixData)
+        body.append(fileHeaderData)
+        body.append(contentTypeData)
         body.append(imageData)
         body.append("\r\n".data(using: .utf8)!)
         
-        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        body.append(closingBoundaryData)
         
         return body
     }
@@ -107,10 +117,10 @@ final class APIService {
         request.setValue("assistants=v2", forHTTPHeaderField: "OpenAI-Beta")
     }
     
-    func createThreadBody(role: String, messages: [String], fileId: String?) -> MessageBody {
+    func makeThreadBody(role: String, messages: [String], fileId: String) -> MessageBody {
         var messageContents = [MessageContent]()
         
-        if let fileId = fileId {
+        if !fileId.isEmpty {
             let imageContent = MessageContentData(type: "image_file", text: nil, imageFile: ImageFileContent(fileID: fileId, detail: "high"))
             messageContents.append(MessageContent(role: role, content: [imageContent]))
         }
@@ -123,13 +133,13 @@ final class APIService {
         return MessageBody(messages: messageContents)
     }
     
-    func createMessageBody(role: String, text: String?, fileId: String?) -> MessageBody {
+    func makeMessageBody(role: String, text: String, fileId: String) -> MessageBody {
         var body = MessageBody(messages: [])
         
-        if let fileId = fileId {
+        if !fileId.isEmpty {
             let imageContent = MessageContentData(type: "image_file", text: nil, imageFile: ImageFileContent(fileID: fileId, detail: "high"))
             body.messages.append(MessageContent(role: role, content: [imageContent]))
-        } else if let text = text {
+        } else if !text.isEmpty {
             let textContent = MessageContentData(type: "text", text: text, imageFile: nil)
             body.messages.append(MessageContent(role: role, content: [textContent]))
         } else {
@@ -138,6 +148,24 @@ final class APIService {
         }
         
         return body
+    }
+    
+    func makeThreadAndRunBody(assistantID: String, role: String, messages: [String], fileID: String) -> ThreadAndRunBody {
+        var messageContents = [MessageContent]()
+        
+        if !fileID.isEmpty {
+            let imageContent = MessageContentData(type: "image_file", text: nil, imageFile: ImageFileContent(fileID: fileID, detail: "high"))
+            messageContents.append(MessageContent(role: role, content: [imageContent]))
+        }
+        
+        for message in messages {
+            print(message)
+            let textContent = MessageContentData(type: "text", text: message, imageFile: nil)
+            messageContents.append(MessageContent(role: role, content: [textContent]))
+        }
+        
+        
+        return ThreadAndRunBody(assistantID: assistantID, thread: MessageBody(messages: messageContents))
     }
     
     func createRunBody(assistantID: String) -> RunRequest {

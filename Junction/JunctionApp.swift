@@ -11,14 +11,17 @@ import SwiftData
 @main
 struct JunctionApp: App {
     @StateObject var store = Store()
+    @StateObject var navigationManager = NavigationManager()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-//            MainView()
-                .environmentObject(NavigationManager())
                 .modelContainer(SwiftDataManager.shared.container)
+                .environmentObject(AlertManager.shared)
+                .environmentObject(DIContainer.shared)
+                .environmentObject(navigationManager)
                 .environmentObject(store)
+                
         }
     }
 }

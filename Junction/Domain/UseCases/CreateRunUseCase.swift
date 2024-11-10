@@ -14,7 +14,7 @@ final class CreateRunUseCase {
         self.repository = repository
     }
     
-    func execute(threadID: String, assistantID: String) -> AnyPublisher<RunResponse, Error> {
-        return repository.createRun(threadID: threadID, assistantID: assistantID)
+    func execute(threadID: String, assistantID: String) async throws -> RunResponse {
+        try await repository.createRun(threadID: threadID, assistantID: assistantID)
     }
 }

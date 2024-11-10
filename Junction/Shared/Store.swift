@@ -78,6 +78,8 @@ class Store: ObservableObject {
                     
                 case .pending: print("팬다 진짜")
                 case .userCancelled: print("굳")
+                @unknown default:
+                    fatalError()
             }
         } catch let error as StoreKitError {
             switch error {

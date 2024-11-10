@@ -15,7 +15,10 @@ final class ImageRepositoryImpl: ImageRepository {
         self.apiService = apiService
     }
     
-    func uploadImage(image: UIImage) -> AnyPublisher<FileUploadResponse, Error> {
-        return apiService.uploadImage(withURL: EndPoint.uploadFile.urlString, image)
+    func uploadImage(image: UIImage) async throws -> FileUploadResponse {
+        guard let url = URL(string: EndPoint.uploadFile.urlString) else { throw URLError(.badURL) }
+        let result: FileUploadResponse = try await apiService.uploadImage(to: url, image: image)
+        
+        return result
     }
 }

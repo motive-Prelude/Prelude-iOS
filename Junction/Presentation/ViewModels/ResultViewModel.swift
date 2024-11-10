@@ -10,60 +10,97 @@ import SwiftUI
 
 class ResultViewModel: ObservableObject {
     private let assistantInteractionFacade: AssistantInteractionFacadeImpl
+    private let predictFoodUseCase: PredictFoodUseCase
+    private let cloudkitManager: CloudKitManager
+    private let userStore: UserStore
     
     var cancellables = Set<AnyCancellable>()
     @Published var receivedMessage: String?
     @Published var imageErrorMessage: String?
     @Published var userHealthInfo: HealthInfo?
     
-    @Published var prompt = ""
     @Published var judgement: Judgement?
     @Published var isLoading: Bool?
     
     init(assistantInteractionFacade: AssistantInteractionFacadeImpl = AssistantInteractionFacadeImpl(
-        createThreadUseCase: DIContainer.shared.resolve(CreateThreadUseCase.self)!,
-        createMessageUseCase: DIContainer.shared.resolve(CreateMessageUseCase.self)!,
-        createRunUseCase: DIContainer.shared.resolve(CreateRunUseCase.self)!,
+        createThreadAndRunUseCase: DIContainer.shared.resolve(CreateThreadAndRunUseCase.self)!,
         listRunStepUseCase: DIContainer.shared.resolve(ListRunStepUseCase.self)!,
         retrieveMessageUseCase: DIContainer.shared.resolve(RetrieveMessageUseCase.self)!,
         uploadImageUseCase: DIContainer.shared.resolve(UploadImageUseCase.self)!
-    )) {
+    ),
+         predictFoodUseCase: PredictFoodUseCase = DIContainer.shared.resolve(PredictFoodUseCase.self)!,
+         cloudKitManager: CloudKitManager = CloudKitManager.shared,
+         userStore: UserStore = .shared
+    ) {
         
         self.assistantInteractionFacade = assistantInteractionFacade
-        
-        $userHealthInfo
-            .sink { healthInfo in
-                guard let healthInfo = healthInfo else { return }
-                self.prompt = """
-                    다음은 임산부 사용자의 건강 정보야
-                    임신 기간은 \(healthInfo.pregnantWeek.rawValue)이고, bmi 지수는 \(healthInfo.bmi)야.
-                    혈압은 \(healthInfo.bloodPressure.rawValue). 당뇨는 \(healthInfo.diabetes.rawValue).
-                    다음에 올 사용자의 질문에 instruction 내용을 바탕으로 성실히 답변해줘! 모든 답변은 영어로 부탁해!\n
-                    
-                    
-                    """
-            }
-            .store(in: &cancellables)
+        self.predictFoodUseCase = predictFoodUseCase
+        self.cloudkitManager = cloudKitManager
+        self.userStore = userStore
     }
     
-    func sendMessage(_ message: String, image: UIImage?) -> AnyPublisher<Void, Error> {
-        self.isLoading = true
+    
+    func checkRemainingTimes() async -> Bool {
+        await self.userStore.fetchUserInfo()
+        guard let userInfo = userStore.userInfo else {
+            print("없나..")
+            return false
+        }
+        print("있나")
         
-        return Future { promise in
-            self.assistantInteractionFacade.interact(with: self.prompt + message, image: image)
-                .sink(receiveCompletion: { completion in
-                    if case .failure(let error) = completion {
-                        print(error)
-                        promise(.failure(error))
+        //        if newUserInfo.remainingTimes < 1 {
+        //            print("작음")
+        //            return false
+        //        }
+        
+        userInfo.remainingTimes -= 1
+        
+        let newUserInfo = UserInfo(remainingTimes: userInfo.remainingTimes, healthInfo: userInfo.healthInfo)
+        await userStore.updateUserInfo(newUserInfo)
+        
+        return true
+    }
+    
+    func detectFoodOrNot(image: UIImage, completion: @escaping (Bool) -> Void) {
+        predictFoodUseCase.execute(with: image) { result in
+            switch result {
+                case .success(let foodType):
+                    print(foodType)
+                    if foodType == "Nonfood" {
+                        print("음식 아님")
+                        completion(false)
+                        return
+                        
                     } else {
-                        promise(.success(()))
+                        print("음식임")
+                        completion(true)
+                        return
                     }
-                }, receiveValue: { response in
-                    print(response)
-                    self.judgement = response
-                    self.isLoading = false
-                })
-                .store(in: &self.cancellables)
-        }.eraseToAnyPublisher()
+                case .failure:
+                    completion(false)
+                    return
+            }
+        }
+    }
+    
+    func sendMessage(_ message: String, image: UIImage?) async -> Bool {
+        do {
+            await MainActor.run {
+                self.isLoading = true
+            }
+            
+            let result = try await assistantInteractionFacade.interact(with: message, image: image)
+            
+            await MainActor.run {
+                self.judgement = result
+                self.isLoading = false
+            }
+            
+            return true
+        } catch {
+            
+        }
+        
+        return false
     }
 }

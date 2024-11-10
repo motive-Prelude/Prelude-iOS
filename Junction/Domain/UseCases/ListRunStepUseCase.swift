@@ -14,7 +14,7 @@ final class ListRunStepUseCase {
         self.repository = repository
     }
     
-    func execute(threadID: String, runID: String) -> AnyPublisher<RunStepResponse, Error> {
-        return repository.listRunSteps(threadID: threadID, runID: runID)
+    func execute(threadID: String, runID: String) async throws -> RunStepResponse {
+        try await repository.listRunSteps(threadID: threadID, runID: runID)
     }
 }

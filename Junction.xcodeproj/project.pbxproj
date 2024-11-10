@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		070A08462CD3187700A951B2 /* CreateThreadAndRunRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070A08452CD3187700A951B2 /* CreateThreadAndRunRepositoryImpl.swift */; };
+		070A084F2CD31E0100A951B2 /* CreateThreadAndRunRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070A084E2CD31E0100A951B2 /* CreateThreadAndRunRepository.swift */; };
+		070A08512CD31E5600A951B2 /* CreateThreadAndRunUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070A08502CD31E5600A951B2 /* CreateThreadAndRunUseCase.swift */; };
 		071C83DC2C66E1CB0055C393 /* JunctionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C83DB2C66E1CB0055C393 /* JunctionApp.swift */; };
 		071C83E02C66E1CC0055C393 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071C83DF2C66E1CC0055C393 /* Assets.xcassets */; };
 		071C83E42C66E1CC0055C393 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071C83E32C66E1CC0055C393 /* Preview Assets.xcassets */; };
@@ -67,15 +70,25 @@
 		074BFFE62CBA2ADC000773CA /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074BFFE52CBA2ADC000773CA /* CloudKitManager.swift */; };
 		074BFFE82CBA3CBA000773CA /* Convertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074BFFE72CBA3CBA000773CA /* Convertible.swift */; };
 		074BFFEA2CBAA940000773CA /* HealthCheckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074BFFE92CBAA940000773CA /* HealthCheckViewModel.swift */; };
-		07590B312C9D9BBE00BE6B14 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07590B302C9D9BBE00BE6B14 /* StoreKit.framework */; };
 		07590B2C2C9D99DF00BE6B14 /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07590B2B2C9D99DF00BE6B14 /* PaymentView.swift */; };
 		07590B312C9D9BBE00BE6B14 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07590B302C9D9BBE00BE6B14 /* StoreKit.framework */; };
 		07590B392C9DACCC00BE6B14 /* Products.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07590B382C9DACCC00BE6B14 /* Products.plist */; };
+		077B2E5E2CDFAD02001B9AE5 /* PredictFoodUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B2E5D2CDFAD02001B9AE5 /* PredictFoodUseCase.swift */; };
+		077B2E602CDFAD66001B9AE5 /* ImageDetectionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B2E5F2CDFAD66001B9AE5 /* ImageDetectionRepository.swift */; };
+		077B2E622CDFADC1001B9AE5 /* ImageDetectionRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B2E612CDFADC1001B9AE5 /* ImageDetectionRepositoryImpl.swift */; };
+		077B2E722CDFF3B2001B9AE5 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B2E712CDFF3B2001B9AE5 /* UIImage+.swift */; };
+		077B2E742CDFF8C2001B9AE5 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B2E732CDFF8C2001B9AE5 /* AlertManager.swift */; };
+		077B2E762CDFFEDD001B9AE5 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B2E752CDFFEDD001B9AE5 /* CustomAlertView.swift */; };
+		077B2E782CE00808001B9AE5 /* UserRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B2E772CE00808001B9AE5 /* UserRepositoryImpl.swift */; };
+		077B2E7D2CE02B9A001B9AE5 /* PromptGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B2E7C2CE02B9A001B9AE5 /* PromptGenerator.swift */; };
 		07A275232CB61A120043B767 /* Prelude(프렐류드).storekit in Resources */ = {isa = PBXBuildFile; fileRef = 07A275222CB61A120043B767 /* Prelude(프렐류드).storekit */; };
 		07DC00592CACDF40003E99FA /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 07DC00582CACDF40003E99FA /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		070A08452CD3187700A951B2 /* CreateThreadAndRunRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateThreadAndRunRepositoryImpl.swift; sourceTree = "<group>"; };
+		070A084E2CD31E0100A951B2 /* CreateThreadAndRunRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateThreadAndRunRepository.swift; sourceTree = "<group>"; };
+		070A08502CD31E5600A951B2 /* CreateThreadAndRunUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateThreadAndRunUseCase.swift; sourceTree = "<group>"; };
 		071C83D82C66E1CB0055C393 /* Junction.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Junction.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		071C83DB2C66E1CB0055C393 /* JunctionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JunctionApp.swift; sourceTree = "<group>"; };
 		071C83DF2C66E1CC0055C393 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -138,18 +151,27 @@
 		074BFFE52CBA2ADC000773CA /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		074BFFE72CBA3CBA000773CA /* Convertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Convertible.swift; sourceTree = "<group>"; };
 		074BFFE92CBAA940000773CA /* HealthCheckViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCheckViewModel.swift; sourceTree = "<group>"; };
-		07590B302C9D9BBE00BE6B14 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		07590B2B2C9D99DF00BE6B14 /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
 		07590B302C9D9BBE00BE6B14 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		07590B382C9DACCC00BE6B14 /* Products.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Products.plist; sourceTree = "<group>"; };
+		077B2E5D2CDFAD02001B9AE5 /* PredictFoodUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictFoodUseCase.swift; sourceTree = "<group>"; };
+		077B2E5F2CDFAD66001B9AE5 /* ImageDetectionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetectionRepository.swift; sourceTree = "<group>"; };
+		077B2E612CDFADC1001B9AE5 /* ImageDetectionRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetectionRepositoryImpl.swift; sourceTree = "<group>"; };
+		077B2E712CDFF3B2001B9AE5 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
+		077B2E732CDFF8C2001B9AE5 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		077B2E752CDFFEDD001B9AE5 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
+		077B2E772CE00808001B9AE5 /* UserRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryImpl.swift; sourceTree = "<group>"; };
+		077B2E7C2CE02B9A001B9AE5 /* PromptGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptGenerator.swift; sourceTree = "<group>"; };
 		07A275222CB61A120043B767 /* Prelude(프렐류드).storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Prelude(프렐류드).storekit"; sourceTree = "<group>"; };
 		07DC00582CACDF40003E99FA /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		07A643E82CB62A5000AA4EB2 /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
+		070A08472CD319AB00A951B2 /* ThreadAndRun */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ThreadAndRun; sourceTree = "<group>"; };
+		077B2E572CDFA8A3001B9AE5 /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
+		077B2E5A2CDFA8BA001B9AE5 /* FoodDetectionModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FoodDetectionModel; sourceTree = "<group>"; };
+		077B2E792CE00CD0001B9AE5 /* Stores */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Stores; sourceTree = "<group>"; };
 		07A643E92CB65EF700AA4EB2 /* UserInfo */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UserInfo; sourceTree = "<group>"; };
-		07A275242CB622B60043B767 /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
 		07DC00742CB4112C003E99FA /* Errors */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Errors; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -187,8 +209,7 @@
 		071C83DA2C66E1CB0055C393 /* Junction */ = {
 			isa = PBXGroup;
 			children = (
-				07A643E82CB62A5000AA4EB2 /* Shared */,
-				07A275242CB622B60043B767 /* Shared */,
+				077B2E572CDFA8A3001B9AE5 /* Shared */,
 				074148D52C6800F300D79562 /* Resources */,
 				071C843A2C66E3690055C393 /* Info.plist */,
 				071C83F42C66E30A0055C393 /* Data */,
@@ -238,6 +259,9 @@
 				071C83F12C66E30A0055C393 /* RunStepRepositoryImpl.swift */,
 				071C83F22C66E30A0055C393 /* ThreadRepositoryImpl.swift */,
 				071C843D2C66FCC80055C393 /* ImageRepositoryImpl.swift */,
+				070A08452CD3187700A951B2 /* CreateThreadAndRunRepositoryImpl.swift */,
+				077B2E612CDFADC1001B9AE5 /* ImageDetectionRepositoryImpl.swift */,
+				077B2E772CE00808001B9AE5 /* UserRepositoryImpl.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -259,6 +283,8 @@
 				071C83F52C66E30A0055C393 /* DIContainer.swift */,
 				071C83F62C66E30A0055C393 /* NavigationManager.swift */,
 				074BFFE52CBA2ADC000773CA /* CloudKitManager.swift */,
+				077B2E732CDFF8C2001B9AE5 /* AlertManager.swift */,
+				077B2E7C2CE02B9A001B9AE5 /* PromptGenerator.swift */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -286,6 +312,7 @@
 				074148EA2C683F8300D79562 /* ResultView.swift */,
 				074148EE2C68418F00D79562 /* LoadingView.swift */,
 				07590B2B2C9D99DF00BE6B14 /* PaymentView.swift */,
+				077B2E752CDFFEDD001B9AE5 /* CustomAlertView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -293,6 +320,7 @@
 		071C83FD2C66E30A0055C393 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				077B2E792CE00CD0001B9AE5 /* Stores */,
 				074148D22C6800C200D79562 /* Extensions */,
 				071C83F92C66E30A0055C393 /* ViewModels */,
 				071C83FC2C66E30A0055C393 /* Views */,
@@ -339,6 +367,7 @@
 		071C840A2C66E30A0055C393 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				070A08472CD319AB00A951B2 /* ThreadAndRun */,
 				07A643E92CB65EF700AA4EB2 /* UserInfo */,
 				074148E52C681D7E00D79562 /* Health */,
 				074148C62C67EDA800D79562 /* Judgement */,
@@ -367,6 +396,8 @@
 				071C840F2C66E30A0055C393 /* RunStepRepository.swift */,
 				071C84102C66E30A0055C393 /* ThreadRepository.swift */,
 				071C843B2C66FC6D0055C393 /* ImageRepository.swift */,
+				070A084E2CD31E0100A951B2 /* CreateThreadAndRunRepository.swift */,
+				077B2E5F2CDFAD66001B9AE5 /* ImageDetectionRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -390,6 +421,8 @@
 				071C84162C66E30A0055C393 /* ListRunStepUseCase.swift */,
 				071C84172C66E30A0055C393 /* RetrieveMessageUseCase.swift */,
 				071C843F2C66FCEE0055C393 /* UploadImageUseCase.swift */,
+				070A08502CD31E5600A951B2 /* CreateThreadAndRunUseCase.swift */,
+				077B2E5D2CDFAD02001B9AE5 /* PredictFoodUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -426,6 +459,7 @@
 			children = (
 				074148D32C6800CA00D79562 /* Font+.swift */,
 				074148E12C6819E000D79562 /* UIApplication+.swift */,
+				077B2E712CDFF3B2001B9AE5 /* UIImage+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -433,6 +467,7 @@
 		074148D52C6800F300D79562 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				077B2E5A2CDFA8BA001B9AE5 /* FoodDetectionModel */,
 				074148F22C68427A00D79562 /* loadingAnimation.json */,
 				074148D62C6800FC00D79562 /* Font */,
 				071C83DF2C66E1CC0055C393 /* Assets.xcassets */,
@@ -483,9 +518,11 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				07A643E82CB62A5000AA4EB2 /* Shared */,
+				070A08472CD319AB00A951B2 /* ThreadAndRun */,
+				077B2E572CDFA8A3001B9AE5 /* Shared */,
+				077B2E5A2CDFA8BA001B9AE5 /* FoodDetectionModel */,
+				077B2E792CE00CD0001B9AE5 /* Stores */,
 				07A643E92CB65EF700AA4EB2 /* UserInfo */,
-				07A275242CB622B60043B767 /* Shared */,
 				07DC00742CB4112C003E99FA /* Errors */,
 			);
 			name = Junction;
@@ -563,17 +600,23 @@
 				071C84252C66E30A0055C393 /* MainView.swift in Sources */,
 				074148EB2C683F8300D79562 /* ResultView.swift in Sources */,
 				074148E72C681D8600D79562 /* HealthInfo.swift in Sources */,
+				070A08462CD3187700A951B2 /* CreateThreadAndRunRepositoryImpl.swift in Sources */,
 				071C841F2C66E30A0055C393 /* RunStepRepositoryImpl.swift in Sources */,
+				070A084F2CD31E0100A951B2 /* CreateThreadAndRunRepository.swift in Sources */,
 				071C843E2C66FCC80055C393 /* ImageRepositoryImpl.swift in Sources */,
 				071C842B2C66E30A0055C393 /* RunResponse.swift in Sources */,
 				071C84212C66E30A0055C393 /* DIContainer.swift in Sources */,
+				077B2E602CDFAD66001B9AE5 /* ImageDetectionRepository.swift in Sources */,
 				071C841A2C66E30A0055C393 /* APIService.swift in Sources */,
 				071C841E2C66E30A0055C393 /* RunRepositoryImpl.swift in Sources */,
 				074148CA2C67F57C00D79562 /* ImagePicker.swift in Sources */,
 				071C84432C6704800055C393 /* FileUploadResponse.swift in Sources */,
+				070A08512CD31E5600A951B2 /* CreateThreadAndRunUseCase.swift in Sources */,
 				071C84342C66E30A0055C393 /* CreateRunUseCase.swift in Sources */,
 				074148D12C68004F00D79562 /* OnboardingView.swift in Sources */,
 				074BFFE42CB937D4000773CA /* SwiftDataManager.swift in Sources */,
+				077B2E622CDFADC1001B9AE5 /* ImageDetectionRepositoryImpl.swift in Sources */,
+				077B2E722CDFF3B2001B9AE5 /* UIImage+.swift in Sources */,
 				074148EF2C68418F00D79562 /* LoadingView.swift in Sources */,
 				071C84202C66E30A0055C393 /* ThreadRepositoryImpl.swift in Sources */,
 				071C84302C66E30A0055C393 /* RunRepository.swift in Sources */,
@@ -585,6 +628,9 @@
 				071C84402C66FCEE0055C393 /* UploadImageUseCase.swift in Sources */,
 				074148E02C68066200D79562 /* HealthInfoSetUpView.swift in Sources */,
 				071C84362C66E30B0055C393 /* ListRunStepUseCase.swift in Sources */,
+				077B2E7D2CE02B9A001B9AE5 /* PromptGenerator.swift in Sources */,
+				077B2E5E2CDFAD02001B9AE5 /* PredictFoodUseCase.swift in Sources */,
+				077B2E782CE00808001B9AE5 /* UserRepositoryImpl.swift in Sources */,
 				071C84332C66E30A0055C393 /* CreateMessageUseCase.swift in Sources */,
 				071C84282C66E30A0055C393 /* MessageBody.swift in Sources */,
 				074148E92C68206A00D79562 /* HealthSetUpViewModel.swift in Sources */,
@@ -593,6 +639,7 @@
 				074148E22C6819E000D79562 /* UIApplication+.swift in Sources */,
 				074148C82C67EDB300D79562 /* Judgement.swift in Sources */,
 				071C842D2C66E30A0055C393 /* ThreadResponse.swift in Sources */,
+				077B2E762CDFFEDD001B9AE5 /* CustomAlertView.swift in Sources */,
 				074148ED2C68410200D79562 /* ResultViewModel.swift in Sources */,
 				071C843C2C66FC6D0055C393 /* ImageRepository.swift in Sources */,
 				071C83DC2C66E1CB0055C393 /* JunctionApp.swift in Sources */,
@@ -602,6 +649,7 @@
 				071C842E2C66E30A0055C393 /* AssistantInteractionFacade.swift in Sources */,
 				074148D42C6800CA00D79562 /* Font+.swift in Sources */,
 				071C842C2C66E30A0055C393 /* RunStepResponse.swift in Sources */,
+				077B2E742CDFF8C2001B9AE5 /* AlertManager.swift in Sources */,
 				071C84312C66E30A0055C393 /* RunStepRepository.swift in Sources */,
 				071C84242C66E30A0055C393 /* ContentView.swift in Sources */,
 				074BFFEA2CBAA940000773CA /* HealthCheckViewModel.swift in Sources */,

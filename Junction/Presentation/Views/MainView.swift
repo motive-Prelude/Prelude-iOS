@@ -5,6 +5,7 @@
 //  Created by 송지혁 on 8/9/24.
 //
 
+import Combine
 import SwiftUI
 import SwiftData
 
@@ -23,7 +24,7 @@ struct MainView: View {
     
     var userSelectPrompt: String {
         if foodName.isEmpty { return "" }
-        return "유저가 알려준 음식의 이름은 \(foodName)이야"
+        return "유저가 알려준 음식의 이름은 \(foodName)이야\n"
     }
     
     var body: some View {
@@ -41,17 +42,6 @@ struct MainView: View {
                 
                 Spacer()
                 
-                Text("remaining Times: \(mainViewModel.userInfo?.remainingTimes ?? 0)")
-                
-                Rectangle()
-                    .fill(.green)
-                    .frame(height: 50)
-                    .onTapGesture {
-                        Task {
-                            await mainViewModel.submit()
-                        }
-                    }
-                
                 
                 Text("Done")
                     .font(.pretendBold16)
@@ -64,7 +54,7 @@ struct MainView: View {
                         
                     }
                     .onTapGesture {
-                        navigationManager.screenPath.append(.result(userSelectPrompt: userSelectPrompt, image: uiImage))
+                        navigationManager.screenPath.append(.result(userSelectPrompt: userSelectPrompt + mainViewModel.prompt, image: uiImage))
                         uiImage = nil
                         foodName = ""
                     }
@@ -77,9 +67,9 @@ struct MainView: View {
         }
         .ignoresSafeArea()
         .navigationBarBackButtonHidden()
-        .onAppear {
-            guard mainViewModel.userInfo == nil else { return }
-            mainViewModel.fetchUserInfo()
+        .task {
+            guard mainViewModel.userStore.userInfo == nil else { return }
+            await mainViewModel.userStore.fetchUserInfo()
         }
     }
     
