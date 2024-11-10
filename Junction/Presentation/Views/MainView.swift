@@ -41,17 +41,6 @@ struct MainView: View {
                 
                 Spacer()
                 
-                Text("remaining Times: \(mainViewModel.userInfo?.remainingTimes ?? 0)")
-                
-                Rectangle()
-                    .fill(.green)
-                    .frame(height: 50)
-                    .onTapGesture {
-                        Task {
-                            await mainViewModel.submit()
-                        }
-                    }
-                
                 
                 Text("Done")
                     .font(.pretendBold16)
@@ -64,7 +53,7 @@ struct MainView: View {
                         
                     }
                     .onTapGesture {
-                        navigationManager.screenPath.append(.result(userSelectPrompt: userSelectPrompt, image: uiImage))
+                        navigationManager.screenPath.append(.result(userSelectPrompt: userSelectPrompt + mainViewModel.prompt, image: uiImage))
                         uiImage = nil
                         foodName = ""
                     }
@@ -77,9 +66,9 @@ struct MainView: View {
         }
         .ignoresSafeArea()
         .navigationBarBackButtonHidden()
-        .onAppear {
-            guard mainViewModel.userInfo == nil else { return }
-            mainViewModel.fetchUserInfo()
+        .task {
+            guard mainViewModel.userStore.userInfo == nil else { return }
+            await mainViewModel.userStore.fetchUserInfo()
         }
     }
     
