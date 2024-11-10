@@ -15,7 +15,7 @@ final class UploadImageUseCase {
         self.repository = repository
     }
     
-    func execute(_ image: UIImage) -> AnyPublisher<FileUploadResponse, Error> {
-        return repository.uploadImage(image: image)
+    func execute(_ image: UIImage) async throws -> FileUploadResponse {
+        try await repository.uploadImage(image: image)
     }
 }
