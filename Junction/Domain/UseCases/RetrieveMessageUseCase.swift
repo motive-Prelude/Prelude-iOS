@@ -14,7 +14,7 @@ final class RetrieveMessageUseCase {
         self.repository = repository
     }
     
-    func execute(threadID: String, messageID: String) -> AnyPublisher<RetrieveMessageResponse, Error> {
-        return repository.retrieveMessage(threadID: threadID, messageID: messageID)
+    func execute(threadID: String, messageID: String) async throws -> RetrieveMessageResponse {
+        try await repository.retrieveMessage(threadID: threadID, messageID: messageID)
     }
 }
