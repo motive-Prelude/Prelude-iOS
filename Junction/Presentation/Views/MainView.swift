@@ -5,6 +5,7 @@
 //  Created by 송지혁 on 8/9/24.
 //
 
+import Combine
 import SwiftUI
 import SwiftData
 
@@ -23,7 +24,7 @@ struct MainView: View {
     
     var userSelectPrompt: String {
         if foodName.isEmpty { return "" }
-        return "유저가 알려준 음식의 이름은 \(foodName)이야"
+        return "유저가 알려준 음식의 이름은 \(foodName)이야\n"
     }
     
     var body: some View {
