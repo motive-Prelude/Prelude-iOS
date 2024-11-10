@@ -11,7 +11,7 @@ import UIKit
 
 class CloudKitManager {
     static let shared = CloudKitManager()
-    let database = CKContainer.default().privateCloudDatabase
+    private let database = CKContainer.default().privateCloudDatabase
     let cloudKitNotificationSubject = PassthroughSubject<Void, Never>()
     private var cancellables = Set<AnyCancellable>()
     
@@ -56,7 +56,7 @@ class CloudKitManager {
                 CKQueryNotification(fromRemoteNotificationDictionary: userInfo)
             }
             .sink { ckNotification in
-                if let recordID = ckNotification.recordID {
+                if let _ = ckNotification.recordID {
                     self.cloudKitNotificationSubject.send()
                 }
             }
@@ -80,18 +80,18 @@ class CloudKitManager {
         catch let error as CKError {
             switch error.code {
                 case .serverRecordChanged:
-                    if let serverRecord = error.serverRecord { await handleUpdate(serverRecord: serverRecord, type: type) }
+                    if let serverRecord = error.serverRecord {
+                        await handleUpdate(serverRecord: serverRecord, type: type)
+                    }
                     
                 default: print(error)
             }
         } catch { print(error) }
-        
-        print("끝")
     }
     
     private func handleUpdate<T>(serverRecord: CKRecord, type: T.Type) async {
         if T.self == UserInfo.self {
-            var newRecord = serverRecord
+            let newRecord = serverRecord
             newRecord["remainingTimes"]! = newRecord["remainingTimes"]! - 1
             await update(record: newRecord, type: UserInfo.self)
         } else if T.self == HealthInfo.self { await update(record: serverRecord, type: HealthInfo.self) }
