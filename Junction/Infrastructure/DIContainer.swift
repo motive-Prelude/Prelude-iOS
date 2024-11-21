@@ -53,6 +53,7 @@ final class DIContainer: ObservableObject {
         register(PredictFoodUseCase.self, dependency: PredictFoodUseCase(repository: resolve(ImagePredictionRepository.self)!))
         register(PerformOCRUseCase.self, dependency: PerformOCRUseCase(ocrRepository: resolve(OCRRepository.self)!))
         register(PredictFoodTextUseCase.self, dependency: PredictFoodTextUseCase(repository: resolve(TextPredictionRepository.self)!))
+        register(ImageClassifierUseCase.self, dependency: ImageClassifierUseCase())
         
         // UploadImageUseCase 등록
         register(UploadImageUseCase.self, dependency: UploadImageUseCase(repository: resolve(ImageRepository.self)!))
