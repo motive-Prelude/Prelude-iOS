@@ -22,7 +22,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             if let uiImage = info[.originalImage] as? UIImage {
-                parent.image = uiImage.resized(to: CGSize(width: 224, height: 224))
+                parent.image = uiImage
             }
             parent.presentationMode.wrappedValue.dismiss()
         }
