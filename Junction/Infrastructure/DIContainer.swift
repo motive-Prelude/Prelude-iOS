@@ -37,6 +37,7 @@ final class DIContainer: ObservableObject {
         register(RunStepRepository.self, dependency: RunStepRepositoryImpl(apiService: resolve(APIService.self)!))
         register(CreateThreadAndRunRepository.self, dependency: CreateThreadAndRunRepositoryImpl(apiService: resolve(APIService.self)!))
         register(ImagePredictionRepository.self, dependency: ImagePredictionRepositoryImpl(model: try! FoodDetection(configuration: MLModelConfiguration())))
+        register(OCRRepository.self, dependency: OCRRepositoryImpl())
         
         // ImageRepository 등록
         register(ImageRepository.self, dependency:  ImageRepositoryImpl(apiService: resolve(APIService.self)!))
@@ -49,6 +50,7 @@ final class DIContainer: ObservableObject {
         register(RetrieveMessageUseCase.self, dependency: RetrieveMessageUseCase(repository: resolve(MessageRepository.self)!))
         register(CreateThreadAndRunUseCase.self, dependency: CreateThreadAndRunUseCase(repository: resolve(CreateThreadAndRunRepository.self)!))
         register(PredictFoodUseCase.self, dependency: PredictFoodUseCase(repository: resolve(ImagePredictionRepository.self)!))
+        register(PerformOCRUseCase.self, dependency: PerformOCRUseCase(ocrRepository: resolve(OCRRepository.self)!))
         
         // UploadImageUseCase 등록
         register(UploadImageUseCase.self, dependency: UploadImageUseCase(repository: resolve(ImageRepository.self)!))
