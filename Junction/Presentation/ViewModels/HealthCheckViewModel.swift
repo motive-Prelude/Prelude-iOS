@@ -22,7 +22,7 @@ class HealthCheckViewModel: ObservableObject {
     
     func submit(healthInfo: HealthInfo) async {
         let result = await cloudkitManager.fetch(recordString: "UserInfo")
-        
+            
         if let record = result {
             guard let userInfo = UserInfo(from: record, healthInfo: healthInfo) else { return }
             swiftDataManager.saveData(userInfo)

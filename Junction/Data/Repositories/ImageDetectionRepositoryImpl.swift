@@ -25,7 +25,6 @@ final class ImagePredictionRepositoryImpl: ImagePredictionRepository {
             
             completion(.success(firstResult.identifier))
             return
-            
         }
         
         let handler = VNImageRequestHandler(cgImage: cgImage)
