@@ -36,7 +36,6 @@ final class DIContainer: ObservableObject {
         register(RunRepository.self, dependency: RunRepositoryImpl(apiService: resolve(APIService.self)!))
         register(RunStepRepository.self, dependency: RunStepRepositoryImpl(apiService: resolve(APIService.self)!))
         register(CreateThreadAndRunRepository.self, dependency: CreateThreadAndRunRepositoryImpl(apiService: resolve(APIService.self)!))
-        register(ImagePredictionRepository.self, dependency: ImagePredictionRepositoryImpl(model: try! FoodDetection(configuration: MLModelConfiguration())))
         register(OCRRepository.self, dependency: OCRRepositoryImpl())
         register(TextPredictionRepository.self, dependency: TextPredictionRepositoryImpl(model: try! FoodTextDetection(configuration: MLModelConfiguration())))
         
@@ -50,7 +49,6 @@ final class DIContainer: ObservableObject {
         register(ListRunStepUseCase.self, dependency: ListRunStepUseCase(repository: resolve(RunStepRepository.self)!))
         register(RetrieveMessageUseCase.self, dependency: RetrieveMessageUseCase(repository: resolve(MessageRepository.self)!))
         register(CreateThreadAndRunUseCase.self, dependency: CreateThreadAndRunUseCase(repository: resolve(CreateThreadAndRunRepository.self)!))
-        register(PredictFoodUseCase.self, dependency: PredictFoodUseCase(repository: resolve(ImagePredictionRepository.self)!))
         register(PerformOCRUseCase.self, dependency: PerformOCRUseCase(ocrRepository: resolve(OCRRepository.self)!))
         register(PredictFoodTextUseCase.self, dependency: PredictFoodTextUseCase(repository: resolve(TextPredictionRepository.self)!))
         register(ImageClassifierUseCase.self, dependency: ImageClassifierUseCase())
