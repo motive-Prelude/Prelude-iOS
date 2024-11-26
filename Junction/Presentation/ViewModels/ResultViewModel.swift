@@ -11,7 +11,6 @@ import SwiftUI
 class ResultViewModel: ObservableObject {
     private let assistantInteractionFacade: AssistantInteractionFacadeImpl
     private let performOCRUseCase: PerformOCRUseCase
-    private let predictFoodUseCase: PredictFoodUseCase
     private let predictFoodTextUseCase: PredictFoodTextUseCase
     private let imageClassifierUseCase: ImageClassifierUseCase
     
@@ -33,7 +32,6 @@ class ResultViewModel: ObservableObject {
         uploadImageUseCase: DIContainer.shared.resolve(UploadImageUseCase.self)!
     ),
          performOCRUseCase: PerformOCRUseCase = DIContainer.shared.resolve(PerformOCRUseCase.self)!,
-         predictFoodUseCase: PredictFoodUseCase = DIContainer.shared.resolve(PredictFoodUseCase.self)!,
          predictFoodTextUseCase: PredictFoodTextUseCase = DIContainer.shared.resolve(PredictFoodTextUseCase.self)!,
          imageClassifierUseCase: ImageClassifierUseCase = DIContainer.shared.resolve(ImageClassifierUseCase.self)!,
          cloudKitManager: CloudKitManager = CloudKitManager.shared,
@@ -42,7 +40,6 @@ class ResultViewModel: ObservableObject {
         
         self.assistantInteractionFacade = assistantInteractionFacade
         self.performOCRUseCase = performOCRUseCase
-        self.predictFoodUseCase = predictFoodUseCase
         self.cloudkitManager = cloudKitManager
         self.userStore = userStore
         self.predictFoodTextUseCase = predictFoodTextUseCase
