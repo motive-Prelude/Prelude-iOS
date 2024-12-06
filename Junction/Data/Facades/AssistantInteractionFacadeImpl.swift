@@ -32,7 +32,6 @@ class AssistantInteractionFacadeImpl: AssistantInteractionFacade {
     }
     
     public func interact(with message: String, image: UIImage?) async throws -> Judgement {
-        
         var fileID: String = ""
         
         do {

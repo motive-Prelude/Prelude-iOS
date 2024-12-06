@@ -13,7 +13,7 @@ class PromptGenerator {
             "prompt": [
                 "intro": "다음은 임산부 사용자의 건강 정보야",
                 "healthInfo": [
-                    "pregnantWeek": \(healthInfo.pregnantWeek.rawValue),
+                    "pregnantWeek": \(healthInfo.gestationalWeek.rawValue),
                     "bmi": \(healthInfo.bmi),
                     "bloodPressure": \(healthInfo.bloodPressure.rawValue),
                     "diabetes": \(healthInfo.diabetes.rawValue)
