@@ -29,6 +29,14 @@ final class NavigationManager: ObservableObject {
             .store(in: &cancellables)
         
     }
+    
+    func navigate(_ destination: AppScreen) {
+        screenPath.append(destination)
+    }
+    
+    func previous() {
+        screenPath.removeLast()
+    }
 }
 
 enum AppScreen: Hashable, Identifiable {
