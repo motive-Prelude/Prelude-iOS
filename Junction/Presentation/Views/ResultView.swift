@@ -28,9 +28,9 @@ struct ResultView: View {
                 LoadingView()
                     .task {
                         guard let image = image else { return }
-                        if await !resultViewModel.checkRemainingTimes() {
-                            alertManager.showAlert(title: "횟수가 부족해요!", message: "돈 내놔", actions: [AlertAction(title: "돌아가기", action: { dismiss() })])
-                        }
+//                        if await !resultViewModel.checkRemainingTimes() {
+//                            alertManager.showAlert(title: "횟수가 부족해요!", message: "돈 내놔", actions: [AlertAction(title: "돌아가기", action: { dismiss() })])
+//                        }
                         
                         resultViewModel.detectFoodOrNot(image: image) { result in
                             if result {

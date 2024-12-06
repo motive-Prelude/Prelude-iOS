@@ -8,9 +8,43 @@
 import SwiftUI
 
 extension View {
-    func textStyle(_ typography: DesignTokens.Typography) -> some View {
+    func textStyle(_ typography: PLTypography) -> some View {
         self
-            .font(typography.style.font)
-            .lineSpacing(typography.style.lineHeight)
+            .font(typography.font)
+            .lineSpacing(typography.lineHeight)
+    }
+}
+
+extension View {
+    
+    @ViewBuilder
+    func conditionalFrame(mode: SizeMode, height: CGFloat? = nil) -> some View {
+        switch mode {
+            case .fixed(let width):
+                self.frame(width: width, height: height)
+            case .stretch:
+                if let height {
+                    self.frame(maxWidth: .infinity, minHeight: height, maxHeight: height)
+                } else {
+                    self.frame(maxWidth: .infinity)
+                }
+            case .hug: self.frame(height: height)
+        }
+    }
+}
+
+
+// MARK: ButtonStyles
+extension View {
+    @ViewBuilder
+    func plButtonStyle(_ type: ButtonType, size: ButtonSize, shape: ButtonShape, content: ActionButtonContent, isDisabled: Bool) -> some View {
+        self
+            .buttonStyle(PreludeActionButtonStyle(type: type, size: size, shape: shape, content: content, isDisabled: isDisabled))
+    }
+}
+
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

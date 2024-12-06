@@ -51,17 +51,13 @@
 		074148C82C67EDB300D79562 /* Judgement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148C72C67EDB300D79562 /* Judgement.swift */; };
 		074148CA2C67F57C00D79562 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148C92C67F57C00D79562 /* ImagePicker.swift */; };
 		074148CD2C67F66100D79562 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 074148CC2C67F66100D79562 /* Lottie */; };
-		074148D12C68004F00D79562 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148D02C68004F00D79562 /* OnboardingView.swift */; };
 		074148D42C6800CA00D79562 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148D32C6800CA00D79562 /* Font+.swift */; };
 		074148DA2C68012C00D79562 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 074148D72C68012C00D79562 /* Pretendard-SemiBold.otf */; };
 		074148DB2C68012C00D79562 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 074148D82C68012C00D79562 /* Pretendard-Regular.otf */; };
 		074148DC2C68012C00D79562 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 074148D92C68012C00D79562 /* Pretendard-Bold.otf */; };
 		074148DE2C6801CD00D79562 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 074148DD2C6801CD00D79562 /* Pretendard-Medium.otf */; };
-		074148E02C68066200D79562 /* HealthInfoSetUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148DF2C68066200D79562 /* HealthInfoSetUpView.swift */; };
 		074148E22C6819E000D79562 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148E12C6819E000D79562 /* UIApplication+.swift */; };
-		074148E42C681B2A00D79562 /* HealthCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148E32C681B2A00D79562 /* HealthCheckView.swift */; };
 		074148E72C681D8600D79562 /* HealthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148E62C681D8600D79562 /* HealthInfo.swift */; };
-		074148E92C68206A00D79562 /* HealthSetUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148E82C68206A00D79562 /* HealthSetUpViewModel.swift */; };
 		074148EB2C683F8300D79562 /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148EA2C683F8300D79562 /* ResultView.swift */; };
 		074148ED2C68410200D79562 /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148EC2C68410200D79562 /* ResultViewModel.swift */; };
 		074148EF2C68418F00D79562 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148EE2C68418F00D79562 /* LoadingView.swift */; };
@@ -69,7 +65,6 @@
 		074BFFE42CB937D4000773CA /* SwiftDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074BFFE32CB937D4000773CA /* SwiftDataManager.swift */; };
 		074BFFE62CBA2ADC000773CA /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074BFFE52CBA2ADC000773CA /* CloudKitManager.swift */; };
 		074BFFE82CBA3CBA000773CA /* Convertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074BFFE72CBA3CBA000773CA /* Convertible.swift */; };
-		074BFFEA2CBAA940000773CA /* HealthCheckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074BFFE92CBAA940000773CA /* HealthCheckViewModel.swift */; };
 		07590B2C2C9D99DF00BE6B14 /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07590B2B2C9D99DF00BE6B14 /* PaymentView.swift */; };
 		07590B312C9D9BBE00BE6B14 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07590B302C9D9BBE00BE6B14 /* StoreKit.framework */; };
 		07590B392C9DACCC00BE6B14 /* Products.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07590B382C9DACCC00BE6B14 /* Products.plist */; };
@@ -136,17 +131,13 @@
 		071C84422C6704800055C393 /* FileUploadResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUploadResponse.swift; sourceTree = "<group>"; };
 		074148C72C67EDB300D79562 /* Judgement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Judgement.swift; sourceTree = "<group>"; };
 		074148C92C67F57C00D79562 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		074148D02C68004F00D79562 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		074148D32C6800CA00D79562 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		074148D72C68012C00D79562 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		074148D82C68012C00D79562 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		074148D92C68012C00D79562 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
 		074148DD2C6801CD00D79562 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
-		074148DF2C68066200D79562 /* HealthInfoSetUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthInfoSetUpView.swift; sourceTree = "<group>"; };
 		074148E12C6819E000D79562 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
-		074148E32C681B2A00D79562 /* HealthCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCheckView.swift; sourceTree = "<group>"; };
 		074148E62C681D8600D79562 /* HealthInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthInfo.swift; sourceTree = "<group>"; };
-		074148E82C68206A00D79562 /* HealthSetUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSetUpViewModel.swift; sourceTree = "<group>"; };
 		074148EA2C683F8300D79562 /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
 		074148EC2C68410200D79562 /* ResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModel.swift; sourceTree = "<group>"; };
 		074148EE2C68418F00D79562 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -154,7 +145,6 @@
 		074BFFE32CB937D4000773CA /* SwiftDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataManager.swift; sourceTree = "<group>"; };
 		074BFFE52CBA2ADC000773CA /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		074BFFE72CBA3CBA000773CA /* Convertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Convertible.swift; sourceTree = "<group>"; };
-		074BFFE92CBAA940000773CA /* HealthCheckViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCheckViewModel.swift; sourceTree = "<group>"; };
 		07590B2B2C9D99DF00BE6B14 /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
 		07590B302C9D9BBE00BE6B14 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		07590B382C9DACCC00BE6B14 /* Products.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Products.plist; sourceTree = "<group>"; };
@@ -175,12 +165,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		0709E8BD2CFD9FD50022506E /* Disclaimer */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Disclaimer; sourceTree = "<group>"; };
 		070A08472CD319AB00A951B2 /* ThreadAndRun */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ThreadAndRun; sourceTree = "<group>"; };
 		077B2E572CDFA8A3001B9AE5 /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
 		077B2E5A2CDFA8BA001B9AE5 /* FoodDetectionModel */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FoodDetectionModel; sourceTree = "<group>"; };
 		077B2E792CE00CD0001B9AE5 /* Stores */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Stores; sourceTree = "<group>"; };
 		07A50DC62CE92A9200DE94BD /* EmbeddingValue */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = EmbeddingValue; sourceTree = "<group>"; };
 		07A643E92CB65EF700AA4EB2 /* UserInfo */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UserInfo; sourceTree = "<group>"; };
+		07A7FE1C2CFC0E3400930F9E /* Onboarding */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Onboarding; sourceTree = "<group>"; };
+		07A7FE1D2CFC0FE600930F9E /* HealthInfoSetUp */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = HealthInfoSetUp; sourceTree = "<group>"; };
+		07A7FE1E2CFC14F600930F9E /* Pages */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Pages; sourceTree = "<group>"; };
 		07DC00742CB4112C003E99FA /* Errors */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Errors; sourceTree = "<group>"; };
 		07F3AF592CF4306100A39F2F /* DesignSystem */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = DesignSystem; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -305,9 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				071C83F82C66E30A0055C393 /* MainViewModel.swift */,
-				074148E82C68206A00D79562 /* HealthSetUpViewModel.swift */,
 				074148EC2C68410200D79562 /* ResultViewModel.swift */,
-				074BFFE92CBAA940000773CA /* HealthCheckViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -315,12 +307,12 @@
 		071C83FC2C66E30A0055C393 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0709E8BD2CFD9FD50022506E /* Disclaimer */,
+				07A7FE1D2CFC0FE600930F9E /* HealthInfoSetUp */,
+				07A7FE1C2CFC0E3400930F9E /* Onboarding */,
 				071C83FA2C66E30A0055C393 /* ContentView.swift */,
 				071C83FB2C66E30A0055C393 /* MainView.swift */,
 				074148C92C67F57C00D79562 /* ImagePicker.swift */,
-				074148D02C68004F00D79562 /* OnboardingView.swift */,
-				074148DF2C68066200D79562 /* HealthInfoSetUpView.swift */,
-				074148E32C681B2A00D79562 /* HealthCheckView.swift */,
 				074148EA2C683F8300D79562 /* ResultView.swift */,
 				074148EE2C68418F00D79562 /* LoadingView.swift */,
 				07590B2B2C9D99DF00BE6B14 /* PaymentView.swift */,
@@ -332,6 +324,7 @@
 		071C83FD2C66E30A0055C393 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				07A7FE1E2CFC14F600930F9E /* Pages */,
 				077B2E792CE00CD0001B9AE5 /* Stores */,
 				074148D22C6800C200D79562 /* Extensions */,
 				071C83F92C66E30A0055C393 /* ViewModels */,
@@ -534,12 +527,16 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				0709E8BD2CFD9FD50022506E /* Disclaimer */,
 				070A08472CD319AB00A951B2 /* ThreadAndRun */,
 				077B2E572CDFA8A3001B9AE5 /* Shared */,
 				077B2E5A2CDFA8BA001B9AE5 /* FoodDetectionModel */,
 				077B2E792CE00CD0001B9AE5 /* Stores */,
 				07A50DC62CE92A9200DE94BD /* EmbeddingValue */,
 				07A643E92CB65EF700AA4EB2 /* UserInfo */,
+				07A7FE1C2CFC0E3400930F9E /* Onboarding */,
+				07A7FE1D2CFC0FE600930F9E /* HealthInfoSetUp */,
+				07A7FE1E2CFC14F600930F9E /* Pages */,
 				07DC00742CB4112C003E99FA /* Errors */,
 				07F3AF592CF4306100A39F2F /* DesignSystem */,
 			);
@@ -631,7 +628,6 @@
 				071C84432C6704800055C393 /* FileUploadResponse.swift in Sources */,
 				070A08512CD31E5600A951B2 /* CreateThreadAndRunUseCase.swift in Sources */,
 				071C84342C66E30A0055C393 /* CreateRunUseCase.swift in Sources */,
-				074148D12C68004F00D79562 /* OnboardingView.swift in Sources */,
 				074BFFE42CB937D4000773CA /* SwiftDataManager.swift in Sources */,
 				077B2E722CDFF3B2001B9AE5 /* UIImage+.swift in Sources */,
 				074148EF2C68418F00D79562 /* LoadingView.swift in Sources */,
@@ -639,11 +635,9 @@
 				071C84302C66E30A0055C393 /* RunRepository.swift in Sources */,
 				071C84372C66E30B0055C393 /* RetrieveMessageUseCase.swift in Sources */,
 				074BFFE82CBA3CBA000773CA /* Convertible.swift in Sources */,
-				074148E42C681B2A00D79562 /* HealthCheckView.swift in Sources */,
 				071C84352C66E30B0055C393 /* CreateThreadUseCase.swift in Sources */,
 				071C841B2C66E30A0055C393 /* EndPoint.swift in Sources */,
 				071C84402C66FCEE0055C393 /* UploadImageUseCase.swift in Sources */,
-				074148E02C68066200D79562 /* HealthInfoSetUpView.swift in Sources */,
 				071C84362C66E30B0055C393 /* ListRunStepUseCase.swift in Sources */,
 				077B2E7D2CE02B9A001B9AE5 /* PromptGenerator.swift in Sources */,
 				07A50DBF2CE74F3100DE94BD /* OCRRepository.swift in Sources */,
@@ -651,7 +645,6 @@
 				071C84332C66E30A0055C393 /* CreateMessageUseCase.swift in Sources */,
 				071C84282C66E30A0055C393 /* MessageBody.swift in Sources */,
 				07A50DBB2CE74C7600DE94BD /* TextPredictionRepositoryImpl.swift in Sources */,
-				074148E92C68206A00D79562 /* HealthSetUpViewModel.swift in Sources */,
 				071C841C2C66E30A0055C393 /* AssistantInteractionFacadeImpl.swift in Sources */,
 				071C84322C66E30A0055C393 /* ThreadRepository.swift in Sources */,
 				074148E22C6819E000D79562 /* UIApplication+.swift in Sources */,
@@ -673,7 +666,6 @@
 				077B2E742CDFF8C2001B9AE5 /* AlertManager.swift in Sources */,
 				071C84312C66E30A0055C393 /* RunStepRepository.swift in Sources */,
 				071C84242C66E30A0055C393 /* ContentView.swift in Sources */,
-				074BFFEA2CBAA940000773CA /* HealthCheckViewModel.swift in Sources */,
 				071C84262C66E30A0055C393 /* CreateMessageResponse.swift in Sources */,
 				071C84272C66E30A0055C393 /* Message.swift in Sources */,
 				074BFFE62CBA2ADC000773CA /* CloudKitManager.swift in Sources */,
@@ -831,7 +823,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.1;
@@ -875,7 +867,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.1;

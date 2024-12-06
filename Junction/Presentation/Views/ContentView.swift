@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             NavigationStack(path: $navigationManager.screenPath) {
-                OnboardingView()
+                DisclaimerView()
                     .navigationDestination(for: AppScreen.self) { appscreen in
                         appscreen.destination
                     }

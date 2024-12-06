@@ -17,7 +17,7 @@ class SwiftDataManager {
     
     private init() {
         do {
-            let config = ModelConfiguration(allowsSave: true, cloudKitDatabase: .none)
+            let config = ModelConfiguration(isStoredInMemoryOnly: true, allowsSave: true, cloudKitDatabase: .none)
             let schema = Schema([UserInfo.self, HealthInfo.self])
             container = try ModelContainer(for: schema, configurations: config)
         } catch { fatalError("\(error.localizedDescription)") }
