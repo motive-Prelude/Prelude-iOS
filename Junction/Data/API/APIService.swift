@@ -159,8 +159,7 @@ final class APIService {
         }
         
         for message in messages {
-            print(message)
-            let textContent = MessageContentData(type: "text", text: message, imageFile: nil)
+            let textContent = MessageContentData(type: "text", text: message.isEmpty ? "Not answered" : message, imageFile: nil)
             messageContents.append(MessageContent(role: role, content: [textContent]))
         }
         
