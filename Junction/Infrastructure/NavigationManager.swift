@@ -42,7 +42,8 @@ final class NavigationManager: ObservableObject {
 enum AppScreen: Hashable, Identifiable {
     case onboarding
     case healthInfoSetup
-    case healthCheck(healthInfo: HealthInfo)
+    case healthInfoEdit(healthInfo: HealthInfo, contentMode: ListItemType)
+    case disclaimer
     case main
     case result(userSelectPrompt: String, image: UIImage?)
     
@@ -58,9 +59,11 @@ extension AppScreen {
             case .onboarding:
                 OnboardingView()
             case .healthInfoSetup:
-                HealthInfoSetUpView()
-            case .healthCheck(let healthInfo):
-                HealthCheckView(healthInfo: healthInfo)
+                HealthInfoSetUpPage()
+            case .healthInfoEdit(healthInfo: let healthInfo, contentMode: let contentMode):
+                HealthInfoEditView(healthInfo: healthInfo, mode: contentMode)
+            case .disclaimer:
+                DisclaimerView()
             case .main:
                 MainView()
             case .result(let userSelectedPrompt, let image):
