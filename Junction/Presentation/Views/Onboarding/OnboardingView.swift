@@ -46,7 +46,7 @@ struct OnboardingView: View {
                         
                     }
                     .onTapGesture {
-                        navigationManager.screenPath.append(.healthInfoSetup)
+                        navigationManager.navigate(.healthInfoSetup)
                     }
                     .padding(.bottom, 36)
             }
