@@ -16,7 +16,7 @@ struct FlowLayout: Layout {
         var height: CGFloat = 0
         var rowWidth: CGFloat = 0
         var rowHeight: CGFloat = 0
-        let maxWidth = proposal.replacingUnspecifiedDimensions().width ?? .infinity
+        let maxWidth = proposal.replacingUnspecifiedDimensions().width
 
         for subview in subviews {
             let size = subview.sizeThatFits(ProposedViewSize(width: maxWidth, height: nil))
