@@ -5,6 +5,7 @@
 //  Created by 송지혁 on 8/10/24.
 //
 
+import FirebaseCore
 import SwiftUI
 import SwiftData
 
@@ -12,6 +13,10 @@ import SwiftData
 struct JunctionApp: App {
     @StateObject var store = Store()
     @StateObject var navigationManager = NavigationManager()
+    
+    init() {
+        FirebaseApp.configure()
+    }
     
     var body: some Scene {
         WindowGroup {

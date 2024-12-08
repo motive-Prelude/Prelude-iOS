@@ -11,7 +11,6 @@ struct HealthInfoEditView: View {
     let healthInfo: HealthInfo
     let mode: ListItemType
     
-    @StateObject var healthInfoEditViewModel = HealthInfoEditViewModel()
     @EnvironmentObject var navigationManager: NavigationManager
     
     var gestationWeekData: String { healthInfo.gestationalWeek.rawValue }
