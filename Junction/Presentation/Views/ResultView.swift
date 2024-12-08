@@ -5,6 +5,7 @@
 //  Created by 송지혁 on 8/11/24.
 //
 
+import Combine
 import SwiftUI
 
 enum JudgeResult {
@@ -17,6 +18,7 @@ struct ResultView: View {
     let image: UIImage?
     @StateObject var resultViewModel = ResultViewModel()
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var alertManager: AlertManager
     
     var body: some View {
         ZStack {
@@ -24,8 +26,22 @@ struct ResultView: View {
             
             if resultViewModel.isLoading == nil || resultViewModel.isLoading == true {
                 LoadingView()
-                    .onAppear {
-                        resultViewModel.sendMessage(userSelectedPrompt, image: image)
+                    .task {
+                        guard let image = image else { return }
+//                        if await !resultViewModel.checkRemainingTimes() {
+//                            alertManager.showAlert(title: "횟수가 부족해요!", message: "돈 내놔", actions: [AlertAction(title: "돌아가기", action: { dismiss() })])
+//                        }
+                        
+                        resultViewModel.detectFoodOrNot(image: image) { result in
+                            if result {
+                                Task {
+                                    if await !resultViewModel.sendMessage(userSelectedPrompt, image: image) {
+                                        alertManager.showAlert(title: "문제가 발생햇어요!", message: "다시 해", actions: [AlertAction(title: "돌아가기", action: { dismiss() })]) }
+                                }
+                            } else {
+                                alertManager.showAlert(title: "음식을 인식할 수 없어요!", message: "다시 찌거", actions: [AlertAction(title: "돌아가기", action: { dismiss() })])
+                            }
+                        }
                     }
             } else {
                 resultView
@@ -162,3 +178,4 @@ struct ResultView: View {
         .padding(.bottom, 24)
     }
 }
+

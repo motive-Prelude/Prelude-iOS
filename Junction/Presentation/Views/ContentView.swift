@@ -9,13 +9,22 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var navigationManager: NavigationManager
+    @EnvironmentObject var alertManager: AlertManager
     
     var body: some View {
-        NavigationStack(path: $navigationManager.screenPath) {
-            OnboardingView()
-                .navigationDestination(for: AppScreen.self) { appscreen in
-                    appscreen.destination
-                }
+        ZStack {
+            NavigationStack(path: $navigationManager.screenPath) {
+                DisclaimerView()
+                    .navigationDestination(for: AppScreen.self) { appscreen in
+                        appscreen.destination
+                    }
+            }
+            .disabled(alertManager.isAlertVisible)
+            
+            if alertManager.isAlertVisible {
+                CustomAlertView()
+                    .zIndex(1)
+            }
         }
     }
 }

@@ -18,6 +18,7 @@ enum EndPoint {
     case runStep(threadID: String, runID: String)
     case retrieveMessage(threadID: String, messageID: String)
     case uploadFile
+    case threadsAndRun
     
     var urlString: String {
         switch self {
@@ -35,7 +36,8 @@ enum EndPoint {
                 return "\(EndPoint.baseURL)/\(threadID)/messages/\(messageID)"
             case .uploadFile:
                 return "\(EndPoint.imageBaseURL)"
-
+            case .threadsAndRun:
+                return "\(EndPoint.baseURL)/runs"
         }
     }
     
