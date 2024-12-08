@@ -34,5 +34,4 @@ extension Font {
     static let pretendRegular12: Font = .custom("Pretendard-Regular", size: 12)
     
     
-    
 }

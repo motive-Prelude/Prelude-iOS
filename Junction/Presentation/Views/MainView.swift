@@ -10,196 +10,140 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @StateObject var mainViewModel = MainViewModel()
-    
-    
     @State private var uiImage: UIImage?
     @State private var isShowingImagePicker = false
-    @State private var healthInfo: HealthInfo?
     @State private var foodName = ""
-    
-    let headerText = """
-    Tell us about the food
-    you’re worried about
-    """
+    @State private var isFocused = false
     
     var userSelectPrompt: String {
         if foodName.isEmpty { return "" }
-        return "유저가 알려준 음식의 이름은 \(foodName)이야"
+        return "유저가 알려준 음식의 이름은 \(foodName)이야\n"
     }
     
     var body: some View {
         ZStack {
-            Color.offwhite
-                .contentShape(Rectangle())
-                .onTapGesture { UIApplication.shared.endEditing(true) }
+            PLColor.neutral50
+                .ignoresSafeArea()
             
             VStack(spacing: 0) {
-                header
-                    .onTapGesture { UIApplication.shared.endEditing(true) }
+                navigationHeader
+                    .padding(.bottom, 70)
                 
-                form
-                    .padding(.horizontal, 24)
+                guidePrompt
                 
                 Spacer()
                 
-                Text("Done")
-                    .font(.pretendBold16)
-                    .foregroundStyle(.offwhite)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 18)
-                    .background {
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(.gray1)
-                        
-                    }
-                    .onTapGesture {
-                        navigationManager.screenPath.append(.result(userSelectPrompt: userSelectPrompt, image: uiImage))
-                        uiImage = nil
-                        foodName = ""
-                    }
-                    .padding(.bottom, 36)
-                    .padding(.horizontal, 24)
+                foodNameTextField
+                    .padding(.bottom, isFocused ? 10 : 106)
+                    
+                button
             }
+            .padding(.horizontal, 16)
             
+            mainDish
             
-            
-            //            Button("테스트") {
-            //                mainViewModel.sendMessageForQuiz("이 임산부의 건강 상태는 혈압 낮음, 당뇨 없음, 임신 초기야.", image: uiImage)
-            //            }
-            //
-            //            Button("health") {
-            //                healthInfo = mainViewModel.loadHealthInfo()
-            //            }
-            //
-            //            Text(healthInfo?.bloodPressure.rawValue ?? "안됨 저장")
-            //
-            //
-            //            Button(action: {
-            //                isShowingImagePicker = true
-            //            }) {
-            //                Text("Open Camera")
-            //                    .padding()
-            //                    .background(Color.blue)
-            //                    .foregroundColor(.white)
-            //                    .cornerRadius(10)
-            //            }
-            //
-            //            ScrollView {
-            //                Text(mainViewModel.judgement?.recognition.description ?? "")
-            //                Text(mainViewModel.judgement?.productName ?? "")
-            //                Text(mainViewModel.judgement?.conclusion ?? "")
-            //                ForEach(mainViewModel.judgement?.details ?? [JudgementDetail(title: "", content: "")], id: \.self) { detail in
-            //                    VStack {
-            //                        Text(detail.title)
-            //                            .bold()
-            //
-            //                        Text(detail.content)
-            //                    }
-            //                }
-            //            }
-            .sheet(isPresented: $isShowingImagePicker) {
-                ImagePicker(image: $uiImage, sourceType: .camera)
-            }
         }
-        .ignoresSafeArea()
+        .sheet(isPresented: $isShowingImagePicker) { ImagePicker(image: $uiImage, sourceType: .camera) }
+        .ignoresSafeArea(.all, edges: [.top, .horizontal])
         .navigationBarBackButtonHidden()
+        .onTapGesture { hideKeyboard() }
     }
     
-    private var header: some View {
+    private var navigationHeader: some View {
+        PLNavigationHeader("") {
+            PLActionButton(label: "10",
+                           icon: Image(.logo),
+                           type: .secondary,
+                           contentType: .seedFull,
+                           size: .medium,
+                           shape: .pill) { }
+        } trailing: {
+            PLActionButton(icon: Image(.setting),
+                           type: .secondary,
+                           contentType: .icon,
+                           size: .medium,
+                           shape: .circle) { }
+        }
+    }
+    
+    private var guidePrompt: some View {
+        Text("What food are you\nworried about?")
+            .textStyle(.heading1)
+            .foregroundStyle(PLColor.neutral800)
+            .multilineTextAlignment(.center)
+    }
+    
+    private var mainDish: some View {
+        Image(.dish)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .overlay(dishPlate)
+    }
+    
+    @ViewBuilder
+    private var dishPlate: some View {
+        if let uiImage { imageView(uiImage) }
+        else { photoTriggerButton }
+    }
+    
+    private func imageView(_ uiImage: UIImage) -> some View {
+        Image(uiImage: uiImage)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 136)
+            .clipShape(Circle())
+            .padding(.horizontal)
+            .overlay(alignment: .top) { garnishButtons }
+    }
+    
+    private var garnishButtons: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 12) {
-                Text(headerText)
-                    .font(.pretendBold24)
-                    .padding(.top, 82)
-                    .foregroundStyle(.offblack)
-                Text("Take a photo or type in!")
-                    .font(.pretendRegular14)
-            }
-            .padding(.leading, 24)
-            
+            PLActionButton(icon: Image(.redo),
+                           type: .secondary,
+                           contentType: .icon,
+                           size: .xsmall,
+                           shape: .square) { isShowingImagePicker = true }
             Spacer()
-        }
-        .padding(.bottom, 56)
-        .frame(maxWidth: .infinity)
-        .background {
-            Color.gray10
-                .overlay(alignment: .bottomTrailing) {
-                    Image("tree")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 78)
-                }
+            
+            PLActionButton(icon: Image(.closeSmall),
+                           type: .secondary,
+                           contentType: .icon,
+                           size: .xsmall,
+                           shape: .square) { uiImage = nil }
         }
     }
     
-    private var form: some View {
-        VStack(spacing: 36) {
-            pictureSection
-            foodNameSection
-        }
-        .padding(.top, 24)
-    }
-    
-    private var pictureSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Photo of the food or its name")
-                .font(.pretendSemiBold18)
-                .foregroundStyle(.offblack)
+    private var photoTriggerButton: some View {
+        VStack(spacing: 4) {
+            PLActionButton(icon: Image(.capture), type: .primary, contentType: .icon, size: .medium, shape: .circle) { isShowingImagePicker.toggle() }
             
-            Image("stitchBox")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity)
-                .contentShape(Rectangle())
-                .overlay {
-                    if let uiImage {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 123, height: 123)
-                            .clipped()
-                            .clipShape(Rectangle())
-                            .overlay(alignment: .topTrailing) {
-                                Image(systemName: "xmark.app.fill")
-                                    .font(.system(size: 25))
-                                    .foregroundStyle(.offwhite)
-                                    .onTapGesture { self.uiImage = nil }
-                                    .shadow(radius: 3, y: 3)
-                            }
-                        
-                    } else {
-                        Image(systemName: "photo.fill")
-                            .font(.system(size: 18))
-                            .foregroundStyle(.gray3)
-                    }
-                }
-                .onTapGesture {
-                    if let _ = uiImage {
-                        UIApplication.shared.endEditing(true)
-                        return
-                    }
-                    isShowingImagePicker = true
-                }
+            Text("Take Photo")
+                .textStyle(.title1)
+                .foregroundStyle(PLColor.neutral800)
         }
     }
     
-    private var foodNameSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Food name")
-                .font(.pretendSemiBold18)
-                .foregroundStyle(.offblack)
-            
-            TextField("Type here", text: $foodName)
-                .font(.pretendRegular16)
-                .foregroundStyle(.offblack)
-                .padding(.vertical, 13)
-                .padding(.leading, 14)
-                .background { RoundedRectangle(cornerRadius: 16).stroke(.gray8, lineWidth: 1) }
-            
+    private var foodNameTextField: some View {
+        PLTextField<HeightUnit>(placeholder: "Enter food name (Optional)",
+                                text: $foodName,
+                                unit: nil,
+                                keyboard: .default) { focus in
+            withAnimation { isFocused = focus }
+        }
+    }
+    
+    @ViewBuilder
+    private var button: some View {
+        if !isFocused {
+            PLActionButton(label: "Search food safety", type: .primary, contentType: .text, size: .large, shape: .rect) {
+                navigationManager.navigate(.result(userSelectPrompt: mainViewModel.prompt + userSelectPrompt, image: uiImage))
+            }
         }
     }
 }
 
 #Preview {
     MainView()
+        .environmentObject(NavigationManager())
+        .modelContainer(SwiftDataManager.shared.container)
 }

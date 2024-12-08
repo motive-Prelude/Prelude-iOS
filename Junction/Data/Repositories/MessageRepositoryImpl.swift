@@ -5,7 +5,6 @@
 //  Created by 송지혁 on 7/22/24.
 //
 
-import Combine
 import Foundation
 
 final class MessageRepositoryImpl: MessageRepository {
@@ -15,20 +14,21 @@ final class MessageRepositoryImpl: MessageRepository {
         self.apiService = apiService
     }
     
-    func createMessage(threadID: String, text: String?, fileId: String?) -> AnyPublisher<CreateMessageResponse, Error> {
-        let body = apiService.createMessageBody(role: "user", text: text, fileId: fileId)
+    func createMessage(threadID: String, text: String, fileId: String) async throws -> CreateMessageResponse {
         
-        guard let request = apiService.createRequest(withURL: EndPoint.messages(threadID: threadID).urlString, body: body as MessageBody) else { return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
-            
-        }
+        let body = apiService.makeMessageBody(role: "user", text: text, fileId: fileId)
+        guard let url = URL(string: EndPoint.messages(threadID: threadID).urlString) else { throw URLError(.badURL) }
+        let request = apiService.makeURLRequest(to: url, body: .json(body))
+        let result: CreateMessageResponse = try await apiService.fetchData(with: request)
         
-        return apiService.fetchData(with: request)
+        return result
     }
     
     
-    func retrieveMessage(threadID: String, messageID: String) -> AnyPublisher<RetrieveMessageResponse, any Error> {
-        guard let request = apiService.createRequest(withURL: EndPoint.retrieveMessage(threadID: threadID, messageID: messageID).urlString, method: "GET", body: nil as String?) else { return Fail(error: URLError(.badURL)).eraseToAnyPublisher() }
-        
-        return apiService.fetchData(with: request)
+    func retrieveMessage(threadID: String, messageID: String) async throws -> RetrieveMessageResponse {
+        guard let url = URL(string: EndPoint.retrieveMessage(threadID: threadID, messageID: messageID).urlString) else { throw URLError(.badURL) }
+        let request = apiService.makeURLRequest(to: url, method: .GET)
+        let result: RetrieveMessageResponse = try await apiService.fetchData(with: request)
+        return result
     }
 }

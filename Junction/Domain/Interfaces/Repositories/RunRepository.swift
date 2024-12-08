@@ -8,5 +8,5 @@
 import Combine
 
 protocol RunRepository {
-    func createRun(threadID: String, assistantID: String) -> AnyPublisher<RunResponse, Error>
+    func createRun(threadID: String, assistantID: String) async throws -> RunResponse
 }

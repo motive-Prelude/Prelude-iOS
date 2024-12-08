@@ -5,7 +5,6 @@
 //  Created by 송지혁 on 7/22/24.
 //
 
-import Combine
 import Foundation
 
 final class ThreadRepositoryImpl: ThreadRepository {
@@ -15,13 +14,11 @@ final class ThreadRepositoryImpl: ThreadRepository {
         self.apiService = apiService
     }
     
-    func createThread(messages: [String], fileId: String?) -> AnyPublisher<ThreadResponse, Error> {
-        let body = apiService.createThreadBody(role: "user", messages: messages, fileId: fileId)
-        
-        guard let request = apiService.createRequest(withURL: EndPoint.threads.urlString, body: body) else {
-            return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
-        }
-        
-        return apiService.fetchData(with: request)
+    func createThread(messages: [String], fileId: String) async throws -> ThreadResponse {
+        let body = apiService.makeThreadBody(role: "user", messages: messages, fileId: fileId)
+        guard let url = URL(string: EndPoint.threads.urlString) else { throw URLError(.badURL) }
+        let request = apiService.makeURLRequest(to: url, body: .json(body))
+        let result: ThreadResponse = try await apiService.fetchData(with: request)
+        return result
     }
 }

@@ -5,7 +5,6 @@
 //  Created by 송지혁 on 7/22/24.
 //
 
-import Combine
 import Foundation
 
 final class RunStepRepositoryImpl: RunStepRepository {
@@ -15,10 +14,11 @@ final class RunStepRepositoryImpl: RunStepRepository {
         self.apiService = apiService
     }
     
-    func listRunSteps(threadID: String, runID: String) -> AnyPublisher<RunStepResponse, Error> {
-        guard let request = apiService.createRequest(withURL: EndPoint.runStep(threadID: threadID, runID: runID).urlString, method: "GET", body: nil as String?) else { return Fail(error: URLError(.badURL)).eraseToAnyPublisher() }
-        
-        return apiService.fetchData(with: request)
+    func listRunSteps(threadID: String, runID: String) async throws -> RunStepResponse {
+        guard let url = URL(string: EndPoint.runStep(threadID: threadID, runID: runID).urlString) else { throw URLError(.badURL) }
+        let request = apiService.makeURLRequest(to: url, method: .GET)
+        let result: RunStepResponse = try await apiService.fetchData(with: request)
+        return result
     }
 
     

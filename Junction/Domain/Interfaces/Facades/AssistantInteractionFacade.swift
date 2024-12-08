@@ -9,5 +9,5 @@ import Combine
 import UIKit
 
 protocol AssistantInteractionFacade {
-    func interact(with message: String, image: UIImage?) -> AnyPublisher<Judgement, Error>
+    func interact(with message: String, image: UIImage?) async throws -> Judgement
 }

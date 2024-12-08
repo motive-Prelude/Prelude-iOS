@@ -9,5 +9,5 @@ import Combine
 import Foundation
 
 protocol RunStepRepository {
-    func listRunSteps(threadID: String, runID: String) -> AnyPublisher<RunStepResponse, Error>
+    func listRunSteps(threadID: String, runID: String) async throws -> RunStepResponse
 }
