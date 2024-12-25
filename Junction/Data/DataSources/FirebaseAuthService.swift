@@ -10,12 +10,29 @@ import FirebaseAuth
 final class FirebaseAuthService {
     let auth = Auth.auth()
     
-    func logIn(credential: AuthCredential) async throws {
-        do {
-            let result = try await auth.signIn(with: credential)
-            let user = result.user
-        } catch {
-            print(error)
+    func logIn(credential: AuthCredential) async throws -> User {
+        let result = try await auth.signIn(with: credential)
+        let user = result.user
+        
+        return user
+    }
+    
+    func logOut() throws { try auth.signOut() }
+    
+    func deleteAccount(userID: String) {
+        guard let currentUser = auth.currentUser else { return }
+        guard userID == currentUser.uid else { return }
+        
+        currentUser.delete()
+    }
+    
+    func observeAuthState(onChange: @escaping (String?) -> Void) -> AuthStateDidChangeListenerHandle {
+        return auth.addStateDidChangeListener { _, user in
+            onChange(user?.uid)
         }
+    }
+    
+    func removeAuthListener(_ handle: AuthStateDidChangeListenerHandle) {
+        auth.removeStateDidChangeListener(handle)
     }
 }
