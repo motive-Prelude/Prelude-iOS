@@ -6,7 +6,12 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 protocol AuthRepository {
-    func logIn(parameters: AuthParameter) async throws
+    func logIn(parameters: AuthParameter) async throws -> String
+    func logout() throws
+    func deleteAccount(userID: String)
+    func observeAuthState(onChange: @escaping (String?) -> Void) -> AuthStateDidChangeListenerHandle
+    func removeAuthListener(_ handle: AuthStateDidChangeListenerHandle)
 }
