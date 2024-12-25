@@ -28,7 +28,7 @@ struct HealthInfoSetUpPage: View {
     @State private var heightLeftSelected = true
     @State private var weightLeftSelected = true
     
-    @State private var bloodPressure: BloodPresure?
+    @State private var bloodPressure: BloodPressure?
     @State private var diabetes: Diabetes?
     @State private var allergies = Array(repeating: false, count: Allergies.totalCount)
     
@@ -152,7 +152,7 @@ struct HealthInfoSetUpPage: View {
     }
     
     private func createHealthInfo() -> HealthInfo {
-        return HealthInfo(
+        return HealthInfo(id: "",
             gestationalWeek: gestationalWeek ?? .noResponse,
             height: height,
             weight: weight,

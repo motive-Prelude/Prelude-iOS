@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MedicalInfoSetUpView: View {
     
-    @Binding var bloodPressure: BloodPresure?
+    @Binding var bloodPressure: BloodPressure?
     @Binding var diabetes: Diabetes?
     
     var body: some View {
@@ -38,23 +38,23 @@ struct MedicalInfoSetUpView: View {
     private var bloodPressureGrid: some View {
         Grid {
             GridRow {
-                PLFormButton(label: BloodPresure.none.rawValue,
-                             isSelected: bindingForBloodPressure(BloodPresure.none),
+                PLFormButton(label: BloodPressure.none.rawValue,
+                             isSelected: bindingForBloodPressure(BloodPressure.none),
                              contentType: .labelOnly,
                              mode: .stretch)
                 .gridCellColumns(2)
-                .onTapGesture { bloodPressure = BloodPresure.none }
+                .onTapGesture { bloodPressure = BloodPressure.none }
             }
             
             GridRow {
-                PLFormButton(label: BloodPresure.hypotension.rawValue,
-                             isSelected: bindingForBloodPressure(BloodPresure.hypotension),
+                PLFormButton(label: BloodPressure.hypotension.rawValue,
+                             isSelected: bindingForBloodPressure(BloodPressure.hypotension),
                              contentType: .labelOnly,
                              mode: .stretch)
                 .onTapGesture { bloodPressure = .hypotension }
                 
-                PLFormButton(label: BloodPresure.hypertension.rawValue,
-                             isSelected: bindingForBloodPressure(BloodPresure.hypertension),
+                PLFormButton(label: BloodPressure.hypertension.rawValue,
+                             isSelected: bindingForBloodPressure(BloodPressure.hypertension),
                              contentType: .labelOnly,
                              mode: .stretch)
                 .onTapGesture { bloodPressure = .hypertension }
@@ -101,7 +101,7 @@ struct MedicalInfoSetUpView: View {
         }
     }
     
-    private func bindingForBloodPressure(_ bloodPressure: BloodPresure) -> Binding<Bool> {
+    private func bindingForBloodPressure(_ bloodPressure: BloodPressure) -> Binding<Bool> {
         Binding(
             get: { self.bloodPressure == bloodPressure },
             set: { isSelected in
@@ -122,7 +122,7 @@ struct MedicalInfoSetUpView: View {
 }
 
 #Preview {
-    @Previewable @State var bloodPressure: BloodPresure?
+    @Previewable @State var bloodPressure: BloodPressure?
     @Previewable @State var diabetes: Diabetes?
     
     MedicalInfoSetUpView(bloodPressure: $bloodPressure, diabetes: $diabetes)
