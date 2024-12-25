@@ -16,18 +16,18 @@ final class HealthInfo {
     var weight: Double
     var lastHeightUnit: HeightUnit
     var lastWeightUnit: WeightUnit
-    var bloodPressure: BloodPresure = BloodPresure.none
+    var bloodPressure: BloodPressure = BloodPressure.none
     var diabetes: Diabetes = Diabetes.none
     var restrictions: [Allergies] = []
     var bmi: Double { weight / (height * height * 0.0001) }
     
-    init(id: String = "HealthInfo",
+    init(id: String,
          gestationalWeek: GestationalWeek,
          height: Double,
          weight: Double,
          lastHeightUnit: HeightUnit,
          lastWeightUnit: WeightUnit,
-         bloodPressure: BloodPresure,
+         bloodPressure: BloodPressure,
          diabetes: Diabetes,
          restrictions: [Allergies]) {
         self.id = id
@@ -40,8 +40,26 @@ final class HealthInfo {
         self.diabetes = diabetes
         self.restrictions = restrictions
     }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.id = try container.decode(String.self, forKey: .id)
+        self.gestationalWeek = try container.decode(GestationalWeek.self, forKey: .gestationalWeek)
+        self.height = try container.decode(Double.self, forKey: .height)
+        self.weight = try container.decode(Double.self, forKey: .weight)
+        self.lastHeightUnit = try container.decode(HeightUnit.self, forKey: .lastHeightUnit)
+        self.lastWeightUnit = try container.decode(WeightUnit.self, forKey: .lastWeightUnit)
+        self.bloodPressure = try container.decode(BloodPressure.self, forKey: .bloodPressure)
+        self.diabetes = try container.decode(Diabetes.self, forKey: .diabetes)
+        self.restrictions = try container.decodeIfPresent([Allergies].self, forKey: .restrictions) ?? []
+        
+        
+    }
 }
 
+
+// MARK: Class -> CKRecord
 extension HealthInfo: Convertible {
     func toCKRecord() -> CKRecord {
         let recordID = CKRecord.ID(recordName: self.id)
@@ -70,7 +88,7 @@ extension HealthInfo: Convertible {
               let weightUnitString = record["lastWeightUnit"] as? String,
               let lastWeightUnit = WeightUnit(rawValue: weightUnitString),
               let bloodPressureRaw = record["bloodPressure"] as? String,
-              let bloodPressure = BloodPresure(rawValue: bloodPressureRaw),
+              let bloodPressure = BloodPressure(rawValue: bloodPressureRaw),
               let diabetesRaw = record["diabetes"] as? String,
               let diabetes = Diabetes(rawValue: diabetesRaw),
               let restrictionsRaw = record["restrictions"] as? [String]
@@ -87,5 +105,26 @@ extension HealthInfo: Convertible {
                   bloodPressure: bloodPressure,
                   diabetes: diabetes,
                   restrictions: restrictions)
+    }
+}
+
+// MARK: Codable
+extension HealthInfo: Codable {
+    enum CodingKeys: String, CodingKey {
+        case id, gestationalWeek, height, weight, lastHeightUnit, lastWeightUnit, bloodPressure, diabetes, restrictions
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(gestationalWeek, forKey: .gestationalWeek)
+        try container.encode(height, forKey: .height)
+        try container.encode(weight, forKey: .weight)
+        try container.encode(lastHeightUnit, forKey: .lastHeightUnit)
+        try container.encode(lastWeightUnit, forKey: .lastWeightUnit)
+        try container.encode(bloodPressure, forKey: .bloodPressure)
+        try container.encode(diabetes, forKey: .diabetes)
+        try container.encode(restrictions, forKey: .restrictions)
+        
     }
 }
