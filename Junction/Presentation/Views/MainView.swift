@@ -145,5 +145,5 @@ struct MainView: View {
 #Preview {
     MainView()
         .environmentObject(NavigationManager())
-        .modelContainer(SwiftDataManager.shared.container)
+        .modelContainer(SwiftDataSource.shared.container)
 }

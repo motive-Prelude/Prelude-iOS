@@ -15,7 +15,7 @@ class LoginUseCase {
     }
     
     
-    func execute(parameter: AuthParameter) async throws {
+    func execute(parameter: AuthParameter) async throws -> String {
         try await authRepository.logIn(parameters: parameter)
     }
 }

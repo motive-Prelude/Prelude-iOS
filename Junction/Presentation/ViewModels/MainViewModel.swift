@@ -11,16 +11,16 @@ import SwiftUI
 
 class MainViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
-    let userStore: UserStore
     private let promptGenerator: PromptGenerator
     
     @Published var prompt = ""
     
-    init(userStore: UserStore = .shared, promptGenerator: PromptGenerator = PromptGenerator()) {
-        self.userStore = userStore
+    init(promptGenerator: PromptGenerator = PromptGenerator()) {
         self.promptGenerator = promptGenerator
-        
-        userStore.$userInfo
+    }
+    
+    func bind(userSession: UserSession) {
+        userSession.$userInfo
             .compactMap { $0?.healthInfo }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] healthInfo in
@@ -28,6 +28,5 @@ class MainViewModel: ObservableObject {
                 self.prompt = self.promptGenerator.generatePrompt(with: healthInfo)
             }
             .store(in: &cancellables)
-        
     }
 }

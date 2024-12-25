@@ -14,8 +14,6 @@ class ResultViewModel: ObservableObject {
     private let predictFoodTextUseCase: PredictFoodTextUseCase
     private let imageClassifierUseCase: ImageClassifierUseCase
     
-    private let cloudkitManager: CloudKitManager
-    private let userStore: UserStore
     
     var cancellables = Set<AnyCancellable>()
     @Published var receivedMessage: String?
@@ -33,35 +31,31 @@ class ResultViewModel: ObservableObject {
     ),
          performOCRUseCase: PerformOCRUseCase = DIContainer.shared.resolve(PerformOCRUseCase.self)!,
          predictFoodTextUseCase: PredictFoodTextUseCase = DIContainer.shared.resolve(PredictFoodTextUseCase.self)!,
-         imageClassifierUseCase: ImageClassifierUseCase = DIContainer.shared.resolve(ImageClassifierUseCase.self)!,
-         cloudKitManager: CloudKitManager = CloudKitManager.shared,
-         userStore: UserStore = .shared
+         imageClassifierUseCase: ImageClassifierUseCase = DIContainer.shared.resolve(ImageClassifierUseCase.self)!
     ) {
         
         self.assistantInteractionFacade = assistantInteractionFacade
         self.performOCRUseCase = performOCRUseCase
-        self.cloudkitManager = cloudKitManager
-        self.userStore = userStore
         self.predictFoodTextUseCase = predictFoodTextUseCase
         self.imageClassifierUseCase = imageClassifierUseCase
     }
     
     
-    func checkRemainingTimes() async -> Bool {
-        await self.userStore.fetchUserInfo()
-        guard let userInfo = userStore.userInfo else { return false }
-        
-        //        if newUserInfo.remainingTimes < 1 {
-        //            return false
-        //        }
-        
-        userInfo.remainingTimes -= 1
-        
-        let newUserInfo = UserInfo(remainingTimes: userInfo.remainingTimes, healthInfo: userInfo.healthInfo)
-        await userStore.updateUserInfo(newUserInfo)
-        
-        return true
-    }
+//    func checkRemainingTimes() async -> Bool {
+//        await self.userStore.fetchUserInfo()
+//        guard let userInfo = userStore.userInfo else { return false }
+//        
+//        //        if newUserInfo.remainingTimes < 1 {
+//        //            return false
+//        //        }
+//        
+//        userInfo.remainingTimes -= 1
+//        
+//        let newUserInfo = UserInfo(remainingTimes: userInfo.remainingTimes, healthInfo: userInfo.healthInfo)
+//        await userStore.updateUserInfo(newUserInfo)
+//        
+//        return true
+//    }
     
     private func extractText(in image: UIImage, completion: @escaping ([String]) -> Void) {
         performOCRUseCase.execute(image: image) { result in
@@ -90,33 +84,6 @@ class ResultViewModel: ObservableObject {
             print("음식이다")
             completion(true)
         }
-        
-//        predictFoodUseCase.execute(with: image) { result in
-//            switch result {
-//                case .success(let foodType):
-//                    print(foodType)
-//                    if foodType == "Nonfood" {
-//                        self.extractText(in: image) { texts in
-//                            if self.detectFoodTextOrNot(texts: texts) {
-//                                print("음식 텍스트 인식")
-//                                completion(true)
-//                            }
-//                            else {
-//                                print("음식이 아닌 텍스트")
-//                                completion(false)
-//                            }
-//                        }
-//                        return
-//                        
-//                    } else {
-//                        completion(true)
-//                        return
-//                    }
-//                case .failure:
-//                    completion(false)
-//                    return
-//            }
-//        }
     }
     
     private func detectFoodTextOrNot(texts: [String]) -> Bool {

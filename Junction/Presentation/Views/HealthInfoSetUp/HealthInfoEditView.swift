@@ -91,7 +91,8 @@ struct HealthInfoEditView: View {
 }
 
 #Preview {
-    let healthInfo = HealthInfo(gestationalWeek: .mid,
+    let healthInfo = HealthInfo(id: "",
+                                gestationalWeek: .mid,
                                 height: 123,
                                 weight: 32,
                                 lastHeightUnit: .centimeter,

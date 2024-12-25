@@ -6,7 +6,6 @@
 //
 
 import Combine
-import Collections
 import SwiftUI
 
 enum Diabetes: String, Codable {
@@ -17,7 +16,7 @@ enum Diabetes: String, Codable {
     case noResponse = "No response"
 }
 
-enum BloodPresure: String, Codable {
+enum BloodPressure: String, Codable {
     case none = "None"
     case hypotension = "Hypotension"
     case hypertension = "Hypertension"
