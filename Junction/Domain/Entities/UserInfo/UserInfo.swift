@@ -48,9 +48,12 @@ extension UserInfo: Convertible {
         record["didAgreeToTermsAndConditions"] = self.didAgreeToTermsAndConditions as CKRecordValue
         
         if let healthInfo = healthInfo {
-            let healthInfoRecord = healthInfo.toCKRecord()
-            let reference = CKRecord.Reference(recordID: healthInfoRecord.recordID, action: .deleteSelf)
-            record["healthInfo"] = reference
+            do {
+                let jsonData = try JSONEncoder().encode(healthInfo)
+                record["healthInfo"] = jsonData as CKRecordValue
+            } catch {
+                print("Failed to encode healthInfo: \(error)")
+            }
         }
         
         return record
@@ -65,6 +68,15 @@ extension UserInfo: Convertible {
         let id = record.recordID.recordName
         
         self.init(id: id, remainingTimes: remainingTimes, lastModified: lastModified, didAgreeToTermsAndConditions: didAgreeToTermsAndConditions)
+        
+        if let healthInfoData = record["healthInfo"] as? Data {
+            do {
+                self.healthInfo = try JSONDecoder().decode(HealthInfo.self, from: healthInfoData)
+            } catch {
+                print("Failed to decode healthInfo: \(error)")
+                self.healthInfo = nil
+            }
+        }
     }
 }
 
