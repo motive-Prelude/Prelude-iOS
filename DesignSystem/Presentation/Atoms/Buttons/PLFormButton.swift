@@ -13,6 +13,7 @@ struct PLFormButton: View {
     @Binding var isSelected: Bool
     let contentType: FormButtonContent
     let mode: SizeMode
+    var onTap: (() -> ())? = nil
     
     var style: FormButtonStyleData {
         ButtonStyleMapper.style(for: FormButtonStyleKey(contentType: contentType, mode: mode))
@@ -29,9 +30,8 @@ struct PLFormButton: View {
         .overlay(borderView)
         .padding(1)
         .onTapGesture {
-            withAnimation {
-                isSelected.toggle()
-            }
+            withAnimation { isSelected.toggle() }
+            onTap?()
         }
         
     }
