@@ -8,7 +8,7 @@
 import AuthenticationServices
 import Foundation
 
-class LoginViewModel: ObservableObject {
+class OnboardingViewModel: ObservableObject {
     
     func prepareAppleLogin(request: ASAuthorizationAppleIDRequest) {
         let nonce = CryptoUtils.randomNonceString()
@@ -26,8 +26,4 @@ class LoginViewModel: ObservableObject {
         let parameters = AppleAuthCredentialParameter(idToken: idTokenString, rawNonce: nonce, fullName: fullName)
         completion(parameters)
     }
-    
-    
-    
-    
 }
