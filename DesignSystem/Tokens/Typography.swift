@@ -11,7 +11,7 @@ struct PLTypography {
     let font: Font
     let lineHeight: CGFloat
     
-    static let display = PLTypography(font: .custom("Alike-Regular", size: 40), lineHeight: 12)
+    static let display = PLTypography(font: .custom("Alike-Regular", size: 48), lineHeight: 12)
     static let heading1 = PLTypography(font: .custom("Alike-Regular", size: 28), lineHeight: 8)
     static let heading2 = PLTypography(font: .custom("Alike-Regular", size: 24), lineHeight: 8)
     static let title1 = PLTypography(font: .custom("Alike-Regular", size: 18), lineHeight: 6)
