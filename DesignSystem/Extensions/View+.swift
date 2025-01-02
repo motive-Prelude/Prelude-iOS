@@ -37,9 +37,21 @@ extension View {
 // MARK: ButtonStyles
 extension View {
     @ViewBuilder
-    func plButtonStyle(_ type: ButtonType, size: ButtonSize, shape: ButtonShape, content: ActionButtonContent, isDisabled: Bool) -> some View {
+    func plButtonStyle(_ type: ButtonType,
+                       size: ButtonSize,
+                       shape: ButtonShape,
+                       content: ActionButtonContent,
+                       isDisabled: Bool,
+                       directionalForegroundColor: Color? = nil,
+                       directionalBackgroundColor: Color? = nil) -> some View {
         self
-            .buttonStyle(PreludeActionButtonStyle(type: type, size: size, shape: shape, content: content, isDisabled: isDisabled))
+            .buttonStyle(PreludeActionButtonStyle(type: type,
+                                                  size: size,
+                                                  shape: shape,
+                                                  content: content,
+                                                  isDisabled: isDisabled,
+                                                  directionalForegroundColor: directionalForegroundColor,
+                                                  directionalBackgroundColor: directionalBackgroundColor))
     }
 }
 

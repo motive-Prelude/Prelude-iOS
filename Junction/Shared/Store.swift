@@ -9,8 +9,8 @@ import Foundation
 import StoreKit
 
 class Store: ObservableObject {
-    @Published private(set) var products: [String: String]
-    @Published private(set) var test: [Product]
+    @Published private(set) var productInfo: [String: String]
+    @Published private(set) var storeProducts: [Product] = []
     @Published private(set) var value = 0
     @Published var errorMessage = ""
     @Published var showAlert = false
@@ -18,9 +18,7 @@ class Store: ObservableObject {
     var updateListenerTask: Task<Void, Error>? = nil
     
     init() {
-        products = Store.loadProducts()
-        
-        test = []
+        productInfo = Store.loadProducts()
         updateListenerTask = listenForTransactions()
         
         Task {
@@ -39,16 +37,12 @@ class Store: ObservableObject {
     @MainActor
     func requestProducts() async {
         do {
-            let storeProducts = try await Product.products(for: products.keys)
+            let loadedProducts = try await Product.products(for: productInfo.values)
+            storeProducts = loadedProducts
+            print("Products loaded successfully: \(storeProducts)")
             
-            for product in storeProducts {
-                switch product.type {
-                    default:
-                        test.append(product)
-                }
-            }
         } catch {
-            print("Error")
+            print("Failed to load products: \(error)")
         }
     }
     
@@ -71,13 +65,12 @@ class Store: ObservableObject {
             switch result {
                 case .success(let verification):
                     let transaction = try checkVerified(verification)
-                    incrementCount(10)
                     await transaction.finish()
 
                     return transaction
                     
-                case .pending: print("팬다 진짜")
-                case .userCancelled: print("굳")
+                case .pending: print("pending")
+                case .userCancelled: print("cancel")
                 @unknown default:
                     fatalError()
             }

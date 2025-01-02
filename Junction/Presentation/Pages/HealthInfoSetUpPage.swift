@@ -16,32 +16,27 @@ struct HealthInfoSetUpPage: View {
         static var totalCount: Int { allCases.count }
     }
     
-    @State private var currentPage: Int = 0
+    @State private var currentPage = 0
     @State private var buttonDisabled = false
     
     @State private var gestationalWeek: GestationalWeek?
-    @State private var height: Double = 0.0
-    @State private var weight: Double = 0.0
+    @State private var height: Height?
+    @State private var weight: Weight?
     
-    @State private var heightValues: [HeightUnit: Double] = [:]
-    @State private var weightValues: [WeightUnit: Double] = [:]
-    @State private var heightLeftSelected = true
-    @State private var weightLeftSelected = true
-    
-    @State private var bloodPressure: BloodPresure?
+    @State private var bloodPressure: BloodPressure?
     @State private var diabetes: Diabetes?
-    @State private var allergies = Array(repeating: false, count: Allergies.totalCount)
+    @State private var allergies: [Allergies] = []
     
     @EnvironmentObject var navigationManager: NavigationManager
     
     var body: some View {
-        InfoStepTemplate(backgroundColor: PLColor.neutral50) {
-                navigationHeader
-                headline
+        StepTemplate(backgroundColor: PLColor.neutral50, contentTopPadding: 44) {
+            navigationHeader
+            headline
         } content: {
-                tabs
-                Spacer()
-                pageIndicator
+            tabs
+            Spacer()
+            pageIndicator
                 .padding(.bottom, 16)
         } buttons: { button }
     }
@@ -63,7 +58,7 @@ struct HealthInfoSetUpPage: View {
             }
         }
     }
-        
+    
     private var headline: some View {
         VStack(spacing: 8) {
             Image("Page\(currentPage+1)")
@@ -92,11 +87,7 @@ struct HealthInfoSetUpPage: View {
         VStack {
             switch TabSelection(rawValue: currentPage+1) {
                 case .basic:
-                    BasicInfoSetUpView(gestationalWeek: $gestationalWeek,
-                                       heightValues: $heightValues,
-                                       weightValues: $weightValues,
-                                       heightLeftSelected: $heightLeftSelected,
-                                       weightLeftSelected: $weightLeftSelected)
+                    BasicInfoSetUpView(gestationalWeek: $gestationalWeek, height: $height, weight: $weight)
                     
                 case .medicalHistory:
                     MedicalInfoSetUpView(bloodPressure: $bloodPressure,
@@ -129,39 +120,25 @@ struct HealthInfoSetUpPage: View {
         if currentPage > 0 { currentPage -= 1 }
     }
     
-    private func calculatedHeight() -> Double {
-        heightValues.reduce(0.0) { total, entry in
-            total + entry.key.toBaseUnit(entry.value)
-        }
-    }
-    
-    private func calculatedWeight() -> Double {
-        weightValues.reduce(0.0) { total, entry in
-            total + entry.key.toBaseUnit(entry.value)
-        }
-    }
-    
     private func nextPage() {
         if currentPage < TabSelection.totalCount - 1 { currentPage += 1 }
     }
     
     private func saveFinalData() {
-        height = calculatedHeight()
-        weight = calculatedWeight()
-        navigationManager.navigate(.healthInfoEdit(healthInfo: createHealthInfo(), contentMode: .passive))
+        let healthInfo = createHealthInfo()
+        navigationManager.navigate(.healthInfoConfirm(healthInfo: healthInfo, contentMode: .passive))
     }
     
     private func createHealthInfo() -> HealthInfo {
-        return HealthInfo(
-            gestationalWeek: gestationalWeek ?? .noResponse,
-            height: height,
-            weight: weight,
-            lastHeightUnit: heightValues.first?.key ?? .centimeter,
-            lastWeightUnit: weightValues.first?.key ?? .kilogram,
-            bloodPressure: bloodPressure ?? .noResponse,
-            diabetes: diabetes ?? .noResponse,
-            restrictions: allergies.enumerated().compactMap { $0.element ? Allergies.allCases[$0.offset] : nil }
-        )
+        return HealthInfo(id: UUID().uuidString,
+                          gestationalWeek: gestationalWeek ?? .noResponse,
+                          height: height?.value ?? 0.0,
+                          weight: weight?.value ?? 0.0,
+                          lastHeightUnit: height?.unit ?? .centimeter,
+                          lastWeightUnit: weight?.unit ?? .kilogram,
+                          bloodPressure: bloodPressure ?? .noResponse,
+                          diabetes: diabetes ?? .noResponse,
+                          restrictions: allergies)
     }
 }
 

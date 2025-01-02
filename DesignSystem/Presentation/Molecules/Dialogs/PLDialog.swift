@@ -32,9 +32,11 @@ struct PLDialog: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .textStyle(.title1)
+                .foregroundStyle(PLColor.neutral800)
             
             Text(description)
-                .textStyle(.paragraph1)
+                .textStyle(.paragraph2)
+                .foregroundStyle(PLColor.neutral700)
         }
     }
     private var actionButtons: some View {

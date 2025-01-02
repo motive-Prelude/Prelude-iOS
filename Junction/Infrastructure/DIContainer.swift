@@ -29,6 +29,10 @@ final class DIContainer: ObservableObject {
     
     private func setupDependencies() {
         register(APIService.self, dependency: APIService())
+        register(FirebaseAuthService.self, dependency: FirebaseAuthService())
+        register(SwiftDataSource.self, dependency: SwiftDataSource.shared)
+        register(ICloudDataSource.self, dependency: ICloudDataSource.shared)
+        register(FirestoreDataSource<UserInfo>.self, dependency: FirestoreDataSource<UserInfo>())
         
         // Repositories
         register(ThreadRepository.self, dependency: ThreadRepositoryImpl(apiService: resolve(APIService.self)!))
@@ -38,6 +42,11 @@ final class DIContainer: ObservableObject {
         register(CreateThreadAndRunRepository.self, dependency: CreateThreadAndRunRepositoryImpl(apiService: resolve(APIService.self)!))
         register(OCRRepository.self, dependency: OCRRepositoryImpl())
         register(TextPredictionRepository.self, dependency: TextPredictionRepositoryImpl(model: try! FoodTextDetection(configuration: MLModelConfiguration())))
+        register(AuthRepository.self, dependency: AuthRepositoryImpl(authService: resolve(FirebaseAuthService.self)!))
+        register(UserRepository.self, dependency: UserRepository(
+            swiftDataSource: resolve(SwiftDataSource.self)!,
+            iCloudDataSource: resolve(ICloudDataSource.self)!,
+            firestoreDataSource: resolve(FirestoreDataSource<UserInfo>.self)!))
         
         // ImageRepository 등록
         register(ImageRepository.self, dependency:  ImageRepositoryImpl(apiService: resolve(APIService.self)!))
@@ -52,6 +61,10 @@ final class DIContainer: ObservableObject {
         register(PerformOCRUseCase.self, dependency: PerformOCRUseCase(ocrRepository: resolve(OCRRepository.self)!))
         register(PredictFoodTextUseCase.self, dependency: PredictFoodTextUseCase(repository: resolve(TextPredictionRepository.self)!))
         register(ImageClassifierUseCase.self, dependency: ImageClassifierUseCase())
+        register(LoginUseCase.self, dependency: LoginUseCase(authRepository: resolve(AuthRepository.self)!))
+        register(LogOutUseCase.self, dependency: LogOutUseCase(authRepository: resolve(AuthRepository.self)!))
+        register(DeleteAccountUseCase.self, dependency: DeleteAccountUseCase(authRepository: resolve(AuthRepository.self)!))
+        register(ObserveAuthStateUseCase.self, dependency: ObserveAuthStateUseCase(authRepository: resolve(AuthRepository.self)!))
         
         // UploadImageUseCase 등록
         register(UploadImageUseCase.self, dependency: UploadImageUseCase(repository: resolve(ImageRepository.self)!))
