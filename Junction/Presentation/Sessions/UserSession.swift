@@ -76,6 +76,13 @@ class UserSession: ObservableObject {
         } catch { }
     }
     
+    func updateCurrentUser() async {
+        guard let userInfo else { return }
+        do {
+            try await userRepository.update(user: userInfo)
+        } catch { }
+    }
+    
         do {
             let newUserInfo = try await userRepository.fetch(userID: userID)
             await MainActor.run { self.userInfo = newUserInfo }
