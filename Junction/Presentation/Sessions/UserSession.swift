@@ -9,9 +9,9 @@ import Combine
 import FirebaseFirestore
 import Foundation
 
-
 class UserSession: ObservableObject {
     @Published private(set) var userInfo: UserInfo?
+    @Published private(set) var isAuthenticated = false
     private let userRepository: UserRepository
     private let loginUseCase: LoginUseCase
     private let logoutUseCase: LogOutUseCase
@@ -37,16 +37,22 @@ class UserSession: ObservableObject {
         do {
             let userID = try await loginUseCase.execute(parameter: parameter)
             let userInfo = try await userRepository.fetch(userID: userID)
-            await MainActor.run { self.userInfo = userInfo }
-        } catch {
-            print(error)
-        }
+            
+            await MainActor.run {
+                self.isAuthenticated = true
+                self.userInfo = userInfo
+            }
+            
+        } catch { print(error) }
     }
     
-    func logout() {
+    func logout(completion: @escaping () -> ()) {
         do {
             try logoutUseCase.execute()
+            
             self.userInfo = nil
+            isAuthenticated = false
+            completion()
         } catch {
             
         }
@@ -56,6 +62,8 @@ class UserSession: ObservableObject {
         guard let userID = userInfo?.id else { return }
         deleteAccountUseCase.execute(userID: userID)
         userRepository.delete(userID: userID)
+        self.userInfo = nil
+        self.isAuthenticated = false
     }
     
     func syncCurrentUser() async throws {
@@ -112,10 +120,14 @@ class UserSession: ObservableObject {
                         let userInfo = try await self.userRepository.fetch(userID: userID)
                         await MainActor.run {
                             self.userInfo = userInfo
+                            self.isAuthenticated = true
                         }
                     } catch { print("UserInfo fetch 실패: \(error)") }
                 }
-            } else { self.userInfo = nil }
+            } else {
+                self.userInfo = nil
+                isAuthenticated = false
+            }
         }
     }
 }
