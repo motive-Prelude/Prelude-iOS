@@ -17,16 +17,16 @@ class AlertManager: ObservableObject {
     static let shared = AlertManager()
     
     @Published var isAlertVisible = false
-    @Published var alertTitle = ""
-    @Published var alertMessage = ""
-    @Published var alertActions: [AlertAction] = []
+    @Published var title = ""
+    @Published var message = ""
+    @Published var actions: [AlertAction] = []
     
     private init() { }
     
     func showAlert(title: String, message: String, actions: [AlertAction]) {
-        self.alertTitle = title
-        self.alertMessage = message
-        self.alertActions = actions
+        self.title = title
+        self.message = message
+        self.actions = actions
         isAlertVisible = true
     }
     
