@@ -7,7 +7,7 @@
 
 
 protocol MeasurableUnit: Hashable, Codable {
-    associatedtype Value: Equatable
+    associatedtype Value: Equatable & FloatingPoint
     
     var symbol: String { get }
     var subUnits: [Self] { get }

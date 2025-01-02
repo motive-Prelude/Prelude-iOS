@@ -50,4 +50,9 @@ struct Weight: Measurable {
     var value: Double
     var unit: WeightUnit
     
+    init(_ value: Double, _ unit: WeightUnit) {
+        self.value = value
+        self.unit = unit
+    }
+    
 }

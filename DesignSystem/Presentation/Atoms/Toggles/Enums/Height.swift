@@ -64,4 +64,9 @@ enum HeightUnit: String, MeasurableUnit {
 struct Height: Measurable {
     var value: Double
     var unit: HeightUnit
+    
+    init(_ value: Double, _ unit: HeightUnit) {
+        self.value = value
+        self.unit = unit
+    }
 }
