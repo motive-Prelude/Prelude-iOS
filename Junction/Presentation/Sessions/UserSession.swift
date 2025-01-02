@@ -83,11 +83,16 @@ class UserSession: ObservableObject {
         } catch { }
     }
     
+    func syncCurrentUserFromServer() async throws -> UserInfo? {
+        guard let userID = userInfo?.id else { return nil }
         do {
             let newUserInfo = try await userRepository.fetch(userID: userID)
             await MainActor.run { self.userInfo = newUserInfo }
+            return newUserInfo
             
         } catch { }
+        
+        return nil
     }
     
     @MainActor
