@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-struct InfoStepTemplate<Header: View, Content: View, Buttons: View>: View {
-    let backgroundColor: Color
+struct StepTemplate<Background: View, Header: View, Content: View, Buttons: View>: View {
+    let backgroundColor: Background
+    let contentTopPadding: CGFloat
     @ViewBuilder let header: () -> Header
     @ViewBuilder let content: () -> Content
     @ViewBuilder let buttons: () -> Buttons
@@ -21,7 +22,7 @@ struct InfoStepTemplate<Header: View, Content: View, Buttons: View>: View {
             VStack(spacing: 0) {
                 header()
                 content()
-                    .padding(.top, 44)
+                    .padding(.top, contentTopPadding)
                 buttons()
             }
             .padding(.horizontal, 16)
