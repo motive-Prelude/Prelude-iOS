@@ -15,7 +15,10 @@ struct PLActionButton: View {
     let size: ButtonSize
     let shape: ButtonShape
     var isDisabled = false
+    var directionalForegroundColor: Color? = nil
+    var directionalBackgroundColor: Color? = nil
     let action: () -> Void
+    
     
     
     var body: some View {
@@ -25,7 +28,9 @@ struct PLActionButton: View {
                 titleView
             }
         }
-        .plButtonStyle(type, size: size, shape: shape, content: contentType, isDisabled: isDisabled)
+        .plButtonStyle(type, size: size, shape: shape, content: contentType, isDisabled: isDisabled,
+                       directionalForegroundColor: directionalForegroundColor,
+                       directionalBackgroundColor: directionalBackgroundColor)
         .disabled(isDisabled)
     }
     

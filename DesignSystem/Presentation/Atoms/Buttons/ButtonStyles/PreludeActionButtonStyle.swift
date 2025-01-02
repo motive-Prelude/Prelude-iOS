@@ -13,6 +13,8 @@ struct PreludeActionButtonStyle: ButtonStyle {
     let shape: ButtonShape
     let content: ActionButtonContent
     var isDisabled: Bool
+    var directionalForegroundColor: Color?
+    var directionalBackgroundColor: Color?
     
     func makeBody(configuration: Configuration) -> some View {
         let state: ActionButtonState = isDisabled ? .disabled : (configuration.isPressed ? .pressed : .enabled)
@@ -26,12 +28,12 @@ struct PreludeActionButtonStyle: ButtonStyle {
         let style = ButtonStyleMapper.style(for: styleKey)
         
         configuration.label
-            .foregroundStyle(style.foregroundColor)
+            .foregroundStyle(directionalForegroundColor == nil ? style.foregroundColor : directionalForegroundColor!)
             .conditionalFrame(mode: style.sizeMode, height: style.height)
             .padding(style.padding)
             .background {
                 shape.backgroundShape()
-                    .fill(style.backgroundColor)
+                    .fill(directionalBackgroundColor == nil ? style.backgroundColor : directionalBackgroundColor!)
                     .cornerRadius(style.cornerRadius)
             }
             .overlay {
