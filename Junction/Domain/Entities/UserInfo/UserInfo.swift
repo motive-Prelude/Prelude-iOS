@@ -39,8 +39,7 @@ final class UserInfo {
 // MARK: Class -> CKRecord
 extension UserInfo: Convertible {
     func toCKRecord() -> CKRecord {
-        
-        let zoneID = CKRecordZone.ID(zoneName: "com.apple.coredata.cloudkit.zone", ownerName: CKCurrentUserDefaultName)
+        let zoneID = CKRecordZone.ID(zoneName: "prelude.zone", ownerName: CKCurrentUserDefaultName)
         let recordID = CKRecord.ID(recordName: self.id, zoneID: zoneID)
         let record = CKRecord(recordType: "UserInfo", recordID: recordID)
         record["remainingTimes"] = self.remainingTimes as CKRecordValue

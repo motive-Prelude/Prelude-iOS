@@ -12,7 +12,7 @@ import UIKit
 class ICloudDataSource {
     static let shared = ICloudDataSource()
     private let database = CKContainer.default().privateCloudDatabase
-    private let zoneID = CKRecordZone.ID(zoneName: "com.apple.coredata.cloudkit.zone",
+    private let zoneID = CKRecordZone.ID(zoneName: "prelude.zone",
                                          ownerName: CKCurrentUserDefaultName)
     private let zone: CKRecordZone
     let cloudKitNotificationSubject = PassthroughSubject<Void, Never>()

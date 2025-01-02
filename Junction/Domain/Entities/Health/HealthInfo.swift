@@ -62,7 +62,8 @@ final class HealthInfo {
 // MARK: Class -> CKRecord
 extension HealthInfo: Convertible {
     func toCKRecord() -> CKRecord {
-        let recordID = CKRecord.ID(recordName: self.id)
+        let zoneID = CKRecordZone.ID(zoneName: "prelude.zone", ownerName: CKCurrentUserDefaultName)
+        let recordID = CKRecord.ID(recordName: self.id, zoneID: zoneID)
         let record = CKRecord(recordType: "HealthInfo", recordID: recordID)
         
         record["pregnantWeek"] = self.gestationalWeek.rawValue as CKRecordValue
