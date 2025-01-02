@@ -12,9 +12,10 @@ struct DisclaimerView: View {
     @State private var privacyPolicyToggleState = false
     
     @EnvironmentObject var navigationManager: NavigationManager
+    @EnvironmentObject var userSession: UserSession
     
     var body: some View {
-        InfoStepTemplate(backgroundColor: PLColor.neutral50) {
+        StepTemplate(backgroundColor: PLColor.neutral50, contentTopPadding: 44) {
             headline
                 .padding(.top, 100)
         } content: {
@@ -23,9 +24,7 @@ struct DisclaimerView: View {
             termsAndConditionsToggle
                 .padding(.bottom, 44)
                 .fixedSize(horizontal: false, vertical: true)
-        } buttons: {
-            button
-        }
+        } buttons: { button }
         .navigationBarBackButtonHidden()
     }
     
@@ -47,7 +46,6 @@ struct DisclaimerView: View {
                 .fixedSize(horizontal: false, vertical: true)
                 
         }
-        
     }
     
     private var termsAndConditionsToggle: some View {
@@ -85,7 +83,9 @@ struct DisclaimerView: View {
                        size: .large,
                        shape: .rect,
                        isDisabled: !(healthDisclaimerToggleState && privacyPolicyToggleState)) {
-            navigationManager.navigate(.healthInfoSetup)
+            navigationManager.navigate(.welcome)
+            userSession.userInfo?.didAgreeToTermsAndConditions = true
+            Task { await userSession.updateCurrentUser() }
         }
     }
 }
