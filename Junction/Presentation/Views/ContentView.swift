@@ -8,24 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    @EnvironmentObject var alertManager: AlertManager
+    @EnvironmentObject var userSession: UserSession
     
     var body: some View {
         ZStack {
-            NavigationStack(path: $navigationManager.screenPath) {
-                DisclaimerView()
-                    .navigationDestination(for: AppScreen.self) { appscreen in
-                        appscreen.destination
-                    }
-            }
-            .disabled(alertManager.isAlertVisible)
-            
-            if alertManager.isAlertVisible {
-                CustomAlertView()
-                    .zIndex(1)
+            if userSession.isAuthenticated {
+                if let userInfo = userSession.userInfo, userInfo.didAgreeToTermsAndConditions {
+                    MainView()
+                } else {
+                    InfoSetUpStartView()
+                }
+            } else {
+                OnboardingPage()
             }
         }
+        .animation(.linear(duration: 0.5), value: userSession.isAuthenticated)
     }
 }
 

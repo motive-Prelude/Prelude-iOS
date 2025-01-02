@@ -62,32 +62,23 @@ enum Allergies: String, CaseIterable, Codable {
 
 struct BasicInfoSetUpView: View {
     @Binding var gestationalWeek: GestationalWeek?
-    @Binding var heightValues: [HeightUnit: Double]
-    @Binding var weightValues: [WeightUnit: Double]
-    
-    @Binding var heightLeftSelected: Bool
-    @Binding var weightLeftSelected: Bool
+    @Binding var height: Height?
+    @Binding var weight: Weight?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             pregnantWeekInstruction
                 .padding(.bottom, 16)
-            pregnantWeekGrid
+            GestationalWeekGrid() { week in gestationalWeek = week }
                 .padding(.bottom, 44)
             
             heightAndWeightInstruction
                 .padding(.bottom, 16)
             
-            PLInputField(isLeftSelected: $heightLeftSelected,
-                         value: $heightValues,
-                         leftUnit: .centimeter,
-                         rightUnit: .feet)
-            .padding(.bottom, 8)
-            
-            PLInputField(isLeftSelected: $weightLeftSelected,
-                         value: $weightValues,
-                         leftUnit: .kilogram,
-                         rightUnit: .pound)
+            BmiTextFields() { height, weight in
+                self.height = height
+                self.weight = weight
+            }
         }
     }
     
@@ -97,56 +88,22 @@ struct BasicInfoSetUpView: View {
             .foregroundStyle(PLColor.neutral800)
     }
     
-    private var pregnantWeekGrid: some View {
-        let columns: [GridItem] = [
-            GridItem(.flexible()),
-            GridItem(.flexible())
-        ]
-        
-        return LazyVGrid(columns: columns) {
-            ForEach(GestationalWeek.allCases, id: \.self) { week in
-                PLFormButton(label: week.rawValue,
-                             description: week.weeks,
-                             isSelected: bindingForWeek(week),
-                             contentType: .description,
-                             mode: .stretch)
-                .onTapGesture {
-                    withAnimation {
-                        gestationalWeek = (gestationalWeek == week) ? nil : week
-                    }
-                }
-            }
-        }
-    }
-    
     private var heightAndWeightInstruction: some View {
         Text("What is your height and Weight?")
             .textStyle(.title1)
             .foregroundStyle(PLColor.neutral800)
     }
-    
-    private func bindingForWeek(_ week: GestationalWeek) -> Binding<Bool> {
-        Binding(
-            get: { gestationalWeek == week },
-            set: { isSelected in
-                gestationalWeek = isSelected ? week : nil
-            }
-        )
-    }
 }
 
-#Preview {
-    @Previewable @State var pregnantWeek: GestationalWeek? = nil
-    @Previewable @State var heightValues: [HeightUnit: Double] = [:]
-    @Previewable @State var weightValues: [WeightUnit: Double] = [:]
-    
-    @Previewable @State var heightLeftSelected = true
-    @Previewable @State var weightLeftSelected = true
-    
-    BasicInfoSetUpView(gestationalWeek: $pregnantWeek,
-                       heightValues: $heightValues,
-                       weightValues: $weightValues,
-                       heightLeftSelected: $heightLeftSelected,
-                       weightLeftSelected: $weightLeftSelected)
-}
-
+//#Preview {
+//    @Previewable @State var pregnantWeek: GestationalWeek? = nil
+//    @Previewable @State var heightValues: [HeightUnit: Double] = [:]
+//    @Previewable @State var weightValues: [WeightUnit: Double] = [:]
+//    
+//    @Previewable @State var heightLeftSelected = true
+//    @Previewable @State var weightLeftSelected = true
+//    
+//    BasicInfoSetUpView(gestationalWeek: $pregnantWeek,
+//                       height: h)
+//}
+//

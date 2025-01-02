@@ -1,0 +1,230 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "4F8C4742",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "10.0",
+      "familyShareable" : false,
+      "internalID" : "6740016452",
+      "localizations" : [
+        {
+          "description" : "100 more safety tips for your peace of mind.",
+          "displayName" : "100 Seeds - $10.00",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.prelude.seeds.10usd",
+      "referenceName" : "Seeds-10USD",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "1.0",
+      "familyShareable" : false,
+      "internalID" : "6740016372",
+      "localizations" : [
+        {
+          "description" : "10 more safety tips for your peace of mind.",
+          "displayName" : "10 Seeds - $1.00",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.prelude.seeds.1usd",
+      "referenceName" : "Seeds-1USD",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "2.0",
+      "familyShareable" : false,
+      "internalID" : "6740016509",
+      "localizations" : [
+        {
+          "description" : "20 more safety tips for your peace of mind.",
+          "displayName" : "20 Seeds - $2.00",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.prelude.seeds.2usd",
+      "referenceName" : "Seeds-2USD",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "3.0",
+      "familyShareable" : false,
+      "internalID" : "6740016276",
+      "localizations" : [
+        {
+          "description" : "30 more safety tips for your peace of mind.",
+          "displayName" : "30 Seeds - $3.00",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.prelude.seeds.3usd",
+      "referenceName" : "Seeds-3USD",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "4.0",
+      "familyShareable" : false,
+      "internalID" : "6740016312",
+      "localizations" : [
+        {
+          "description" : "40 more safety tips for your peace of mind.",
+          "displayName" : "40 Seeds - $4.00",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.prelude.seeds.4usd",
+      "referenceName" : "Seeds-4USD",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "5.0",
+      "familyShareable" : false,
+      "internalID" : "6740016313",
+      "localizations" : [
+        {
+          "description" : "50 more safety tips for your peace of mind.",
+          "displayName" : "50 Seeds - $5.00",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.prelude.seeds.5usd",
+      "referenceName" : "Seeds-5USD",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "6.0",
+      "familyShareable" : false,
+      "internalID" : "6740016474",
+      "localizations" : [
+        {
+          "description" : "60 more safety tips for your peace of mind.",
+          "displayName" : "60 Seeds - $6.00",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.prelude.seeds.6usd",
+      "referenceName" : "Seeds-6USD",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "7.0",
+      "familyShareable" : false,
+      "internalID" : "6740016449",
+      "localizations" : [
+        {
+          "description" : "70 more safety tips for your peace of mind.",
+          "displayName" : "70 Seeds - $7.00",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.prelude.seeds.7usd",
+      "referenceName" : "Seeds-7USD",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "8.0",
+      "familyShareable" : false,
+      "internalID" : "6740016475",
+      "localizations" : [
+        {
+          "description" : "80 more safety tips for your peace of mind.",
+          "displayName" : "80 Seeds - $8.00",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.prelude.seeds.8usd",
+      "referenceName" : "Seeds-8USD",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "9.0",
+      "familyShareable" : false,
+      "internalID" : "6740016476",
+      "localizations" : [
+        {
+          "description" : "90 more safety tips for your peace of mind.",
+          "displayName" : "90 Seeds - $9.00",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.prelude.seeds.9usd",
+      "referenceName" : "Seeds-9USD",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6670449153",
+    "_developerTeamID" : "VGKCD7Q8NW",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 757320461.43003905,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

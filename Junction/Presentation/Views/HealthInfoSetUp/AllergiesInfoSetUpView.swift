@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AllergiesInfoSetUpView: View {
-    @Binding var allergies: [Bool]
+    @Binding var allergies: [Allergies]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -16,7 +16,7 @@ struct AllergiesInfoSetUpView: View {
                 .padding(.bottom, 8)
             checkInstruction
                 .padding(.bottom, 12)
-            allergyGrid
+            FoodRestrictionGrid { allergies in self.allergies = allergies }
         }
     }
     
@@ -31,32 +31,4 @@ struct AllergiesInfoSetUpView: View {
             .textStyle(.paragraph2)
             .foregroundStyle(PLColor.neutral500)
     }
-    
-    private var allergyGrid: some View {
-        FlowLayout(spacing: 8) {
-            ForEach(Allergies.allCases, id: \.self) { allergy in
-                PLFormButton(label: allergy.rawValue,
-                             isSelected: bindingForAllergy(allergy),
-                             contentType: .labelOnly,
-                             mode: .hug)
-                
-            }
-            
-        }
-    }
-    
-    private func bindingForAllergy(_ allergy: Allergies) -> Binding<Bool> {
-        guard let index = Allergies.allCases.firstIndex(of: allergy) else {
-            return .constant(false)
-        }
-        return Binding(
-            get: { allergies[index] },
-            set: { allergies[index] = $0 }
-        )
-    }
-}
-
-#Preview {
-    @Previewable @State var allergies = Array(repeating: false, count: Allergies.totalCount)
-    AllergiesInfoSetUpView(allergies: $allergies)
 }

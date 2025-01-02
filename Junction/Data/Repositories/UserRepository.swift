@@ -43,32 +43,36 @@ class UserRepository {
     }
     
     func fetch(userID: String) async throws -> UserInfo {
+        guard let user = await firestoreDataSource.fetch(collection: "User", documentID: userID) else {
+            let newUserInfo = UserInfo(id: userID, remainingTimes: 0)
+            try await create(user: newUserInfo)
+            return newUserInfo
+        }
+        
         do {
-            guard let user = await firestoreDataSource.fetch(collection: "User", documentID: userID) else { throw RepositoryError.unknownError }
-            try await iCloudDataSource.save(record: user.toCKRecord())
-            swiftDataSource.saveData(user)
-                
-                
-                return user
-            /*else {
-                let newUserInfo = UserInfo(id: userID, remainingTimes: 0, healthInfo: nil)
-                try await firestoreDataSource.create(collection: "User", data: newUserInfo)
-                swiftDataSource.saveData(newUserInfo)
-                try await iCloudDataSource.save(record: newUserInfo.toCKRecord())
-                
-                return newUserInfo
-            }*/
+            let userRecord = user.toCKRecord()
+            try await iCloudDataSource.save(record: userRecord)
         } catch let error as CKError {
             if error.code == .serverRecordChanged, let iCloudRecord = error.serverRecord {
-                guard let serverInfo = await firestoreDataSource.fetch(collection: "User", documentID: userID) else { throw RepositoryError.unknownError }
                 guard let iCloudDate = iCloudRecord["lastModified"] as? Date else { throw RepositoryError.unknownError }
-                if serverInfo.lastModified > iCloudDate {
-                    iCloudRecord["healthInfo"] = serverInfo.healthInfo as? CKRecordValue
-                    iCloudRecord["remainingTimes"] = serverInfo.remainingTimes
-                    iCloudRecord["lastModified"] = serverInfo.lastModified
+                if user.lastModified > iCloudDate {
+                    iCloudRecord["remainingTimes"] = user.remainingTimes
+                    iCloudRecord["lastModified"] = user.lastModified
+                    iCloudRecord["didAgreeToTermsAndConditions"] = user.didAgreeToTermsAndConditions
+                    
+                    if let healthInfo = user.healthInfo {
+                        do {
+                            let jsonData = try JSONEncoder().encode(healthInfo)
+                            iCloudRecord["healthInfo"] = jsonData as CKRecordValue
+                        } catch {
+                            print("Failed to encode healthInfo: \(error)")
+                            throw error
+                        }
+                    }
+                    
+                    try await iCloudDataSource.save(record: iCloudRecord)
                 }
                 
-                try await iCloudDataSource.save(record: iCloudRecord)
                 guard let iCloudInfo = UserInfo(from: iCloudRecord) else { throw RepositoryError.unknownError }
                 swiftDataSource.saveData(iCloudInfo)
                 return iCloudInfo
@@ -76,7 +80,11 @@ class UserRepository {
             
             throw error
         }
+        
+        swiftDataSource.saveData(user)
+        return user
     }
+
     
     func update(user: UserInfo) async throws {
         do {

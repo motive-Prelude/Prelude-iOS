@@ -7,14 +7,16 @@
 
 import SwiftUI
 
-struct PLInputField<Unit: MeasurableUnit>: View {
-    @Binding var isLeftSelected: Bool
-    @Binding var value: [Unit: Unit.Value]
+struct PLInputField<Payload: Measurable>: View where Payload.Unit.Value: FloatingPoint {
+    @State var isLeftSelected: Bool = true
+    @State var value: [Payload.Unit: Payload.Unit.Value] = [:]
     
-    let leftUnit: Unit
-    let rightUnit: Unit
+    let leftUnit: Payload.Unit
+    let rightUnit: Payload.Unit
     
-    private var validUnits: [Unit] { isLeftSelected ? leftUnit.subUnits : rightUnit.subUnits }
+    private var validUnits: [Payload.Unit] { isLeftSelected ? leftUnit.subUnits : rightUnit.subUnits }
+    
+    let result: (Payload) -> ()
     
     var body: some View {
         HStack(spacing: 8) {
@@ -32,11 +34,15 @@ struct PLInputField<Unit: MeasurableUnit>: View {
             }
         }
         .onChange(of: validUnits) { _, _ in value.removeAll() }
-        .onChange(of: value) { _, _ in dump(value) }
+        .onChange(of: value) { _, _ in
+            guard let unit = value.first?.key else { return }
+            result(Payload(calculateValue(), unit))
+        }
+        .ignoresSafeArea(.all, edges: .bottom)
         
     }
     
-    private func binding(_ unit: Unit) -> Binding<String> {
+    private func binding(_ unit: Payload.Unit) -> Binding<String> {
         Binding(
             get: {
                 if let value = value[unit] { return unit.toString(value) }
@@ -48,6 +54,12 @@ struct PLInputField<Unit: MeasurableUnit>: View {
                 } else { value.removeValue(forKey: unit) }
             }
         )
+    }
+    
+    private func calculateValue() -> Payload.Unit.Value {
+        value.reduce(.zero) { total, entry in
+            total + entry.key.toBaseUnit(entry.value)
+        }
     }
 }
 

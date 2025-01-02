@@ -18,8 +18,10 @@ class ObserveAuthStateUseCase {
     }
         
     func startObserving(onChange: @escaping (String?) -> Void) {
-        authListenerHandle = authRepository.observeAuthState { userID in
-            onChange(userID)
+        if authListenerHandle == nil {
+            authListenerHandle = authRepository.observeAuthState { userID in
+                onChange(userID)
+            }
         }
     }
     

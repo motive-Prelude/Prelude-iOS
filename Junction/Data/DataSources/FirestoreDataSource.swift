@@ -33,7 +33,7 @@ class FirestoreDataSource<Data: Codable & Identifiable & Equatable> where Data.I
         do {
             var dataWithLastModified = try Firestore.Encoder().encode(data)
             dataWithLastModified["lastModified"] = Date()
-            try await docRef.setData(dataWithLastModified)
+            try await docRef.updateData(dataWithLastModified)
         } catch {
             print(error)
             throw error

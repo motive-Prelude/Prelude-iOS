@@ -25,6 +25,12 @@ class AuthRepositoryImpl: AuthRepository {
     
     func deleteAccount(userID: String) { authService.deleteAccount(userID: userID) }
     
+    func reauthenticateWithApple() async throws {
+        let provider = OAuthProvider(providerID: "apple.com")
+        let credential = try await provider.credential(with: nil)
+        authService.reauthenticate(credential: credential)
+    }
+    
     func observeAuthState(onChange: @escaping (String?) -> Void) -> AuthStateDidChangeListenerHandle {
         return authService.observeAuthState(onChange: onChange)
     }

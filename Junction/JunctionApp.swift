@@ -21,6 +21,7 @@ struct JunctionApp: App {
                                                        logOutUseCase: DIContainer.shared.resolve(LogOutUseCase.self)!,
                                                        deleteAccountUseCase: DIContainer.shared.resolve(DeleteAccountUseCase.self)!,
                                                        observeAuthStateUseCase: DIContainer.shared.resolve(ObserveAuthStateUseCase.self)!)
+    @StateObject private var keyboardObserver = KeyboardObserver()
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
@@ -30,9 +31,10 @@ struct JunctionApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashView()
                 .modelContainer(SwiftDataSource.shared.container)
                 .environmentObject(alertManager)
+                .environmentObject(keyboardObserver)
                 .environmentObject(diContainer)
                 .environmentObject(navigationManager)
                 .environmentObject(store)

@@ -26,6 +26,11 @@ final class FirebaseAuthService {
         currentUser.delete()
     }
     
+    func reauthenticate(credential: AuthCredential) {
+        guard let currentUser = auth.currentUser else { return }
+        currentUser.reauthenticate(with: credential)
+    }
+    
     func observeAuthState(onChange: @escaping (String?) -> Void) -> AuthStateDidChangeListenerHandle {
         return auth.addStateDidChangeListener { _, user in
             onChange(user?.uid)
