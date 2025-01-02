@@ -10,7 +10,7 @@ import Foundation
 struct Judgement: Decodable, Hashable {
     let productName: String
     let recognition: Bool
-    let safetyAssessment: Bool
+    let safetyAssessment: String
     let details: [JudgementDetail]
     let conclusion: String
     
