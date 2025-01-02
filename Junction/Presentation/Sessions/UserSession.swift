@@ -97,7 +97,7 @@ class UserSession: ObservableObject {
     
     @MainActor
     func incrementSeeds(_ count: Int) async throws {
-        if count < 1 { assertionFailure("incrementSeeds 메서드에 음수가 들어갔어요.") }
+        if count < 0 { assertionFailure("incrementSeeds 메서드에 음수가 들어갔어요.") }
         
         guard let userInfo = userInfo else { return }
         do {
@@ -107,7 +107,7 @@ class UserSession: ObservableObject {
     
     @MainActor
     func decrementSeeds(_ count: Int) async throws {
-        if count >= 0 { assertionFailure("incrementSeeds 메서드에 양수가 들어갔어요.") }
+        if count < 0 { assertionFailure("incrementSeeds 메서드에 음수가 들어갔어요.") }
         
         guard let userInfo = userInfo else { return }
         do {
