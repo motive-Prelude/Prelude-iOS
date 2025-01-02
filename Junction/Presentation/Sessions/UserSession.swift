@@ -58,12 +58,13 @@ class UserSession: ObservableObject {
         }
     }
     
-    func deleteAccount() {
+    func deleteAccount(completion: @escaping () -> ()) {
         guard let userID = userInfo?.id else { return }
         deleteAccountUseCase.execute(userID: userID)
         userRepository.delete(userID: userID)
         self.userInfo = nil
         self.isAuthenticated = false
+        completion()
     }
     
     func syncCurrentUser() async throws {
