@@ -9,15 +9,23 @@ import SwiftUI
 
 struct MainView: View {
     @EnvironmentObject var navigationManager: NavigationManager
+    @EnvironmentObject var userSession: UserSession
     @StateObject var mainViewModel = MainViewModel()
     @State private var uiImage: UIImage?
     @State private var isShowingImagePicker = false
     @State private var foodName = ""
     @State private var isFocused = false
+    @State private var showpPurchaseView = false
+    @State private var showSeedlowSheet = false
     
     var userSelectPrompt: String {
         if foodName.isEmpty { return "" }
         return "유저가 알려준 음식의 이름은 \(foodName)이야\n"
+    }
+    
+    var remainingTimes: UInt {
+        guard let userInfo = userSession.userInfo else { return 0 }
+        return userInfo.remainingTimes
     }
     
     var body: some View {
@@ -35,7 +43,7 @@ struct MainView: View {
                 
                 foodNameTextField
                     .padding(.bottom, isFocused ? 10 : 106)
-                    
+                
                 button
             }
             .padding(.horizontal, 16)
@@ -44,6 +52,11 @@ struct MainView: View {
             
         }
         .sheet(isPresented: $isShowingImagePicker) { ImagePicker(image: $uiImage, sourceType: .camera) }
+        .sheet(isPresented: $showSeedlowSheet) {
+            SeedlowSheet { showpPurchaseView = true }
+                .presentationDetents([.fraction(0.45)])
+        }
+        .fullScreenCover(isPresented: $showpPurchaseView) { PurchaseView() }
         .ignoresSafeArea(.all, edges: [.top, .horizontal])
         .navigationBarBackButtonHidden()
         .onTapGesture { hideKeyboard() }
@@ -51,18 +64,18 @@ struct MainView: View {
     
     private var navigationHeader: some View {
         PLNavigationHeader("") {
-            PLActionButton(label: "10",
+            PLActionButton(label: "\(remainingTimes)",
                            icon: Image(.logo),
                            type: .secondary,
-                           contentType: .seedFull,
+                           contentType: remainingTimes == 0 ? .seedLow : .seedFull,
                            size: .medium,
-                           shape: .pill) { }
+                           shape: .pill) { showpPurchaseView = true }
         } trailing: {
             PLActionButton(icon: Image(.setting),
                            type: .secondary,
                            contentType: .icon,
                            size: .medium,
-                           shape: .circle) { }
+                           shape: .circle) { navigationManager.navigate(.setting) }
         }
     }
     
@@ -135,7 +148,11 @@ struct MainView: View {
     @ViewBuilder
     private var button: some View {
         if !isFocused {
-            PLActionButton(label: "Search food safety", type: .primary, contentType: .text, size: .large, shape: .rect) {
+            PLActionButton(label: "Search food safety", type: .primary, contentType: .text, size: .large, shape: .rect, isDisabled: uiImage == nil) {
+                if remainingTimes <= 0 {
+                    showSeedlowSheet = true
+                    return
+                }
                 navigationManager.navigate(.result(userSelectPrompt: mainViewModel.prompt + userSelectPrompt, image: uiImage))
             }
         }
@@ -144,6 +161,10 @@ struct MainView: View {
 
 #Preview {
     MainView()
+        .environmentObject( UserSession(userRepository: DIContainer.shared.resolve(UserRepository.self)!,
+                                        loginUseCase: DIContainer.shared.resolve(LoginUseCase.self)!,
+                                        logOutUseCase: DIContainer.shared.resolve(LogOutUseCase.self)!,
+                                        deleteAccountUseCase: DIContainer.shared.resolve(DeleteAccountUseCase.self)!,
+                                        observeAuthStateUseCase: DIContainer.shared.resolve(ObserveAuthStateUseCase.self)!))
         .environmentObject(NavigationManager())
-        .modelContainer(SwiftDataSource.shared.container)
 }
