@@ -15,6 +15,14 @@ enum WeightUnit: String, MeasurableUnit {
     case pound = "lb"
     
     var symbol: String { self.rawValue }
+    
+    var maxLength: Int {
+        switch self {
+            case .kilogram: 3
+            case .pound: 3
+        }
+    }
+    
     var placeholder: String {
         switch self {
             case .kilogram: "Weight (kg)"

@@ -32,6 +32,14 @@ struct PLTextField<Unit: MeasurableUnit>: View {
         .contentShape(Rectangle())
         .onTapGesture { isFocused = true }
         .onChange(of: isFocused) { _, _ in onFocused?(isFocused) }
+        .onChange(of: text) { _, newValue in
+            guard let unit else { return }
+            if newValue.count > unit.maxLength {
+                text = String(newValue.prefix(unit.maxLength))
+            }
+        }
+        .ignoresSafeArea(.all, edges: .bottom)
+        
     }
     
     @ViewBuilder

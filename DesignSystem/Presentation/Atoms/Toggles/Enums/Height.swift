@@ -20,6 +20,14 @@ enum HeightUnit: String, MeasurableUnit {
         }
     }
     
+    var maxLength: Int {
+        switch self {
+            case .centimeter: 3
+            case .feet: 1
+            case .inch: 2
+        }
+    }
+    
     var placeholder: String {
         switch self {
             case .centimeter: "Height (cm)"
