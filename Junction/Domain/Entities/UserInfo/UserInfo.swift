@@ -12,7 +12,7 @@ import Foundation
 @Model
 final class UserInfo {
     var id: String
-    var remainingTimes: Int = 0
+    var remainingTimes: UInt = 0
     var healthInfo: HealthInfo?
     var lastModified: Date
     
@@ -27,7 +27,7 @@ final class UserInfo {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         self.id = try container.decode(String.self, forKey: .id)
-        self.remainingTimes = try container.decode(Int.self, forKey: .remainingTimes)
+        self.remainingTimes = try container.decode(UInt.self, forKey: .remainingTimes)
         self.healthInfo = try container.decodeIfPresent(HealthInfo.self, forKey: .healthInfo)
         self.lastModified = try container.decode(Date.self, forKey: .lastModified)
     }
@@ -53,7 +53,7 @@ extension UserInfo: Convertible {
     }
     
     convenience init?(from record: CKRecord) {
-        guard let remainingTimes = record["remainingTimes"] as? Int,
+        guard let remainingTimes = record["remainingTimes"] as? UInt,
               let lastModified = record["lastModified"] as? Date else {
             return nil
         }
