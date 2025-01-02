@@ -2,7 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>PreludePurchaseTest.motive.prelude</key>
-	<string>Test</string>
+	<key>Seeds-1USD</key>
+	<string>com.prelude.seeds.1usd</string>
+	<key>Seeds-2USD</key>
+	<string>com.prelude.seeds.2usd</string>
+	<key>Seeds-3USD</key>
+	<string>com.prelude.seeds.3usd</string>
+	<key>Seeds-4USD</key>
+	<string>com.prelude.seeds.4usd</string>
+	<key>Seeds-5USD</key>
+	<string>com.prelude.seeds.5usd</string>
+	<key>Seeds-6USD</key>
+	<string>com.prelude.seeds.6usd</string>
+	<key>Seeds-7USD</key>
+	<string>com.prelude.seeds.7usd</string>
+	<key>Seeds-8USD</key>
+	<string>com.prelude.seeds.8usd</string>
+	<key>Seeds-9USD</key>
+	<string>com.prelude.seeds.9usd</string>
+	<key>Seeds-10USD</key>
+	<string>com.prelude.seeds.10usd</string>
 </dict>
 </plist>
