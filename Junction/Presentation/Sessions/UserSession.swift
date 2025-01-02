@@ -67,8 +67,15 @@ class UserSession: ObservableObject {
         completion()
     }
     
-    func syncCurrentUser() async throws {
-        guard let userID = userInfo?.id else { return }
+    func update(healthInfo: HealthInfo) {
+        guard let userInfo else { return }
+        userInfo.healthInfo = healthInfo
+        do {
+            let healthInfoDict = try Firestore.Encoder().encode(healthInfo)
+            Task { try await userRepository.update(userID: userInfo.id, field: ["healthInfo": healthInfoDict]) }
+        } catch { }
+    }
+    
         do {
             let newUserInfo = try await userRepository.fetch(userID: userID)
             await MainActor.run { self.userInfo = newUserInfo }
