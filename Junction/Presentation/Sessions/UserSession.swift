@@ -20,10 +20,10 @@ class UserSession: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     init(userRepository: UserRepository,
-                 loginUseCase: LoginUseCase,
-                 logOutUseCase: LogOutUseCase,
-                 deleteAccountUseCase: DeleteAccountUseCase,
-                observeAuthStateUseCase: ObserveAuthStateUseCase) {
+         loginUseCase: LoginUseCase,
+         logOutUseCase: LogOutUseCase,
+         deleteAccountUseCase: DeleteAccountUseCase,
+         observeAuthStateUseCase: ObserveAuthStateUseCase) {
         self.userRepository = userRepository
         self.loginUseCase = loginUseCase
         self.logoutUseCase = logOutUseCase
