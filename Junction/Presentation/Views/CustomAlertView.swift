@@ -11,25 +11,26 @@ struct CustomAlertView: View {
     @EnvironmentObject var alertManager: AlertManager
     
     var body: some View {
-        VStack {
-            Text(alertManager.alertTitle)
-                .font(.headline)
-            
-            Text(alertManager.alertMessage)
-                .font(.subheadline)
-            
-            ForEach(alertManager.alertActions, id: \.id) { action in
-                Button {
-                    action.action()
-                    alertManager.hideAlert()
-                } label: {
-                    Text(action.title)
-                }
+        ZStack {
+            background
+                
+            PLDialog(title: alertManager.title,
+                     description: alertManager.message,
+                     cancelButtonLabel: alertManager.actions[0].title,
+                     confirmButtonLabel: alertManager.actions[1].title) {
+                alertManager.actions[1].action()
+                alertManager.hideAlert()
+            } cancelAction: {
+                alertManager.actions[0].action()
+                alertManager.hideAlert()
             }
-            
         }
-        .padding()
-        .background { Color.gray }
+        .animation(.linear, value: alertManager.isAlertVisible)
+    }
+    
+    private var background: some View {
+        Color.black.opacity(0.2)
+            .ignoresSafeArea()
     }
 }
 
