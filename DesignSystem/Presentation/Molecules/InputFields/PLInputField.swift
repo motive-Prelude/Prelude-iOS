@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PLInputField<Payload: Measurable>: View where Payload.Unit.Value: FloatingPoint {
-    @Binding var isLeftSelected: Bool
+    @State var isLeftSelected: Bool = true
     @State var value: [Payload.Unit: Payload.Unit.Value] = [:]
     
     let leftUnit: Payload.Unit
