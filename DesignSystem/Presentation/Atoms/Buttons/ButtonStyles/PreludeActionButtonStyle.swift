@@ -40,9 +40,9 @@ struct PreludeActionButtonStyle: ButtonStyle {
                 shape.backgroundShape()
                     .fill(.clear)
                     .stroke(style.borderColor, lineWidth: 1, antialiased: true)
-                    
+                    .padding(style.margin)
             }
-            .padding(style.margin)
             .contentShape(Rectangle())
+            
     }
 }

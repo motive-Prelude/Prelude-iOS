@@ -8,19 +8,28 @@
 import SwiftUI
 
 struct BmiTextFields: View {
-    @State private var height: Height?
-    @State private var weight: Weight?
+    @State var height: Height?
+    @State var weight: Weight?
     
     let result: (Height?, Weight?) -> ()
     
+    var heightValue: [Height.Unit: Height.Value] {
+        guard let height else { return [:] }
+        return [height.unit: height.value]
+    }
+    
+    var weightValue: [Weight.Unit: Weight.Value] {
+        guard let weight else { return [:] }
+        return [weight.unit: weight.value]
+    }
     
     
     var body: some View {
         VStack(spacing: 0) {
-            PLInputField(leftUnit: HeightUnit.centimeter, rightUnit: HeightUnit.feet) { height in self.height = height }
+            PLInputField(value: heightValue, leftUnit: HeightUnit.centimeter, rightUnit: HeightUnit.feet) { height in self.height = height }
                 .padding(.bottom, 8)
             
-            PLInputField(leftUnit: WeightUnit.kilogram, rightUnit: WeightUnit.pound) { weight in self.weight = weight }
+            PLInputField(value: weightValue, leftUnit: WeightUnit.kilogram, rightUnit: WeightUnit.pound) { weight in self.weight = weight }
         }
         .onChange(of: height) { _, _ in
             result(height ,weight)

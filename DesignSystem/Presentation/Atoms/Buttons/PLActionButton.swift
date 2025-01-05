@@ -19,8 +19,6 @@ struct PLActionButton: View {
     var directionalBackgroundColor: Color? = nil
     let action: () -> Void
     
-    
-    
     var body: some View {
         Button(action: action) {
             HStack(spacing: 2) {

@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct BloodPressureGrid: View {
+    
+    @State var bloodPressure: BloodPressure?
+    
     let result: (BloodPressure?) -> ()
-    @State private var bloodPressure: BloodPressure?
     
     var body: some View {
         Grid {

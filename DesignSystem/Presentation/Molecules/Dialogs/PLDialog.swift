@@ -40,7 +40,7 @@ struct PLDialog: View {
         }
     }
     private var actionButtons: some View {
-        HStack(alignment: .bottom, spacing: 8) {
+        HStack(alignment: .bottom, spacing: 20) {
             Spacer()
             PLActionButton(label: cancelButtonLabel,
                            type: .secondary,

@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct GestationalWeekGrid: View {
+    
+    @State var gestationalWeek: GestationalWeek?
+    
     let result: (GestationalWeek?) -> ()
-    @State private var gestationalWeek: GestationalWeek?
     
     let columns: [GridItem] = [
         GridItem(.flexible()),
