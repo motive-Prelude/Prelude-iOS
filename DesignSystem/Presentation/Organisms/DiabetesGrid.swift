@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct DiabetesGrid: View {
+    
+    @State var diabetes: Diabetes?
     let result: (Diabetes?) -> ()
-    @State private var diabetes: Diabetes?
     
     var body: some View {
         Grid {
