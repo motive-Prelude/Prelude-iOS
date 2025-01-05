@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct FoodRestrictionGrid: View {
+    
+    @State var allergies: [Allergies] = []
+    
     let result: ([Allergies]) -> ()
-    @State private var allergies: [Allergies] = []
     
     var body: some View {
         FlowLayout(spacing: 8) {
