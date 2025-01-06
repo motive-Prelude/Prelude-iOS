@@ -37,7 +37,7 @@ struct MainView: View {
                 navigationHeader
                     .padding(.bottom, 70)
                 
-                if !isFocused { guidePrompt }
+                if !isFocused { greetingText }
                 
                 Spacer()
                 
@@ -81,8 +81,8 @@ struct MainView: View {
         }
     }
     
-    private var guidePrompt: some View {
-        Text("What food are you\nworried about?")
+    private var greetingText: some View {
+        Text(PromptGenerator.shared.greetingPrompt)
             .textStyle(.heading1)
             .foregroundStyle(PLColor.neutral800)
             .multilineTextAlignment(.center)

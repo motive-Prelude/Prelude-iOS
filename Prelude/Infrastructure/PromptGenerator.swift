@@ -8,6 +8,24 @@
 import Foundation
 
 class PromptGenerator {
+    static let shared = PromptGenerator()
+    private(set) var greetingPrompt: String
+    
+    init() {
+        self.greetingPrompt = Self.generateGreetingPrompt()
+    }
+    
+    static func generateGreetingPrompt() -> String {
+        return ["What’s on your\nplate today?",
+                "What food are you\nworried about?",
+                "Let’s make sure\nevery bite is safe.",
+                "Let’s check if\nyour plate is safe.",
+                "Wondering if it’s safe\nto enjoy that bite?",
+                "Is it safe to dig in?\nLet’s check!",
+                "Planning your\nnext bite?"]
+            .randomElement() ?? "What food are you\nworried about?"
+    }
+    
     func generatePrompt(with healthInfo: HealthInfo) -> String {
         return """
             "prompt": [
