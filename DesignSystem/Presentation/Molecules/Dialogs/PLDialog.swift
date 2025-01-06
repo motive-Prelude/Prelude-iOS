@@ -14,6 +14,9 @@ struct PLDialog: View {
     let cancelButtonLabel: String
     let confirmButtonLabel: String
     
+    var primaryColor: Color?
+    var secondaryColor: Color?
+    
     let confirmAction: () -> Void
     let cancelAction: () -> Void
     
@@ -47,7 +50,7 @@ struct PLDialog: View {
                            contentType: .text,
                            size: .medium,
                            shape: .none,
-                           isDisabled: false) {
+                           directionalBackgroundColor: secondaryColor) {
                 cancelAction()
             }
             
@@ -56,7 +59,7 @@ struct PLDialog: View {
                            contentType: .text,
                            size: .small,
                            shape: .rect,
-                           isDisabled: false) {
+                           directionalBackgroundColor: primaryColor) {
                 confirmAction()
             }
         }

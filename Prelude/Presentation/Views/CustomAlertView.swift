@@ -17,7 +17,9 @@ struct CustomAlertView: View {
             PLDialog(title: alertManager.title,
                      description: alertManager.message,
                      cancelButtonLabel: alertManager.actions[0].title,
-                     confirmButtonLabel: alertManager.actions[1].title) {
+                     confirmButtonLabel: alertManager.actions[1].title,
+                     primaryColor: alertManager.actions[1].directionalColor,
+                     secondaryColor: alertManager.actions[0].directionalColor) {
                 alertManager.actions[1].action()
                 alertManager.hideAlert()
             } cancelAction: {

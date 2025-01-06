@@ -17,7 +17,7 @@ struct AccountView: View {
     }
     
     var primaryAlertAction: AlertAction {
-        AlertAction(title: "Delete") {
+        AlertAction(title: "Delete", directionalColor: PLColor.negative) {
             Task {
                 let reauthResult = await userSession.reauthenticate(.apple)
                 
