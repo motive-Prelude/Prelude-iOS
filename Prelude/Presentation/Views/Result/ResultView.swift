@@ -113,12 +113,18 @@ struct ResultView: View {
     
     private func showAlert(_ error: DomainError) {
         switch error {
-            case .networkUnavailable: alertManager.showAlert(title: "Network Error", message: "Network Error Occur", actions: [cancelAlertAction, retryAlertAction])
-            case .serverError: alertManager.showAlert(title: "Server Error", message: "Server Error Occur", actions: [cancelAlertAction, retryAlertAction])
-            case .timeout: alertManager.showAlert(title: "Time out", message: "Time out Occur", actions: [cancelAlertAction, retryAlertAction])
-            case .authenticationFailed(reason: let reason): alertManager.showAlert(title: "Authentication Fail", message: reason, actions: [cancelAlertAction, retryAlertAction])
-            case .tooManyRequests: alertManager.showAlert(title: "Too Many Request", message: "Too Many Request", actions: [cancelAlertAction, retryAlertAction])
-            case .unknown: alertManager.showAlert(title: "Unexpected error",
+            case .networkUnavailable: alertManager.showAlert(title: "Network unavailable",
+                                                             message: "It seems you’re not connected to the internet. Please check your connection and try again.",
+                                                             actions: [cancelAlertAction, retryAlertAction])
+            case .serverError: alertManager.showAlert(title: "Server issue",
+                                                      message: "We’re having trouble connecting to the server. Please try again later.",
+                                                      actions: [cancelAlertAction, retryAlertAction])
+                
+            case .timeout: alertManager.showAlert(title: "Request timed out",
+                                                  message: "The request took too long to process. Please check your connection and try again.",
+                                                  actions: [cancelAlertAction, retryAlertAction])
+                
+            default: alertManager.showAlert(title: "Unexpected error",
                                                   message: "An error occurred while processing your request. Please try again shortly.",
                                                   actions: [cancelAlertAction, retryAlertAction])
         }

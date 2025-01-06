@@ -11,6 +11,7 @@ import SwiftUI
 struct AlertAction: Identifiable {
     let id = UUID()
     let title: String
+    var directionalColor: Color?
     let action: () -> Void
 }
 
@@ -85,12 +86,9 @@ class AlertManager: ObservableObject {
     
     private func makeToastDescription(_ error: DomainError) -> String {
         switch error {
-            case .authenticationFailed(reason: let reason): reason
-            case .networkUnavailable: "Network Error"
-            case .serverError: "Server BulAnJeoung"
-            case .timeout: "요청 시간 ㅈㄴ 김 다시 시도"
-            case .tooManyRequests: "너무 많은 시도입니다 나중에 ㄱ"
-            case .unknown: "Message"
+            case .authenticationFailed: "Authentication Failed."
+            case .networkUnavailable: "Network error. Check your connection."
+            default: "Something went wrong. Please try again soon."
         }
     }
     
