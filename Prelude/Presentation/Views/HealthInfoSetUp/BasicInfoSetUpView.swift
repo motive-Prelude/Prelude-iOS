@@ -129,13 +129,13 @@ struct BasicInfoSetUpView: View {
     }
     
     private var pregnantWeekInstruction: some View {
-        Text("How many weeks pregnant are you?")
+        Text(Localization.GestationalWeek.gestationalWeeksQuestion)
             .textStyle(typographies.title1)
             .foregroundStyle(PLColor.neutral800)
     }
     
     private var heightAndWeightInstruction: some View {
-        Text("What is your height and Weight?")
+        Text(Localization.PhysicalInfo.heightAndWeightQuestion)
             .textStyle(typographies.title1)
             .foregroundStyle(PLColor.neutral800)
     }
