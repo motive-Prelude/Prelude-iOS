@@ -41,7 +41,7 @@ struct OnboardingTabContent: View {
 }
 
 #Preview {
-    OnboardingTabContent(image: Image(.onboarding1Illust),
+    OnboardingTabContent(image: Image(.onboarding1),
                          title: "Enjoy meals with\npeace of mind",
                          description: "We’re here with food safety tips so you can enjoy meals without worry during your pregnancy.")
 }
