@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PLDialog: View {
+    @Environment(\.plTypographySet) var typographies
+    
     let title: String
     let description: String
     
@@ -34,11 +36,11 @@ struct PLDialog: View {
     private var contentView: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .textStyle(.title1)
+                .textStyle(typographies.title1)
                 .foregroundStyle(PLColor.neutral800)
             
             Text(description)
-                .textStyle(.paragraph2)
+                .textStyle(typographies.paragraph2)
                 .foregroundStyle(PLColor.neutral700)
         }
     }

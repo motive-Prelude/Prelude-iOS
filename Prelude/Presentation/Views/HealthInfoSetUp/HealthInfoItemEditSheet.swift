@@ -11,6 +11,7 @@ struct HealthInfoItemEditSheet: View {
     let healthInfo: HealthInfo
     let selectedKeyPath: PartialKeyPath<HealthInfo>
     @Environment(\.dismiss) var dismiss
+    @Environment(\.plTypographySet) var typographies
     @EnvironmentObject var keyboardObserver: KeyboardObserver
     
     var body: some View {
@@ -27,11 +28,11 @@ struct HealthInfoItemEditSheet: View {
                     Spacer()
                     cancelButton
                 }
-                .padding(.top, 8)
+                .padding(.top, 16)
                 .padding(.bottom, 4)
                 
                 Text(title)
-                    .textStyle(.label)
+                    .textStyle(typographies.label)
                     .foregroundStyle(PLColor.neutral800)
                     .padding(.bottom, 24)
                 
@@ -39,7 +40,7 @@ struct HealthInfoItemEditSheet: View {
 
                 Spacer()
                 
-                PLActionButton(label: "Save", type: .primary, contentType: .text, size: .large, shape: .rect) { dismiss() }
+                PLActionButton(label: Localization.Button.saveButtonTitle, type: .primary, contentType: .text, size: .large, shape: .rect) { dismiss() }
                     .padding(.bottom, keyboardObserver.keyboardHeight >= 0 ? 16 : 11)
                     
             }
@@ -68,11 +69,11 @@ struct HealthInfoItemEditSheet: View {
                 
     private var title: String {
         switch selectedKeyPath {
-            case \.gestationalWeek: return "Gestational Week"
-            case \.height: return "Height, Weight"
-            case \.bloodPressure: return "Blood Pressure"
-            case \.diabetes: return "Diabetes"
-            case \.restrictions: return "Food Restrictions"
+            case \.gestationalWeek: return Localization.HealthInfoOption.gestationalWeek
+            case \.height: return Localization.HealthInfoOption.heightAndWeight
+            case \.bloodPressure: return Localization.HealthInfoOption.bloodPressure
+            case \.diabetes: return Localization.HealthInfoOption.diabetes
+            case \.restrictions: return Localization.HealthInfoOption.restrictions
             default: return ""
         }
     }

@@ -25,8 +25,8 @@ enum WeightUnit: String, MeasurableUnit {
     
     var placeholder: String {
         switch self {
-            case .kilogram: "Weight (kg)"
-            case .pound: "Weight (lb)"
+            case .kilogram: "\(Localization.Label.weightLabel) (kg)"
+            case .pound: "\(Localization.Label.weightLabel) (lb)"
         }
     }
     

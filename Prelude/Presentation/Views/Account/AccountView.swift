@@ -11,13 +11,15 @@ struct AccountView: View {
     @EnvironmentObject var userSession: UserSession
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var alertManager: AlertManager
+    @Environment(\.plTypographySet) var typographies
+    
     
     var secondaryAlertAction: AlertAction {
-        AlertAction(title: "Cancel") { alertManager.hideAlert() }
+        AlertAction(title: Localization.Button.cancelButtonTitle) { alertManager.hideAlert() }
     }
     
     var primaryAlertAction: AlertAction {
-        AlertAction(title: "Delete", directionalColor: PLColor.negative) {
+        AlertAction(title: Localization.Button.deleteButtonTitle, directionalColor: PLColor.negative) {
             Task {
                 let reauthResult = await userSession.reauthenticate(.apple)
                 
@@ -41,13 +43,15 @@ struct AccountView: View {
                 Spacer()
                 
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
         } buttons: { EmptyView() }
         
         
     }
     
     private var navigationHeader: some View {
-        PLNavigationHeader("Account") {
+        PLNavigationHeader(Localization.NavigationHeader.navigationHeaderAccountTitle) {
             PLActionButton(icon: Image(.back), type: .secondary, contentType: .icon, size: .small, shape: .square) {
                 navigationManager.previous()
             }
@@ -70,29 +74,29 @@ struct AccountView: View {
     }
     
     private var logOutButton: some View {
-        PLActionButton(label: "Log out", type: .secondary, contentType: .text, size: .medium, shape: .none) {
+        PLActionButton(label: Localization.Button.logOutButtonTitle, type: .secondary, contentType: .text, size: .medium, shape: .none) {
             userSession.logout { navigationManager.screenPath = [.content] }
         }
         .foregroundStyle(PLColor.neutral600)
     }
     
     private var logOutDescription: some View {
-        Text("When you log out, your data will remain on your device until you delete your app.")
-            .textStyle(.paragraph2)
+        Text(Localization.Label.logOutDescription)
+            .textStyle(typographies.paragraph2)
             .foregroundStyle(PLColor.neutral600)
     }
     
     private var deleteAccountButton: some View {
-        PLActionButton(label: "Delete Account", type: .secondary, contentType: .text, size: .medium, shape: .none, directionalForegroundColor: PLColor.negative) {
-            alertManager.showAlert(title: "Delete Account?",
-                                   message: "This action cannot be undone. It will permanently delete your entire account, including purchased seeds.",
+        PLActionButton(label: Localization.Button.deleteAccountButtonTitle, type: .secondary, contentType: .text, size: .medium, shape: .none, directionalForegroundColor: PLColor.negative) {
+            alertManager.showAlert(title: Localization.Dialog.dialogDeleteAccountTitle,
+                                   message: Localization.Dialog.dialogDeleteAccountDescription,
                                    actions: [secondaryAlertAction, primaryAlertAction])
         }
     }
     
     private var deleteAccountDescription: some View {
-        Text("When you delete your account, all of your data will be deleted.")
-            .textStyle(.paragraph2)
+        Text(Localization.Label.deleteAccountDescription)
+            .textStyle(typographies.paragraph2)
             .foregroundStyle(PLColor.neutral600)
     }
 }

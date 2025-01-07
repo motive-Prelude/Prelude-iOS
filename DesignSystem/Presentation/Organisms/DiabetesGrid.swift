@@ -15,7 +15,7 @@ struct DiabetesGrid: View {
     var body: some View {
         Grid {
             GridRow {
-                PLFormButton(label: Diabetes.none.rawValue,
+                PLFormButton(label: Diabetes.none.localized,
                              isSelected: bindingForDiabetes(Diabetes.none),
                              contentType: .labelOnly,
                              mode: .stretch)
@@ -24,19 +24,19 @@ struct DiabetesGrid: View {
             }
             
             GridRow {
-                PLFormButton(label: Diabetes.type1.rawValue,
+                PLFormButton(label: Diabetes.type1.localized,
                              isSelected: bindingForDiabetes(Diabetes.type1),
                              contentType: .labelOnly,
                              mode: .stretch)
                 .onTapGesture { diabetes = Diabetes.type1 }
                 
-                PLFormButton(label: Diabetes.type2.rawValue,
+                PLFormButton(label: Diabetes.type2.localized,
                              isSelected: bindingForDiabetes(Diabetes.type2),
                              contentType: .labelOnly,
                              mode: .stretch)
                 .onTapGesture { diabetes = Diabetes.type2 }
                 
-                PLFormButton(label: Diabetes.gestational.rawValue,
+                PLFormButton(label: Diabetes.gestational.localized,
                              isSelected: bindingForDiabetes(Diabetes.gestational),
                              contentType: .labelOnly,
                              mode: .stretch)

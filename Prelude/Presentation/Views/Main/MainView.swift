@@ -10,6 +10,9 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var userSession: UserSession
+    
+    @Environment(\.plTypographySet) var typographies
+    
     @StateObject var mainViewModel = MainViewModel()
     @State private var uiImage: UIImage?
     @State private var isShowingImagePicker = false
@@ -57,6 +60,7 @@ struct MainView: View {
         .sheet(isPresented: $showSeedlowSheet) {
             SeedlowSheet { showpPurchaseView = true }
                 .presentationDetents([.fraction(0.45)])
+                .presentationCornerRadius(24)
         }
         .fullScreenCover(isPresented: $showpPurchaseView) { PurchaseView() }
         .ignoresSafeArea(.all, edges: [.top, .horizontal])
@@ -83,7 +87,7 @@ struct MainView: View {
     
     private var greetingText: some View {
         Text(PromptGenerator.shared.greetingPrompt)
-            .textStyle(.heading1)
+            .textStyle(typographies.heading1)
             .foregroundStyle(PLColor.neutral800)
             .multilineTextAlignment(.center)
     }
@@ -94,6 +98,7 @@ struct MainView: View {
             .aspectRatio(contentMode: .fit)
             .frame(width: 360, height: 360)
             .overlay(dishPlate)
+            .padding(.top, 4)
     }
     
     @ViewBuilder
@@ -133,14 +138,14 @@ struct MainView: View {
         VStack(spacing: 4) {
             PLActionButton(icon: Image(.capture), type: .primary, contentType: .icon, size: .medium, shape: .circle) { isShowingImagePicker.toggle() }
             
-            Text("Take Photo")
-                .textStyle(.title1)
+            Text(Localization.Label.takePhotoLabel)
+                .textStyle(typographies.title1)
                 .foregroundStyle(PLColor.neutral800)
         }
     }
     
     private var foodNameTextField: some View {
-        PLTextField<HeightUnit>(placeholder: "Enter food name (Optional)",
+        PLTextField<HeightUnit>(placeholder: Localization.Placeholder.textFieldPlaceholder,
                                 text: $foodName,
                                 unit: nil,
                                 keyboard: .default) { focus in
@@ -151,7 +156,13 @@ struct MainView: View {
     @ViewBuilder
     private var button: some View {
         if !isFocused {
-            PLActionButton(label: "Search food safety", type: .primary, contentType: .text, size: .large, shape: .rect, isDisabled: uiImage == nil) {
+            PLActionButton(label: Localization.Button.checkFoodSafetyButtonTitle,
+                           type: .primary,
+                           contentType: .text,
+                           size: .large,
+                           shape: .rect,
+                           isDisabled: uiImage == nil) {
+                
                 guard NetworkMonitor.shared.isConnected else {
                     EventBus.shared.errorPublisher.send(.networkUnavailable)
                     return
@@ -162,6 +173,7 @@ struct MainView: View {
                     return
                 }
                 navigationManager.navigate(.result(userSelectPrompt: mainViewModel.prompt + userSelectPrompt, image: uiImage))
+                self.uiImage = nil
             }
         }
     }

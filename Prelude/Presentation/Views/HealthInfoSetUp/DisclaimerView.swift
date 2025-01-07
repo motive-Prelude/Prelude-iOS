@@ -15,6 +15,8 @@ struct DisclaimerView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var userSession: UserSession
     
+    @Environment(\.plTypographySet) var typographies
+    
     var body: some View {
         StepTemplate(backgroundColor: PLColor.neutral50, contentTopPadding: 44) {
             headline
@@ -30,19 +32,19 @@ struct DisclaimerView: View {
     }
     
     private var headline: some View {
-        Text("Notice")
-            .textStyle(.heading2)
+        Text(Localization.Label.noticeLabel)
+            .textStyle(typographies.heading2)
             .foregroundStyle(PLColor.neutral800)
     }
     
     private var disclaimerParagraph: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Health Disclaimer")
-                .textStyle(.label)
+            Text(Localization.Label.healthDisclaimerLabel)
+                .textStyle(typographies.label)
                 .foregroundStyle(PLColor.neutral800)
             
-            Text("The information provided by Prelude is intended for general informational purposes only and is not a substitute for professional medical advice. Always consult with a qualified health professional or your healthcare provider before making any decisions related to your health, diet, or nutrition, especially during pregnancy. Individual health needs may vary, and only a healthcare professional can provide personalized advice tailored to your specific circumstances.")
-                .textStyle(.paragraph1)
+            Text(Localization.Label.healthDisclaimerContent)
+                .textStyle(typographies.paragraph1)
                 .foregroundStyle(PLColor.neutral800)
                 .fixedSize(horizontal: false, vertical: true)
                 
@@ -52,8 +54,8 @@ struct DisclaimerView: View {
     private var termsAndConditionsToggle: some View {
         VStack(spacing: 20) {
             HStack(spacing: 26) {
-                Text("I acknowledge and accept the terms of the Health Disclaimer")
-                    .textStyle(.label)
+                Text(Localization.Label.healthDisclaimerAcceptance)
+                    .textStyle(typographies.label)
                     .foregroundStyle(PLColor.neutral800)
                     .layoutPriority(1)
                 
@@ -64,8 +66,8 @@ struct DisclaimerView: View {
             }
             
             HStack(spacing: 26) {
-                Text("I agree to the Privacy Policy, Terms of Use and Terms of Service")
-                    .textStyle(.label)
+                Text(Localization.Label.privacyPolicyAcceptance)
+                    .textStyle(typographies.label)
                     .foregroundStyle(PLColor.neutral800)
                     .layoutPriority(1)
                 
@@ -78,7 +80,7 @@ struct DisclaimerView: View {
     }
     
     private var button: some View {
-        PLActionButton(label: "Accept and continue",
+        PLActionButton(label: Localization.Button.acceptContinueButtonTitle,
                        type: .primary,
                        contentType: .text,
                        size: .large,

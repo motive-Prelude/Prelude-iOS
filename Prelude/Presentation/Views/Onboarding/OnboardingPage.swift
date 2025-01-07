@@ -12,6 +12,8 @@ struct OnboardingPage: View {
     @StateObject var onboardingViewModel = OnboardingViewModel()
     @EnvironmentObject var userSession: UserSession
     
+    @Environment(\.plTypographySet) var typographies
+    
     enum TabSelection: Int, CaseIterable, Hashable {
         case onboarding1 = 1
         case onboarding2
@@ -46,14 +48,14 @@ struct OnboardingPage: View {
     
     private var tabs: some View {
         TabView(selection: $currentPage) {
-            OnboardingTabContent(image: Image(.onboarding1Illust),
-                                 title: "Enjoy meals with\npeace of mind",
-                                 description: "We’re here with food safety tips so you can enjoy meals without worry during your pregnancy.")
+            OnboardingTabContent(image: Image(.onboarding1),
+                                 title: Localization.Label.firstOnboardingTitle,
+                                 description: Localization.Label.firstOnboardingDescription)
             .tag(0)
             
-            OnboardingTabContent(image: Image(.onboarding2Illust),
-                                 title: "Safe eating\nmade simple",
-                                 description: "Take a photo of your meal, and we’ll let you know if it’s safe for you and your baby.")
+            OnboardingTabContent(image: Image(.onboarding2),
+                                 title: Localization.Label.secondOnboardingTitle,
+                                 description: Localization.Label.secondOnboardingDescription)
             .tag(1)
             
         }
@@ -72,7 +74,7 @@ struct OnboardingPage: View {
                 Task { await userSession.login(parameter: parameter) }
             }
         }
-        .textStyle(.label)
+        .textStyle(typographies.label)
         .foregroundStyle(PLColor.neutral50)
         .clipShape(RoundedRectangle(cornerRadius: 24))
         .frame(height: 60)

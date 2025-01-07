@@ -28,6 +28,7 @@ struct HealthInfoSetUpPage: View {
     @State private var allergies: [Allergies] = []
     
     @EnvironmentObject var navigationManager: NavigationManager
+    @Environment(\.plTypographySet) var typographies
     
     var body: some View {
         StepTemplate(backgroundColor: PLColor.neutral50, contentTopPadding: 44) {
@@ -49,7 +50,7 @@ struct HealthInfoSetUpPage: View {
                            size: .small,
                            shape: .square) { previousPage() }
         } trailing: {
-            PLActionButton(label: "Skip",
+            PLActionButton(label: Localization.Button.skipButtonTitle,
                            type: .secondary,
                            contentType: .text,
                            size: .medium,
@@ -67,18 +68,20 @@ struct HealthInfoSetUpPage: View {
                 .frame(width: 36, height: 36)
             
             Text(headLineTitle(currentPage+1))
-                .textStyle(.heading2)
+                .textStyle(typographies.heading2)
                 .foregroundStyle(PLColor.neutral800)
                 .multilineTextAlignment(.center)
         }
     }
     
     private func headLineTitle(_ currentPage: Int) -> String {
+        
+        
         switch currentPage {
-            case 1: return "Basic Info"
-            case 2: return "Medical History"
-            case 3: return "Allergies And\nDietary Restrictions"
-            case 4: return "Is this correct?"
+            case 1: return Localization.Label.basicInfoTitle
+            case 2: return Localization.Label.medicalHistoryTitle
+            case 3: return Localization.Label.allergyTitle
+            case 4: return Localization.Label.confirmTitle
             default: return ""
         }
     }
@@ -108,7 +111,7 @@ struct HealthInfoSetUpPage: View {
     }
     
     private var button: some View {
-        PLActionButton(label: "Next",
+        PLActionButton(label: Localization.Button.nextButtonTitle,
                        type: .primary,
                        contentType: .text,
                        size: .large,

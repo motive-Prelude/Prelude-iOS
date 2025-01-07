@@ -71,7 +71,7 @@ class AlertManager: ObservableObject {
     
     func showToast(_ error: DomainError) {
         guard !isToastVisible else { return }
-        self.toastIcon = Image(.checkSmall)
+        self.toastIcon = Image(.errorLight)
         self.toastDescription = makeToastDescription(error)
         withAnimation(toastAnimation) {
             isToastVisible = true
@@ -86,15 +86,15 @@ class AlertManager: ObservableObject {
     
     private func makeToastDescription(_ error: DomainError) -> String {
         switch error {
-            case .authenticationFailed: "Authentication Failed."
-            case .networkUnavailable: "Network error. Check your connection."
-            default: "Something went wrong. Please try again soon."
+            case .authenticationFailed: Localization.Error.toastAuthenticationError
+            case .networkUnavailable: Localization.Error.toastNetworkError
+            default: Localization.Error.toastUnknownError
         }
     }
     
     private func makeToastDescription(_ event: ToastEvent) -> String {
         switch event {
-            case .paymentCompleted(let count): "Successfully added \(count) seeds!"
+            case .paymentCompleted(let count): Localization.Label.paySuccessToastMessage(count)
         }
     }
     

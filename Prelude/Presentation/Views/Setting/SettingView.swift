@@ -32,7 +32,7 @@ struct SettingView: View {
     }
     
     private var navigationHeader: some View {
-        PLNavigationHeader("Settings") {
+        PLNavigationHeader(Localization.NavigationHeader.navigationHeaderSettingTitle) {
             PLActionButton(icon: Image(.back),
                            type: .secondary,
                            contentType: .icon,
@@ -43,13 +43,13 @@ struct SettingView: View {
     
     private var settingList: some View {
         VStack(spacing: 8) {
-            PLListItem(title: "Edit Health Info", supportingText: "", .active) {
+            PLListItem(title: Localization.NavigationHeader.navigationHeaderEditHealthInfoTitle, supportingText: "", .active) {
                 guard let userInfo = userSession.userInfo else { return }
                 let healthInfo = userInfo.healthInfo ?? defaultHealthInfo
                 navigationManager.navigate(.healthInfoEdit(healthInfo: healthInfo, contentMode: .active))
             }
             
-            PLListItem(title: "Account", supportingText: "", .active) {
+            PLListItem(title: Localization.NavigationHeader.navigationHeaderAccountTitle, supportingText: "", .active) {
                 navigationManager.navigate(.account)
             }
         }

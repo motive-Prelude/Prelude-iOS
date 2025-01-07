@@ -11,6 +11,9 @@ struct PLListItem: View {
     let title: String
     let supportingText: String
     let type: ListItemType
+    
+    @Environment(\.plTypographySet) var typographies
+    
     private(set) var action: (() -> Void)?
     
     var body: some View {
@@ -45,13 +48,13 @@ struct PLListItem: View {
     
     private var titleView: some View {
         Text(title)
-            .textStyle(.label)
+            .textStyle(typographies.label)
             .foregroundStyle(PLColor.neutral600)
             
     }
     private var supportingTextView: some View {
         Text(supportingText)
-            .textStyle(.paragraph1)
+            .textStyle(typographies.paragraph1)
             .foregroundStyle(PLColor.neutral800)
             .multilineTextAlignment(.trailing)
     }
