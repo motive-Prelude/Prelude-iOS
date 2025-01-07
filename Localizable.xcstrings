@@ -1,6 +1,46 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
+    "'%@'" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "‘%@’"
+          }
+        }
+      }
+    },
+    "%lld" : {
+      "localizations" : {
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
+          }
+        }
+      }
+    },
+    "%llu %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$llu %2$@"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$llu %2$@"
+          }
+        }
+      }
+    },
     "allergy_instruction_check_all" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -358,6 +398,23 @@
         }
       }
     },
+    "button_check_food_safety" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check food safety"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "음식 안전 확인하기"
+          }
+        }
+      }
+    },
     "button_delete" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -433,6 +490,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Get more seeds"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "씨앗 충전하기"
           }
         }
       }
@@ -539,23 +602,6 @@
         }
       }
     },
-    "button_search_food_safety" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Check food safety"
-          }
-        },
-        "ko-KR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "음식 안전 확인하기"
-          }
-        }
-      }
-    },
     "button_skip" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -579,13 +625,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "$%d"
+            "value" : "$%@"
           }
         },
         "ko-KR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%d원"
+            "value" : "$%@"
           }
         }
       }
@@ -700,6 +746,12 @@
             "state" : "translated",
             "value" : "It seems you’re not connected to the internet. Please check your connection and try again."
           }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "인터넷에 연결되지 않은 것 같아요. 연결 상태를 확인한 후 다시 시도해주세요."
+          }
         }
       }
     },
@@ -745,6 +797,12 @@
             "state" : "translated",
             "value" : "We’re having trouble connecting to the server. Please try again later."
           }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버에 연결하는 데 문제가 생겼어요. 잠시 후 다시 시도해주세요."
+          }
         }
       }
     },
@@ -772,6 +830,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The request took too long to process. Please check your connection and try again."
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "요청을 처리하는 데 시간이 너무 오래 걸렸어요. 연결 상태를 확인한 후 다시 시도해주세요."
           }
         }
       }
@@ -818,6 +882,12 @@
             "state" : "translated",
             "value" : "Network unavailable"
           }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "네트워크 연결 불가"
+          }
         }
       }
     },
@@ -863,6 +933,12 @@
             "state" : "translated",
             "value" : "Server issue"
           }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버 연결 오류"
+          }
         }
       }
     },
@@ -891,6 +967,12 @@
             "state" : "translated",
             "value" : "Request timed out"
           }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "요청 시간 초과"
+          }
         }
       }
     },
@@ -906,7 +988,109 @@
         "ko-KR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "예기치 못한 오류가 발생했어요"
+            "value" : "예기치 못한 오류가 발생했어요."
+          }
+        }
+      }
+    },
+    "gestation_option_1st_trimester" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1st trimester"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "초기"
+          }
+        }
+      }
+    },
+    "gestation_option_2nd_trimester" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2nd trimester"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "중기"
+          }
+        }
+      }
+    },
+    "gestation_option_3rd_trimester" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3rd trimester"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "후기"
+          }
+        }
+      }
+    },
+    "gestation_option_postpartum" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Postpartum"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "산후"
+          }
+        }
+      }
+    },
+    "gestation_postpartum_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After childbirth"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "출산 후"
+          }
+        }
+      }
+    },
+    "gestation_question_weeks" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How many weeks pregnant are you?"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 임신 몇주차이신가요?"
           }
         }
       }
@@ -1128,6 +1312,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "키"
+          }
+        }
+      }
+    },
+    "label_no_response" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No response"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "응답하지 않음"
           }
         }
       }
@@ -1676,104 +1877,12 @@
         }
       }
     },
-    "pregnancy_option_1st_trimester" : {
-      "extractionState" : "manual",
+    "Prelude" : {
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "1st trimester"
-          }
-        },
         "ko-KR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "초기"
-          }
-        }
-      }
-    },
-    "pregnancy_option_2nd_trimester" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "2nd trimester"
-          }
-        },
-        "ko-KR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "중기"
-          }
-        }
-      }
-    },
-    "pregnancy_option_3rd_trimester" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "3rd trimester"
-          }
-        },
-        "ko-KR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "후기"
-          }
-        }
-      }
-    },
-    "pregnancy_option_postpartum" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Postpartum"
-          }
-        },
-        "ko-KR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "산후"
-          }
-        }
-      }
-    },
-    "pregnancy_postpartum_description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "After childbirth"
-          }
-        },
-        "ko-KR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "출산 후"
-          }
-        }
-      }
-    },
-    "pregnancy_question_weeks" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "How many weeks pregnant are you?"
-          }
-        },
-        "ko-KR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "현재 임신 몇주차이신가요?"
+            "value" : "Prelude"
           }
         }
       }
@@ -2007,6 +2116,12 @@
             "state" : "translated",
             "value" : "Authentication Failed."
           }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "인증에 실패했어요."
+          }
         }
       }
     },
@@ -2017,6 +2132,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Network error. Check your connection."
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "네트워크 오류. 연결을 확인해주세요."
           }
         }
       }
@@ -2034,6 +2155,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "씨앗 %d개가 추가됐어요!"
+          }
+        }
+      }
+    },
+    "toast_content_unknown_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something went wrong. Please try again soon."
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "예기치 못한 오류가 발생했어요."
           }
         }
       }
