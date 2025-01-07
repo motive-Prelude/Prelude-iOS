@@ -53,13 +53,24 @@ enum GestationalWeek: String, CaseIterable, Codable {
         return [.early, .mid, .late, .postpartum]
     }
     
+    var localized: String {
+        switch self {
+            case .early: return Localization.GestationalWeek.firstTrimsterOption
+            case .mid: return Localization.GestationalWeek.secondTrimsterOption
+            case .late: return Localization.GestationalWeek.thirdTrimsterOption
+            case .postpartum: return Localization.GestationalWeek.postpartumOption
+            case .noResponse: return Localization.Label.noResponseLabel
+        }
+    }
     
     var weeks: String {
+        let weekLocalized = Localization.Label.weekLabel
+        
         switch self {
-            case .early: return "1-13 weeks"
-            case .mid: return "14-27 weeks"
-            case .late: return "28-40 weeks"
-            case .postpartum: return "After childbirth"
+            case .early: return "1-13 \(weekLocalized)"
+            case .mid: return "14-27 \(weekLocalized)"
+            case .late: return "28-40 \(weekLocalized)"
+            case .postpartum: return Localization.GestationalWeek.postpartumDescription
             default: return ""
         }
     }
