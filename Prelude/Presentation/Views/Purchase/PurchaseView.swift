@@ -21,7 +21,16 @@ struct PurchaseView: View {
         return userInfo.remainingTimes
     }
     
-    var totalPrice: String { String(format: "%.2f", Double(selectedSeeds) * 0.1) }
+    var totalPrice: String {
+        let price = Decimal(selectedSeeds) * 0.1
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        
+        return formatter.string(for: price) ?? "0.00"
+    }
+
     var productID: String { String(selectedSeeds / 10) }
     
     
