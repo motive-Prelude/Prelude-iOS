@@ -14,6 +14,16 @@ enum Diabetes: String, Codable {
     case type2 = "Type 2"
     case gestational = "Gestational"
     case noResponse = "No response"
+    
+    var localized: String {
+        switch self {
+            case .none: return Localization.Label.noneLabel
+            case .type1: return Localization.Diabetes.type1Option
+            case .type2: return Localization.Diabetes.type2Option
+            case .gestational: return Localization.Diabetes.gestationalOption
+            case .noResponse: return Localization.Label.noResponseLabel
+        }
+    }
 }
 
 enum BloodPressure: String, Codable {
