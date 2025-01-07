@@ -79,6 +79,7 @@
 		07A50DBF2CE74F3100DE94BD /* OCRRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A50DBE2CE74F3100DE94BD /* OCRRepository.swift */; };
 		07A50DC12CE74F9F00DE94BD /* OCRRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A50DC02CE74F9F00DE94BD /* OCRRepositoryImpl.swift */; };
 		07AA0F102D237751009ADFF6 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA0F0F2D237751009ADFF6 /* KeyboardObserver.swift */; };
+		07C413E62D2BF1B0005A7858 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 07C413E52D2BF1B0005A7858 /* Localizable.xcstrings */; };
 		07D43FD72D279F38000D8562 /* ErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D43FD62D279F38000D8562 /* ErrorMapper.swift */; };
 		07D43FD92D27D17B000D8562 /* EventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D43FD82D27D17B000D8562 /* EventBus.swift */; };
 		07D43FDB2D28FDBE000D8562 /* AppleAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D43FDA2D28FDBE000D8562 /* AppleAuthHelper.swift */; };
@@ -153,6 +154,7 @@
 		07A50DBE2CE74F3100DE94BD /* OCRRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRRepository.swift; sourceTree = "<group>"; };
 		07A50DC02CE74F9F00DE94BD /* OCRRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRRepositoryImpl.swift; sourceTree = "<group>"; };
 		07AA0F0F2D237751009ADFF6 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
+		07C413E52D2BF1B0005A7858 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		07D43FD62D279F38000D8562 /* ErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapper.swift; sourceTree = "<group>"; };
 		07D43FD82D27D17B000D8562 /* EventBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBus.swift; sourceTree = "<group>"; };
 		07D43FDA2D28FDBE000D8562 /* AppleAuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuthHelper.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 		071C83CF2C66E1CB0055C393 = {
 			isa = PBXGroup;
 			children = (
+				07C413E52D2BF1B0005A7858 /* Localizable.xcstrings */,
 				07F3AF592CF4306100A39F2F /* DesignSystem */,
 				071C83DA2C66E1CB0055C393 /* Prelude */,
 				07590B2F2C9D9BBE00BE6B14 /* Frameworks */,
@@ -632,6 +635,7 @@
 				074148DC2C68012C00D79562 /* Pretendard-Bold.otf in Resources */,
 				071C83E02C66E1CC0055C393 /* Assets.xcassets in Resources */,
 				074148DB2C68012C00D79562 /* Pretendard-Regular.otf in Resources */,
+				07C413E62D2BF1B0005A7858 /* Localizable.xcstrings in Resources */,
 				074148DA2C68012C00D79562 /* Pretendard-SemiBold.otf in Resources */,
 				076D441E2D2A4DBD00B6D20E /* Secrets.xcconfig in Resources */,
 				0704DF3E2D23AC1500906D9B /* loadingBloomPot.json in Resources */,
@@ -839,7 +843,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Prelude/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -865,7 +869,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.1;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = Eric.motive.prelude;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -889,7 +893,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Prelude/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -915,7 +919,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.1;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = Eric.motive.prelude;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
