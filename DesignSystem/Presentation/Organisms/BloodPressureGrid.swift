@@ -16,7 +16,7 @@ struct BloodPressureGrid: View {
     var body: some View {
         Grid {
             GridRow {
-                PLFormButton(label: BloodPressure.none.rawValue,
+                PLFormButton(label: BloodPressure.none.localized,
                              isSelected: bindingForBloodPressure(BloodPressure.none),
                              contentType: .labelOnly,
                              mode: .stretch)
@@ -25,13 +25,13 @@ struct BloodPressureGrid: View {
             }
             
             GridRow {
-                PLFormButton(label: BloodPressure.hypotension.rawValue,
+                PLFormButton(label: BloodPressure.hypotension.localized,
                              isSelected: bindingForBloodPressure(BloodPressure.hypotension),
                              contentType: .labelOnly,
                              mode: .stretch)
                 .onTapGesture { bloodPressure = .hypotension }
                 
-                PLFormButton(label: BloodPressure.hypertension.rawValue,
+                PLFormButton(label: BloodPressure.hypertension.localized,
                              isSelected: bindingForBloodPressure(BloodPressure.hypertension),
                              contentType: .labelOnly,
                              mode: .stretch)

@@ -49,7 +49,7 @@ struct HealthInfoEditView: View {
     }
     
     private var navigationHeader: some View {
-        PLNavigationHeader("Edit Health Info") {
+        PLNavigationHeader(Localization.NavigationHeader.navigationHeaderEditHealthInfoTitle) {
             PLActionButton(icon: Image(.back), type: .secondary, contentType: .icon, size: .small, shape: .square) {
                 navigationManager.previous()
                 userSession.update(healthInfo: healthInfo)

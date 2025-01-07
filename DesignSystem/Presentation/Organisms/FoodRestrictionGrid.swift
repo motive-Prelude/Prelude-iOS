@@ -16,14 +16,16 @@ struct FoodRestrictionGrid: View {
     var body: some View {
         FlowLayout(spacing: 8) {
             ForEach(Allergies.allCases, id: \.self) { allergy in
-                PLFormButton(label: allergy.rawValue,
+                PLFormButton(label: allergy.localized,
                              isSelected: bindingForAllergy(allergy),
                              contentType: .labelOnly,
                              mode: .hug)
                 
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .onChange(of: allergies) { _, newValue in result(allergies) }
+        
     }
     
     private func bindingForAllergy(_ allergy: Allergies) -> Binding<Bool> {

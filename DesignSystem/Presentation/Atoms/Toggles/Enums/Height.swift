@@ -30,9 +30,9 @@ enum HeightUnit: String, MeasurableUnit {
     
     var placeholder: String {
         switch self {
-            case .centimeter: "Height (cm)"
-            case .feet: "Height (ft)"
-            case .inch: "Height (in)"
+            case .centimeter: "\(Localization.Label.heightLabel) (cm)"
+            case .feet: "\(Localization.Label.heightLabel) (ft)"
+            case .inch: "\(Localization.Label.heightLabel) (in)"
         }
     }
     

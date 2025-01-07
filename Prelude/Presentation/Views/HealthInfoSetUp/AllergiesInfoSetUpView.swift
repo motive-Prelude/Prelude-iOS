@@ -22,13 +22,13 @@ struct AllergiesInfoSetUpView: View {
     }
     
     private var allergiesInstruction: some View {
-        Text("Do you have any allergies or food sensitivities?")
+        Text(Localization.Allergy.sensitivitiesQuestion)
             .textStyle(typographies.title1)
             .foregroundStyle(PLColor.neutral800)
     }
     
     private var checkInstruction: some View {
-        Text("Check all that apply")
+        Text(Localization.Allergy.checkAllInstruction)
             .textStyle(typographies.paragraph2)
             .foregroundStyle(PLColor.neutral500)
     }

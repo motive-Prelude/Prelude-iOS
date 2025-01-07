@@ -14,10 +14,12 @@ struct InfoSetUpStartView: View {
     @Environment(\.plTypographySet) var typographies
     
     var primaryAlertAction: AlertAction {
-        AlertAction(title: "Enter Info", action: { navigationManager.navigate(.healthInfoSetup) })
+        
+        return AlertAction(title: Localization.Button.enterInfoButtonTitle, action: { navigationManager.navigate(.healthInfoSetup) })
     }
     var secondaryAlertAction: AlertAction {
-        AlertAction(title: "Skip", action: { navigationManager.navigate(.disclaimer) })
+        
+        return AlertAction(title: Localization.Button.skipButtonTitle, action: { navigationManager.navigate(.disclaimer) })
     }
     
     
@@ -44,9 +46,11 @@ struct InfoSetUpStartView: View {
     }
     
     private var content: some View {
-        VStack(spacing: 24) {
-            Text("Let’s get to know your\nhealth needs")
-                .textStyle(.heading1)
+        let setupStartTitle = String(localized: "health_info_setup_start_title")
+        let setupStartContent = String(localized: "health_info_setup_start_content")
+        
+        return VStack(spacing: 24) {
+            Text(setupStartTitle)
                 .textStyle(typographies.heading1)
                 .foregroundStyle(PLColor.neutral800)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -57,22 +61,22 @@ struct InfoSetUpStartView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: .infinity)
             
-            Text("To provide you with the best experience, we use your health information to deliver accurate and personalized food safety tips customized for your needs.")
+            Text(setupStartContent)
                 .textStyle(typographies.paragraph1)
                 .foregroundStyle(PLColor.neutral700)
         }
     }
     
     private var startButton: some View {
-        PLActionButton(label: "Begin", type: .primary, contentType: .text, size: .large, shape: .rect) {
+        PLActionButton(label: Localization.Button.beginButtonTitle, type: .primary, contentType: .text, size: .large, shape: .rect) {
             navigationManager.navigate(.healthInfoSetup)
         }
     }
     
     private var skipButton: some View {
-        PLActionButton(label: "Skip", type: .secondary, contentType: .text, size: .medium, shape: .none) {
-            alertManager.showAlert(title: "Are you sure you want to skip?",
-                                   message: "This information is essential for accurate results.",
+        PLActionButton(label: Localization.Button.skipButtonTitle, type: .secondary, contentType: .text, size: .medium, shape: .none) {
+            alertManager.showAlert(title: Localization.Dialog.dialogSkipTitle,
+                                   message: Localization.Dialog.dialogSkipDescription,
                                    actions: [secondaryAlertAction, primaryAlertAction])
         }
     }

@@ -52,7 +52,7 @@ struct PurchaseView: View {
     }
     
     private var navigationHeader: some View {
-        PLNavigationHeader("Get more seeds") { EmptyView() }
+        PLNavigationHeader(Localization.NavigationHeader.navigationHeaderGetMoreSeedsTitle) { EmptyView() }
         trailing: {
             PLActionButton(icon: Image(.close), type: .secondary, contentType: .icon, size: .small, shape: .square) { dismiss() }
         }
@@ -70,9 +70,9 @@ struct PurchaseView: View {
     
     private var efficacyText: some View {
         VStack(alignment: .leading, spacing: 8) {
-            makeEfficacyText(content: "Always know what’s safe to eat.")
-            makeEfficacyText(content: "Make confident choices for you and your baby.")
-            makeEfficacyText(content: "Stay informed with reliable food safety info.")
+            makeEfficacyText(content: Localization.Label.firstPurchaseBenefit)
+            makeEfficacyText(content: Localization.Label.secondPurchaseBenefit)
+            makeEfficacyText(content: Localization.Label.thirdPurchaseBenefit)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -97,7 +97,7 @@ struct PurchaseView: View {
                 
             
             VStack(spacing: 0) {
-                Text("Select what you need")
+                Text(Localization.Label.purchaseInstruction)
                     .textStyle(typographies.label)
                     .foregroundStyle(PLColor.neutral50)
                     .padding(.top, 12)
@@ -128,15 +128,16 @@ struct PurchaseView: View {
                 Text("\(selectedSeeds)")
                     .textStyle(typographies.display)
                     .foregroundStyle(PLColor.neutral800)
+                    .alignmentGuide(.bottom) { $0[.bottom] - 4 }
                 
-                Text("seeds")
+                Text(Localization.Label.inAppProductUnitLabel)
                     .textStyle(typographies.heading2)
                     .foregroundStyle(PLColor.neutral800)
             }
             
             Spacer()
             
-            Text("$\(totalPrice)")
+            Text(Localization.Label.costWithSymbol(totalPrice))
                 .textStyle(typographies.title2)
                 .foregroundStyle(PLColor.neutral500)
         }
@@ -145,13 +146,13 @@ struct PurchaseView: View {
     private var remainingSeedsBanner: some View {
         HStack {
             logo
-            Text("Remaining")
+            Text(Localization.Label.remainingLabel)
                 .textStyle(typographies.title1)
                 .foregroundStyle(PLColor.neutral800)
             
             Spacer()
             
-            Text("\(remainingSeeds) seeds")
+            Text("\(remainingSeeds) \(Localization.Label.inAppProductUnitLabel)")
                 .textStyle(typographies.label)
                 .foregroundStyle(PLColor.neutral800)
             
@@ -171,7 +172,7 @@ struct PurchaseView: View {
     
     private var footer: some View {
         VStack(spacing: 14) {
-            PLActionButton(label: "Buy now", type: .primary, contentType: .text, size: .large, shape: .rect, isDisabled: selectedSeeds == 0) {
+            PLActionButton(label: Localization.Button.buyNowButtonTitle, type: .primary, contentType: .text, size: .large, shape: .rect, isDisabled: selectedSeeds == 0) {
                 Task {
                     guard let product = store.storeProducts.first(where: { $0.id == "com.prelude.seeds.\(productID)usd"  }) else { return }
                     guard let seedCount = Int(productID) else { return }
@@ -183,9 +184,10 @@ struct PurchaseView: View {
                 
             }
             
-            Text("By clicking ‘Buy now’, your payment will be charged to your App Store account at confirmation of purchase. The selected number of seeds will be added to your account immediately. Please note that all purchases are final and non-refundable. ")
+            Text(Localization.Label.purchaseDescription)
                 .textStyle(typographies.caption)
                 .foregroundStyle(PLColor.neutral900)
+                .multilineTextAlignment(.center)
         }
     }
 }

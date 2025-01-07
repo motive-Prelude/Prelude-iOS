@@ -59,7 +59,7 @@ struct SplashView: View {
             .frame(width: 100)
     }
     private var title: some View {
-        Text("Prelude")
+        Text(Localization.Label.appName)
             .textStyle(typographies.heading2)
             .foregroundStyle(.black)
     }

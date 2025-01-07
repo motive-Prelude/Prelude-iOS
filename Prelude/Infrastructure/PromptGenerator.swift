@@ -11,19 +11,23 @@ class PromptGenerator {
     static let shared = PromptGenerator()
     private(set) var greetingPrompt: String
     
+    
+    
     init() {
         self.greetingPrompt = Self.generateGreetingPrompt()
     }
     
     static func generateGreetingPrompt() -> String {
-        return ["What’s on your\nplate today?",
-                "What food are you\nworried about?",
-                "Let’s make sure\nevery bite is safe.",
-                "Let’s check if\nyour plate is safe.",
-                "Wondering if it’s safe\nto enjoy that bite?",
-                "Is it safe to dig in?\nLet’s check!",
-                "Planning your\nnext bite?"]
-            .randomElement() ?? "What food are you\nworried about?"
+        let greetingTitle1 = String(localized: "main_greeting_title_1")
+        let greetingTitle2 = String(localized: "main_greeting_title_2")
+        let greetingTitle3 = String(localized: "main_greeting_title_3")
+        let greetingTitle4 = String(localized: "main_greeting_title_4")
+        let greetingTitle5 = String(localized: "main_greeting_title_5")
+        let greetingTitle6 = String(localized: "main_greeting_title_6")
+        let greetingTitle7 = String(localized: "main_greeting_title_7")
+        
+        return [greetingTitle1, greetingTitle2, greetingTitle3, greetingTitle4, greetingTitle5, greetingTitle6, greetingTitle7]
+            .randomElement() ?? greetingTitle1
     }
     
     func generatePrompt(with healthInfo: HealthInfo) -> String {

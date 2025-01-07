@@ -32,13 +32,13 @@ struct MedicalInfoSetUpView: View {
     }
     
     private var bloodPressureInstruction: some View {
-        Text("Do you have any blood pressure issues?")
+        Text(Localization.BloodPressure.bloodPressureQuestion)
             .textStyle(typographies.title1)
             .foregroundStyle(PLColor.neutral800)
     }
     
     private var diabetesInstruction: some View {
-        Text("Do you have any form of diabetes?")
+        Text(Localization.Diabetes.diabetesQuestion)
             .textStyle(typographies.title1)
             .foregroundStyle(PLColor.neutral800)
     }

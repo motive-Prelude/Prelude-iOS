@@ -36,7 +36,7 @@ struct WelcomeView: View {
     
     private var welcomeGift: some View {
         VStack(spacing: 24) {
-            Text("A little gift\nfor your peace of mind")
+            Text(Localization.Label.welcomeGiftTitle)
                 .textStyle(typographies.heading1)
                 .foregroundStyle(PLColor.neutral800)
                 .multilineTextAlignment(.leading)
@@ -46,21 +46,15 @@ struct WelcomeView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
             
-            Text("""
+            Text(Localization.Label.welcomeGiftContent)
             .textStyle(typographies.paragraph1)
-                 
-                 With that in mind, we’d like to offer you a small gift: three test seeds you can use any time you need to check if your food is safe.
-                 
-                 We hope these seeds bring a bit more peace of mind as you prepare to welcome new life.
-                 """)
-            .textStyle(.paragraph1)
             .foregroundStyle(PLColor.neutral700)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
     private var startButton: some View {
-        PLActionButton(label: "Receive seeds & Begin", type: .primary, contentType: .text, size: .large, shape: .rect) {
+        PLActionButton(label: Localization.Button.receiveGiftButtonTitle, type: .primary, contentType: .text, size: .large, shape: .rect) {
             Task {
                 guard NetworkMonitor.shared.isConnected else {
                     EventBus.shared.errorPublisher.send(.networkUnavailable)

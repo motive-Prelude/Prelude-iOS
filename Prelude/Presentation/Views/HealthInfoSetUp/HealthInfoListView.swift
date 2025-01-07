@@ -12,7 +12,7 @@ struct HealthInfoListView: View {
     let mode: ListItemType
     var onItemTap: ((PartialKeyPath<HealthInfo>) -> Void)?
     
-    var gestationWeekData: String { healthInfo.gestationalWeek.rawValue }
+    var gestationWeekData: String { healthInfo.gestationalWeek.localized }
     var heightData: String {
         switch healthInfo.lastHeightUnit {
             case .centimeter:
@@ -29,20 +29,20 @@ struct HealthInfoListView: View {
         return String(Int(unit.fromBaseUnit(weight))) + unit.symbol
         
     }
-    var bloodPressureData: String { healthInfo.bloodPressure.rawValue }
-    var diabetesData: String { healthInfo.diabetes.rawValue }
+    var bloodPressureData: String { healthInfo.bloodPressure.localized }
+    var diabetesData: String { healthInfo.diabetes.localized }
     var restrictionsData: String {
-        let restrictions = healthInfo.restrictions.map { $0.rawValue }.joined(separator: ", ")
-        return restrictions.isEmpty ? "None" : restrictions
+        let restrictions = healthInfo.restrictions.map { $0.localized }.joined(separator: ", ")
+        return restrictions.isEmpty ? Localization.Label.noneLabel : restrictions
     }
     
     var body: some View {
         VStack {
-            PLListItem(title: "Gestational Week", supportingText: gestationWeekData, mode) { onItemTap?(\.gestationalWeek) }
-            PLListItem(title: "Height, Weight", supportingText: heightData + ", " + weightData, mode) { onItemTap?(\.height) }
-            PLListItem(title: "Blood Pressure", supportingText: bloodPressureData, mode) { onItemTap?(\.bloodPressure) }
-            PLListItem(title: "Diabetes", supportingText: diabetesData, mode) { onItemTap?(\.diabetes) }
-            PLListItem(title: "Restrictions", supportingText: restrictionsData, mode) { onItemTap?(\.restrictions) }
+            PLListItem(title: Localization.HealthInfoOption.gestationalWeek, supportingText: gestationWeekData, mode) { onItemTap?(\.gestationalWeek) }
+            PLListItem(title: Localization.HealthInfoOption.heightAndWeight, supportingText: heightData + ", " + weightData, mode) { onItemTap?(\.height) }
+            PLListItem(title: Localization.HealthInfoOption.bloodPressure, supportingText: bloodPressureData, mode) { onItemTap?(\.bloodPressure) }
+            PLListItem(title: Localization.HealthInfoOption.diabetes, supportingText: diabetesData, mode) { onItemTap?(\.diabetes) }
+            PLListItem(title: Localization.HealthInfoOption.restrictions, supportingText: restrictionsData, mode) { onItemTap?(\.restrictions) }
         }
     }
 }

@@ -31,11 +31,11 @@ struct HealthInfoConfirmView: View {
     
     private var headline: some View {
         VStack(spacing: 8) {
-            Text("Is this correct?")
+            Text(Localization.Label.confirmTitle)
                 .textStyle(typographies.heading2)
                 .foregroundStyle(PLColor.neutral800)
             
-            Text("You can edit your health data anytime.")
+            Text(Localization.Label.confirmSubtitle)
                 .textStyle(typographies.paragraph1)
                 .foregroundStyle(PLColor.neutral600)
         }
@@ -43,13 +43,13 @@ struct HealthInfoConfirmView: View {
     
     private var buttonGroup: some View {
         HStack(spacing: 12) {
-            PLActionButton(label: "Make changes",
+            PLActionButton(label: Localization.Button.changeButtonTitle,
                            type: .secondary,
                            contentType: .text,
                            size: .large,
                            shape: .rect) { navigationManager.previous() }
             
-            PLActionButton(label: "All good",
+            PLActionButton(label: Localization.Button.confirmButtonTitle,
                            type: .primary,
                            contentType: .text,
                            size: .large,

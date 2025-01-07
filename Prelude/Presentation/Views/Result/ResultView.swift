@@ -28,17 +28,17 @@ struct ResultView: View {
     @State private var retryCount = -1
     
     var retryAlertAction: AlertAction {
-        AlertAction(title: "Retry") {
+        AlertAction(title: Localization.Button.retryButtonTitle) {
             Task { await checkValidation() }
         }
     }
     
     var cancelAlertAction: AlertAction {
-        AlertAction(title: "Cancel") { dismiss() }
+        AlertAction(title: Localization.Button.cancelButtonTitle) { dismiss() }
     }
     
     var getMoreAlertAction: AlertAction {
-        AlertAction(title: "Get more") { dismiss() }
+        AlertAction(title: Localization.Button.getMoreButtonTitle) { dismiss() }
     }
     
     var body: some View {
@@ -75,8 +75,8 @@ struct ResultView: View {
     
     private func checkNotEnoughSeeds(userInfo: UserInfo) {
         if userInfo.remainingTimes < 1 {
-            alertManager.showAlert(title: "No seeds left",
-                                   message: "You’ve used up all your seeds. Purchase more to continue checking food safety.",
+            alertManager.showAlert(title: Localization.Dialog.dialogNoSeedTitle,
+                                   message: Localization.Dialog.dialogNoSeedDescription,
                                    actions: [cancelAlertAction, getMoreAlertAction])
         }
     }
@@ -87,8 +87,8 @@ struct ResultView: View {
                 processNextProcedure()
                 Task { await sendMessage(image: image) }
             } else {
-                alertManager.showAlert(title: "Not a food item",
-                                       message: "The picture doesn’t seem to contain food. Please upload a clear food image.",
+                alertManager.showAlert(title: Localization.Dialog.dialogNotFoodTitle,
+                                       message: Localization.Dialog.dialogNotFoodDescription,
                                        actions: [cancelAlertAction, retryAlertAction])
             }
         }
@@ -115,19 +115,19 @@ struct ResultView: View {
     
     private func showAlert(_ error: DomainError) {
         switch error {
-            case .networkUnavailable: alertManager.showAlert(title: "Network unavailable",
-                                                             message: "It seems you’re not connected to the internet. Please check your connection and try again.",
+            case .networkUnavailable: alertManager.showAlert(title: Localization.Dialog.dialogNetworkErrorTitle,
+                                                             message: Localization.Dialog.dialogNetworkErrorDescription,
                                                              actions: [cancelAlertAction, retryAlertAction])
-            case .serverError: alertManager.showAlert(title: "Server issue",
-                                                      message: "We’re having trouble connecting to the server. Please try again later.",
+            case .serverError: alertManager.showAlert(title: Localization.Dialog.dialogServerErrorTitle,
+                                                      message: Localization.Dialog.dialogServerErrorDescription,
                                                       actions: [cancelAlertAction, retryAlertAction])
                 
-            case .timeout: alertManager.showAlert(title: "Request timed out",
-                                                  message: "The request took too long to process. Please check your connection and try again.",
+            case .timeout: alertManager.showAlert(title: Localization.Dialog.dialogTimeOutTitle,
+                                                  message: Localization.Dialog.dialogTimeOutDescription,
                                                   actions: [cancelAlertAction, retryAlertAction])
                 
-            default: alertManager.showAlert(title: "Unexpected error",
-                                                  message: "An error occurred while processing your request. Please try again shortly.",
+            default: alertManager.showAlert(title: Localization.Dialog.dialogUnknownErrorTitle,
+                                            message: Localization.Dialog.dialogUnknownErrorDescription,
                                                   actions: [cancelAlertAction, retryAlertAction])
         }
     }
@@ -157,16 +157,18 @@ struct ResultView: View {
     private func resultLayout(result: JudgeResult) -> some View {
         ZStack(alignment: .bottom) {
             VStack(spacing: 8) {
-                PLNavigationHeader("Safety Report") {
+                PLNavigationHeader(Localization.NavigationHeader.navigationHeaderReportTitle) {
                     EmptyView()
                 } trailing: {
                     PLActionButton(icon: Image(.close), type: .secondary, contentType: .icon, size: .small, shape: .square) { dismiss() }
                 }
-                
-                headline(result: result)
-                resultContent
-                
-                Spacer()
+                ScrollView(showsIndicators: false) {
+                    headline(result: result)
+                    resultContent
+                    
+                    Spacer()
+                }
+                .padding(.bottom, 8)
             }
         }
         .padding(.horizontal, 16)
@@ -188,7 +190,7 @@ struct ResultView: View {
                         .multilineTextAlignment(.center)
                     
                     HStack(spacing: 0) {
-                        Text("Results on ")
+                        Text(Localization.Result.resultTitleFoodName(judgement.productName))
                             .textStyle(typographies.title1)
                             .foregroundStyle(PLColor.neutral800)
     
@@ -215,21 +217,20 @@ struct ResultView: View {
     private func resultInstruction(_ result: JudgeResult) -> String {
         switch result {
             case .positive:
-                return "All good!\nEnjoy"
+                return Localization.Result.positiveResultTitle
             case .caution:
-                return "Caution advised.\nStay alert!"
+                return Localization.Result.cautionResultTitle
             case .negative:
-                return "Not safe!\nAvoid this one."
+                return Localization.Result.negativeResultTitle
         }
     }
     
     @ViewBuilder
     private var resultContent: some View {
         if let judgement = resultViewModel.judgement {
-            ScrollView(showsIndicators: false) {
                 Text(judgement.conclusion)
                 .textStyle(typographies.paragraph1)
-                    .foregroundStyle(.offblack)
+                .foregroundStyle(PLColor.neutral800)
                     .padding(.bottom, 10)
                     .padding(.top, 44)
                 
@@ -237,18 +238,16 @@ struct ResultView: View {
                     VStack(alignment: .leading, spacing: 5) {
                         Text(detail.title)
                             .textStyle(typographies.label)
-                            .foregroundStyle(.offblack)
+                            .foregroundStyle(PLColor.neutral800)
                         
                         Text(detail.content)
                             .textStyle(typographies.paragraph1)
-                            .foregroundStyle(.offblack)
+                            .foregroundStyle(PLColor.neutral800)
                     }
                     .padding(.bottom, 10)
                 }
                 
                 chatGPTWarning
-            }
-            .padding(.bottom, 8)
         }
     }
     
@@ -258,7 +257,7 @@ struct ResultView: View {
                 .font(.system(size: 16))
                 .foregroundStyle(PLColor.negative)
             
-            Text("This is guidance only. Confirm for safety.")
+            Text(Localization.Label.aiWarningLabel)
                 .textStyle(typographies.caption)
                 .foregroundStyle(PLColor.neutral800)
             

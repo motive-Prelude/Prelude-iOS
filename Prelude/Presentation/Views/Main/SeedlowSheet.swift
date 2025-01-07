@@ -25,13 +25,13 @@ struct SeedlowSheet: View {
                     Spacer()
                     cancelButton
                 }
-                .padding(.top, 8)
+                .padding(.top, 16)
                 .padding(.bottom, 4)
                 
                 content
                 Spacer()
                 
-                PLActionButton(label: "Save", type: .primary, contentType: .text, size: .large, shape: .rect) {
+                PLActionButton(label: Localization.Button.getMoreButtonTitle, type: .primary, contentType: .text, size: .large, shape: .rect) {
                     dismiss()
                     action()
                 }
@@ -77,13 +77,13 @@ struct SeedlowSheet: View {
     }
     
     private var title: some View {
-        Text("You’re out of seeds!")
+        Text(Localization.Label.seedWarningTitle)
             .textStyle(typographies.heading1)
             .foregroundStyle(PLColor.neutral800)
     }
     
     private var description: some View {
-        Text("Get more seeds to keep receiving food safety tips.")
+        Text(Localization.Label.seedWarningSubtitle)
             .textStyle(typographies.paragraph1)
             .foregroundStyle(PLColor.neutral600)
             .multilineTextAlignment(.center)

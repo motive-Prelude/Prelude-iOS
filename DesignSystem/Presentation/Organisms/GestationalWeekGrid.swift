@@ -21,7 +21,7 @@ struct GestationalWeekGrid: View {
     var body: some View {
         LazyVGrid(columns: columns) {
             ForEach(GestationalWeek.allCases, id: \.self) { week in
-                PLFormButton(label: week.rawValue,
+                PLFormButton(label: week.localized,
                              description: week.weeks,
                              isSelected: bindingForWeek(week),
                              contentType: .description,
