@@ -88,12 +88,27 @@ enum Allergies: String, CaseIterable, Codable {
     case gluten = "Gluten"
     
     static var totalCount: Int { Allergies.allCases.count }
+    
+    var localized: String {
+        switch self {
+            case .diary: return Localization.Allergy.dairyOption
+            case .eggs: return Localization.Allergy.eggsOption
+            case .fish: return Localization.Allergy.fishOption
+            case .shellfish: return Localization.Allergy.shellfishOption
+            case .treeNuts: return Localization.Allergy.treeNutsOption
+            case .peanuts: return Localization.Allergy.peanutsOption
+            case .wheat: return Localization.Allergy.wheatOption
+            case .soy: return Localization.Allergy.soyOption
+            case .gluten: return Localization.Allergy.glutenOption
+        }
+    }
 }
 
 struct BasicInfoSetUpView: View {
     @Binding var gestationalWeek: GestationalWeek?
     @Binding var height: Height?
     @Binding var weight: Weight?
+    
     @Environment(\.plTypographySet) var typographies
     
     var body: some View {
