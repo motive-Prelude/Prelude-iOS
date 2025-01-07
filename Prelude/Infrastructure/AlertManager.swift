@@ -71,7 +71,7 @@ class AlertManager: ObservableObject {
     
     func showToast(_ error: DomainError) {
         guard !isToastVisible else { return }
-        self.toastIcon = Image(.checkSmall)
+        self.toastIcon = Image(.errorLight)
         self.toastDescription = makeToastDescription(error)
         withAnimation(toastAnimation) {
             isToastVisible = true
