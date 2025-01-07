@@ -44,10 +44,6 @@
 		074148C82C67EDB300D79562 /* Judgement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148C72C67EDB300D79562 /* Judgement.swift */; };
 		074148CD2C67F66100D79562 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 074148CC2C67F66100D79562 /* Lottie */; };
 		074148D42C6800CA00D79562 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148D32C6800CA00D79562 /* Font+.swift */; };
-		074148DA2C68012C00D79562 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 074148D72C68012C00D79562 /* Pretendard-SemiBold.otf */; };
-		074148DB2C68012C00D79562 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 074148D82C68012C00D79562 /* Pretendard-Regular.otf */; };
-		074148DC2C68012C00D79562 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 074148D92C68012C00D79562 /* Pretendard-Bold.otf */; };
-		074148DE2C6801CD00D79562 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 074148DD2C6801CD00D79562 /* Pretendard-Medium.otf */; };
 		074148E22C6819E000D79562 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148E12C6819E000D79562 /* UIApplication+.swift */; };
 		074148E72C681D8600D79562 /* HealthInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148E62C681D8600D79562 /* HealthInfo.swift */; };
 		074148ED2C68410200D79562 /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148EC2C68410200D79562 /* ResultViewModel.swift */; };
@@ -126,10 +122,6 @@
 		071C84422C6704800055C393 /* FileUploadResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUploadResponse.swift; sourceTree = "<group>"; };
 		074148C72C67EDB300D79562 /* Judgement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Judgement.swift; sourceTree = "<group>"; };
 		074148D32C6800CA00D79562 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
-		074148D72C68012C00D79562 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
-		074148D82C68012C00D79562 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
-		074148D92C68012C00D79562 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
-		074148DD2C6801CD00D79562 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		074148E12C6819E000D79562 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		074148E62C681D8600D79562 /* HealthInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthInfo.swift; sourceTree = "<group>"; };
 		074148EC2C68410200D79562 /* ResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModel.swift; sourceTree = "<group>"; };
@@ -496,22 +488,10 @@
 				077B2E5A2CDFA8BA001B9AE5 /* FoodDetectionModel */,
 				0704DF3C2D23AC1500906D9B /* loadingBloomPot.json */,
 				0704DF3D2D23AC1500906D9B /* splashTangtang.json */,
-				074148D62C6800FC00D79562 /* Font */,
 				071C83DF2C66E1CC0055C393 /* Assets.xcassets */,
 				077E46052D0594CA006B9CF6 /* GoogleService-Info.plist */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		074148D62C6800FC00D79562 /* Font */ = {
-			isa = PBXGroup;
-			children = (
-				074148DD2C6801CD00D79562 /* Pretendard-Medium.otf */,
-				074148D92C68012C00D79562 /* Pretendard-Bold.otf */,
-				074148D82C68012C00D79562 /* Pretendard-Regular.otf */,
-				074148D72C68012C00D79562 /* Pretendard-SemiBold.otf */,
-			);
-			path = Font;
 			sourceTree = "<group>";
 		};
 		074148E52C681D7E00D79562 /* Health */ = {
@@ -628,15 +608,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				077E46062D0594CA006B9CF6 /* GoogleService-Info.plist in Resources */,
-				074148DE2C6801CD00D79562 /* Pretendard-Medium.otf in Resources */,
 				079A90192D23CB08004F94DA /* Prelude.storekit in Resources */,
 				071C83E42C66E1CC0055C393 /* Preview Assets.xcassets in Resources */,
 				07590B392C9DACCC00BE6B14 /* Products.plist in Resources */,
-				074148DC2C68012C00D79562 /* Pretendard-Bold.otf in Resources */,
 				071C83E02C66E1CC0055C393 /* Assets.xcassets in Resources */,
-				074148DB2C68012C00D79562 /* Pretendard-Regular.otf in Resources */,
 				07C413E62D2BF1B0005A7858 /* Localizable.xcstrings in Resources */,
-				074148DA2C68012C00D79562 /* Pretendard-SemiBold.otf in Resources */,
 				076D441E2D2A4DBD00B6D20E /* Secrets.xcconfig in Resources */,
 				0704DF3E2D23AC1500906D9B /* loadingBloomPot.json in Resources */,
 				0704DF3F2D23AC1500906D9B /* splashTangtang.json in Resources */,
@@ -839,11 +815,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Prelude/Prelude.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Prelude/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -855,6 +832,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Prelude;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "사진첩 접근에 허용해주세요";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "사용자 맞춤 서비스 제공을 위해 권한을 허용해주세요.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -869,7 +847,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.1;
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.02;
 				PRODUCT_BUNDLE_IDENTIFIER = Eric.motive.prelude;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -879,7 +857,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -889,11 +867,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Prelude/Prelude.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Prelude/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -905,6 +884,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Prelude;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "사진첩 접근에 허용해주세요";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "사용자 맞춤 서비스 제공을 위해 권한을 허용해주세요.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -919,7 +899,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.1;
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.02;
 				PRODUCT_BUNDLE_IDENTIFIER = Eric.motive.prelude;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -929,7 +909,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
