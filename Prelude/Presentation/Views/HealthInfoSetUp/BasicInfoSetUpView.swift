@@ -64,6 +64,7 @@ struct BasicInfoSetUpView: View {
     @Binding var gestationalWeek: GestationalWeek?
     @Binding var height: Height?
     @Binding var weight: Weight?
+    @Environment(\.plTypographySet) var typographies
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -84,13 +85,13 @@ struct BasicInfoSetUpView: View {
     
     private var pregnantWeekInstruction: some View {
         Text("How many weeks pregnant are you?")
-            .textStyle(.title1)
+            .textStyle(typographies.title1)
             .foregroundStyle(PLColor.neutral800)
     }
     
     private var heightAndWeightInstruction: some View {
         Text("What is your height and Weight?")
-            .textStyle(.title1)
+            .textStyle(typographies.title1)
             .foregroundStyle(PLColor.neutral800)
     }
 }

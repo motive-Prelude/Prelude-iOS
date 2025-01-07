@@ -11,6 +11,8 @@ struct InfoSetUpStartView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var alertManager: AlertManager
     
+    @Environment(\.plTypographySet) var typographies
+    
     var primaryAlertAction: AlertAction {
         AlertAction(title: "Enter Info", action: { navigationManager.navigate(.healthInfoSetup) })
     }
@@ -45,6 +47,7 @@ struct InfoSetUpStartView: View {
         VStack(spacing: 24) {
             Text("Let’s get to know your\nhealth needs")
                 .textStyle(.heading1)
+                .textStyle(typographies.heading1)
                 .foregroundStyle(PLColor.neutral800)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .multilineTextAlignment(.leading)
@@ -55,7 +58,7 @@ struct InfoSetUpStartView: View {
                 .frame(maxWidth: .infinity)
             
             Text("To provide you with the best experience, we use your health information to deliver accurate and personalized food safety tips customized for your needs.")
-                .textStyle(.paragraph1)
+                .textStyle(typographies.paragraph1)
                 .foregroundStyle(PLColor.neutral700)
         }
     }

@@ -12,6 +12,8 @@ struct OnboardingPage: View {
     @StateObject var onboardingViewModel = OnboardingViewModel()
     @EnvironmentObject var userSession: UserSession
     
+    @Environment(\.plTypographySet) var typographies
+    
     enum TabSelection: Int, CaseIterable, Hashable {
         case onboarding1 = 1
         case onboarding2
@@ -72,7 +74,7 @@ struct OnboardingPage: View {
                 Task { await userSession.login(parameter: parameter) }
             }
         }
-        .textStyle(.label)
+        .textStyle(typographies.label)
         .foregroundStyle(PLColor.neutral50)
         .clipShape(RoundedRectangle(cornerRadius: 24))
         .frame(height: 60)

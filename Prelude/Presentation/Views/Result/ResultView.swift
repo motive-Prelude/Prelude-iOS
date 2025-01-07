@@ -19,6 +19,8 @@ struct ResultView: View {
     let image: UIImage?
     @StateObject var resultViewModel = ResultViewModel()
     @Environment(\.dismiss) var dismiss
+    @Environment(\.plTypographySet) var typographies
+    
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var userSession: UserSession
     @EnvironmentObject var alertManager: AlertManager
@@ -181,18 +183,15 @@ struct ResultView: View {
                 
                 VStack(spacing: 16) {
                     Text(resultInstruction(result))
-                        .textStyle(.heading1)
+                        .textStyle(typographies.heading1)
                         .foregroundStyle(PLColor.neutral800)
                         .multilineTextAlignment(.center)
                     
                     HStack(spacing: 0) {
                         Text("Results on ")
-                            .textStyle(.title1)
+                            .textStyle(typographies.title1)
                             .foregroundStyle(PLColor.neutral800)
-                        
-                        Text("'\(judgement.productName)'")
-                            .textStyle(.title1)
-                            .foregroundStyle(PLColor.neutral800)
+    
                     }
                 }
             }
@@ -229,7 +228,7 @@ struct ResultView: View {
         if let judgement = resultViewModel.judgement {
             ScrollView(showsIndicators: false) {
                 Text(judgement.conclusion)
-                    .font(.pretendRegular16)
+                .textStyle(typographies.paragraph1)
                     .foregroundStyle(.offblack)
                     .padding(.bottom, 10)
                     .padding(.top, 44)
@@ -237,11 +236,11 @@ struct ResultView: View {
                 ForEach(judgement.details, id: \.self) { detail in
                     VStack(alignment: .leading, spacing: 5) {
                         Text(detail.title)
-                            .font(.pretendSemiBold16)
+                            .textStyle(typographies.label)
                             .foregroundStyle(.offblack)
                         
                         Text(detail.content)
-                            .font(.pretendRegular16)
+                            .textStyle(typographies.paragraph1)
                             .foregroundStyle(.offblack)
                     }
                     .padding(.bottom, 10)
@@ -260,7 +259,7 @@ struct ResultView: View {
                 .foregroundStyle(PLColor.negative)
             
             Text("This is guidance only. Confirm for safety.")
-                .textStyle(.caption)
+                .textStyle(typographies.caption)
                 .foregroundStyle(PLColor.neutral800)
             
             Spacer()

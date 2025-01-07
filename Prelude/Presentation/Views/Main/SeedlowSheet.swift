@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SeedlowSheet: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.plTypographySet) var typographies
     let action: () -> ()
     
     var body: some View {
@@ -77,13 +78,13 @@ struct SeedlowSheet: View {
     
     private var title: some View {
         Text("You’re out of seeds!")
-            .textStyle(.heading1)
+            .textStyle(typographies.heading1)
             .foregroundStyle(PLColor.neutral800)
     }
     
     private var description: some View {
         Text("Get more seeds to keep receiving food safety tips.")
-            .textStyle(.paragraph1)
+            .textStyle(typographies.paragraph1)
             .foregroundStyle(PLColor.neutral600)
             .multilineTextAlignment(.center)
     }

@@ -10,6 +10,9 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var userSession: UserSession
+    
+    @Environment(\.plTypographySet) var typographies
+    
     @StateObject var mainViewModel = MainViewModel()
     @State private var uiImage: UIImage?
     @State private var isShowingImagePicker = false
@@ -83,7 +86,7 @@ struct MainView: View {
     
     private var greetingText: some View {
         Text(PromptGenerator.shared.greetingPrompt)
-            .textStyle(.heading1)
+            .textStyle(typographies.heading1)
             .foregroundStyle(PLColor.neutral800)
             .multilineTextAlignment(.center)
     }
@@ -134,7 +137,7 @@ struct MainView: View {
             PLActionButton(icon: Image(.capture), type: .primary, contentType: .icon, size: .medium, shape: .circle) { isShowingImagePicker.toggle() }
             
             Text("Take Photo")
-                .textStyle(.title1)
+                .textStyle(typographies.title1)
                 .foregroundStyle(PLColor.neutral800)
         }
     }

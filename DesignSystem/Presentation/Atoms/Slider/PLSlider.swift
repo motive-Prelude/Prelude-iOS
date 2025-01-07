@@ -16,9 +16,11 @@ struct PLSlider: View {
     @State private var dragStartOffset: CGFloat = -12
     @State private var barWidth: CGFloat = 0
     @Binding var selectedValue: Int
+    @Environment(\.plTypographySet) var typographies
+    
     
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 16) {
             ZStack(alignment: .leading) {
                 bar
                     .background(GeometryReaderWidthPreference())
@@ -32,13 +34,13 @@ struct PLSlider: View {
             
             HStack {
                 Text("\(minValue)")
-                    .textStyle(.caption)
+                    .textStyle(typographies.caption)
                     .foregroundStyle(PLColor.neutral600)
                 
                 Spacer()
                 
                 Text("\(maxValue)")
-                    .textStyle(.caption)
+                    .textStyle(typographies.caption)
                     .foregroundStyle(PLColor.neutral600)
             }
         }
@@ -85,6 +87,7 @@ struct PLSlider: View {
                     dragStartOffset = handleOffset
                 }
         )
+        .shadow(color: PLColor.neutral800.opacity(0.15), radius: 4, x: 0, y: 4)
     }
     
     private var datumPoint: some View {

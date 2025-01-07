@@ -14,6 +14,7 @@ struct PurchaseView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var userSession: UserSession
     @Environment(\.dismiss) var dismiss
+    @Environment(\.plTypographySet) var typographies
     
     var remainingSeeds: UInt {
         guard let userInfo = userSession.userInfo else { return 0 }
@@ -84,7 +85,7 @@ struct PurchaseView: View {
                 .frame(width: 20)
             
             Text(content)
-                .textStyle(.paragraph2)
+                .textStyle(typographies.paragraph2)
                 .foregroundStyle(PLColor.neutral600)
         }
     }
@@ -97,7 +98,7 @@ struct PurchaseView: View {
             
             VStack(spacing: 0) {
                 Text("Select what you need")
-                    .textStyle(.label)
+                    .textStyle(typographies.label)
                     .foregroundStyle(PLColor.neutral50)
                     .padding(.top, 12)
                     .padding(.bottom, 8)
@@ -125,18 +126,18 @@ struct PurchaseView: View {
         HStack(alignment: .bottom) {
             HStack(alignment: .bottom, spacing: 4) {
                 Text("\(selectedSeeds)")
-                    .textStyle(.display)
+                    .textStyle(typographies.display)
                     .foregroundStyle(PLColor.neutral800)
                 
                 Text("seeds")
-                    .textStyle(.heading2)
+                    .textStyle(typographies.heading2)
                     .foregroundStyle(PLColor.neutral800)
             }
             
             Spacer()
             
             Text("$\(totalPrice)")
-                .textStyle(.title2)
+                .textStyle(typographies.title2)
                 .foregroundStyle(PLColor.neutral500)
         }
     }
@@ -145,13 +146,13 @@ struct PurchaseView: View {
         HStack {
             logo
             Text("Remaining")
-                .textStyle(.title1)
+                .textStyle(typographies.title1)
                 .foregroundStyle(PLColor.neutral800)
             
             Spacer()
             
             Text("\(remainingSeeds) seeds")
-                .textStyle(.label)
+                .textStyle(typographies.label)
                 .foregroundStyle(PLColor.neutral800)
             
         }
@@ -183,7 +184,7 @@ struct PurchaseView: View {
             }
             
             Text("By clicking ‘Buy now’, your payment will be charged to your App Store account at confirmation of purchase. The selected number of seeds will be added to your account immediately. Please note that all purchases are final and non-refundable. ")
-                .textStyle(.caption)
+                .textStyle(typographies.caption)
                 .foregroundStyle(PLColor.neutral900)
         }
     }

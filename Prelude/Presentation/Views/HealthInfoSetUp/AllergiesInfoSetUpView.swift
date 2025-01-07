@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AllergiesInfoSetUpView: View {
     @Binding var allergies: [Allergies]
+    @Environment(\.plTypographySet) var typographies
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -22,13 +23,13 @@ struct AllergiesInfoSetUpView: View {
     
     private var allergiesInstruction: some View {
         Text("Do you have any allergies or food sensitivities?")
-            .textStyle(.title1)
+            .textStyle(typographies.title1)
             .foregroundStyle(PLColor.neutral800)
     }
     
     private var checkInstruction: some View {
         Text("Check all that apply")
-            .textStyle(.paragraph2)
+            .textStyle(typographies.paragraph2)
             .foregroundStyle(PLColor.neutral500)
     }
 }

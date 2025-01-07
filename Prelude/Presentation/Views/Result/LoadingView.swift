@@ -10,6 +10,7 @@ import SwiftUI
 
 struct LoadingView: View {
     @Binding var currentProcedure: Int
+    @Environment(\.plTypographySet) var typographies
     
     var body: some View {
         ZStack {
@@ -48,26 +49,26 @@ struct LoadingView: View {
     
     private var instruction: some View {
         Text("Just a moment")
-            .textStyle(.paragraph1)
+            .textStyle(typographies.paragraph1)
             .foregroundStyle(PLColor.neutral600)
     }
     
     private var loadingMessage: some View {
         Text("Making sure it’s safe")
-            .textStyle(.heading2)
+            .textStyle(typographies.heading2)
             .foregroundStyle(PLColor.neutral800)
     }
     
     private var procedures: some View {
         VStack(spacing: 12) {
             Text("Reviewing image")
-                .textStyle(.label)
+                .textStyle(typographies.label)
                 .foregroundStyle(currentProcedure == 1 ? PLColor.neutral800 : PLColor.neutral300)
             Text("Checking each ingredient")
-                .textStyle(.label)
+                .textStyle(typographies.label)
                 .foregroundStyle(currentProcedure == 2 ? PLColor.neutral800 : PLColor.neutral300)
             Text("Collecting nutritional details")
-                .textStyle(.label)
+                .textStyle(typographies.label)
                 .foregroundStyle(currentProcedure == 3 ? PLColor.neutral800 : PLColor.neutral300)
             
         }

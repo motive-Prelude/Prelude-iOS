@@ -11,6 +11,7 @@ struct HealthInfoItemEditSheet: View {
     let healthInfo: HealthInfo
     let selectedKeyPath: PartialKeyPath<HealthInfo>
     @Environment(\.dismiss) var dismiss
+    @Environment(\.plTypographySet) var typographies
     @EnvironmentObject var keyboardObserver: KeyboardObserver
     
     var body: some View {
@@ -31,7 +32,7 @@ struct HealthInfoItemEditSheet: View {
                 .padding(.bottom, 4)
                 
                 Text(title)
-                    .textStyle(.label)
+                    .textStyle(typographies.label)
                     .foregroundStyle(PLColor.neutral800)
                     .padding(.bottom, 24)
                 

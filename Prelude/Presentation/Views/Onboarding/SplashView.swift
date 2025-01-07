@@ -12,6 +12,7 @@ struct SplashView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var alertManager: AlertManager
     @EnvironmentObject var userSession: UserSession
+    @Environment(\.plTypographySet) var typographies
     
     var body: some View {
         ZStack {
@@ -59,7 +60,7 @@ struct SplashView: View {
     }
     private var title: some View {
         Text("Prelude")
-            .textStyle(.heading2)
+            .textStyle(typographies.heading2)
             .foregroundStyle(.black)
     }
     

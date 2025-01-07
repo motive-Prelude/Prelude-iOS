@@ -12,6 +12,8 @@ struct OnboardingTabContent: View {
     let title: String
     let description: String
     
+    @Environment(\.plTypographySet) var typographies
+    
     var body: some View {
         VStack(spacing: 32) {
             image
@@ -22,12 +24,12 @@ struct OnboardingTabContent: View {
                 
             Group {
                 Text(title)
-                    .textStyle(.heading1)
+                    .textStyle(typographies.heading1)
                     .foregroundStyle(PLColor.neutral800)
                     .multilineTextAlignment(.center)
                 
                 Text(description)
-                    .textStyle(.paragraph1)
+                    .textStyle(typographies.paragraph1)
                     .foregroundStyle(PLColor.neutral600)
                     .multilineTextAlignment(.center)
             }

@@ -12,6 +12,8 @@ struct MedicalInfoSetUpView: View {
     @Binding var bloodPressure: BloodPressure?
     @Binding var diabetes: Diabetes?
     
+    @Environment(\.plTypographySet) var typographies
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             bloodPressureInstruction
@@ -31,13 +33,13 @@ struct MedicalInfoSetUpView: View {
     
     private var bloodPressureInstruction: some View {
         Text("Do you have any blood pressure issues?")
-            .textStyle(.title1)
+            .textStyle(typographies.title1)
             .foregroundStyle(PLColor.neutral800)
     }
     
     private var diabetesInstruction: some View {
         Text("Do you have any form of diabetes?")
-            .textStyle(.title1)
+            .textStyle(typographies.title1)
             .foregroundStyle(PLColor.neutral800)
     }
     

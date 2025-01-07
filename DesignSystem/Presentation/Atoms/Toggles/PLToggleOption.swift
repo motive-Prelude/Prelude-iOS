@@ -12,11 +12,12 @@ protocol ToggleUnit: View {}
 struct PLToggleOption<Unit: MeasurableUnit>: ToggleUnit {
     let unit: Unit
     @Binding var isSelected: Bool
+    @Environment(\.plTypographySet) var typographies
     
     var body: some View {
         Group {
             Text(unit.symbol)
-                .textStyle(.label)
+                .textStyle(typographies.label)
                 .foregroundStyle(foregroundColor)
                 .frame(width: 42, height: 36)
                 .background(backgroundView)

@@ -11,6 +11,7 @@ struct AccountView: View {
     @EnvironmentObject var userSession: UserSession
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var alertManager: AlertManager
+    @Environment(\.plTypographySet) var typographies
     
     var secondaryAlertAction: AlertAction {
         AlertAction(title: "Cancel") { alertManager.hideAlert() }
@@ -78,7 +79,7 @@ struct AccountView: View {
     
     private var logOutDescription: some View {
         Text("When you log out, your data will remain on your device until you delete your app.")
-            .textStyle(.paragraph2)
+            .textStyle(typographies.paragraph2)
             .foregroundStyle(PLColor.neutral600)
     }
     
@@ -92,7 +93,7 @@ struct AccountView: View {
     
     private var deleteAccountDescription: some View {
         Text("When you delete your account, all of your data will be deleted.")
-            .textStyle(.paragraph2)
+            .textStyle(typographies.paragraph2)
             .foregroundStyle(PLColor.neutral600)
     }
 }

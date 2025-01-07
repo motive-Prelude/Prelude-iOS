@@ -28,6 +28,7 @@ struct HealthInfoSetUpPage: View {
     @State private var allergies: [Allergies] = []
     
     @EnvironmentObject var navigationManager: NavigationManager
+    @Environment(\.plTypographySet) var typographies
     
     var body: some View {
         StepTemplate(backgroundColor: PLColor.neutral50, contentTopPadding: 44) {
@@ -67,7 +68,7 @@ struct HealthInfoSetUpPage: View {
                 .frame(width: 36, height: 36)
             
             Text(headLineTitle(currentPage+1))
-                .textStyle(.heading2)
+                .textStyle(typographies.heading2)
                 .foregroundStyle(PLColor.neutral800)
                 .multilineTextAlignment(.center)
         }
