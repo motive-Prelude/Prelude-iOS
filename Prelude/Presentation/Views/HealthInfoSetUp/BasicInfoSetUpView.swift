@@ -31,6 +31,15 @@ enum BloodPressure: String, Codable {
     case hypotension = "Hypotension"
     case hypertension = "Hypertension"
     case noResponse = "No response"
+    
+    var localized: String {
+        switch self {
+            case .none: return Localization.Label.noneLabel
+            case .hypotension: return Localization.BloodPressure.hypoTensionOption
+            case .hypertension: return Localization.BloodPressure.hyperTensionOption
+            case .noResponse: return Localization.Label.noResponseLabel
+        }
+    }
 }
 
 enum GestationalWeek: String, CaseIterable, Codable {
