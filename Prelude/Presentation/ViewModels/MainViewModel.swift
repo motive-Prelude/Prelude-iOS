@@ -21,6 +21,8 @@ class MainViewModel: ObservableObject {
     }
     
     func bind(userSession: UserSession) {
+        self.prompt = self.promptGenerator.generatePrompt(with: userSession.userInfo?.healthInfo)
+        
         userSession.$userInfo
             .compactMap { $0?.healthInfo }
             .receive(on: DispatchQueue.main)

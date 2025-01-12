@@ -179,6 +179,7 @@ struct MainView: View {
                     showSeedlowSheet = true
                     return
                 }
+                
                 navigationManager.navigate(.result(userSelectPrompt: mainViewModel.prompt + userSelectPrompt, image: uiImage))
                 self.uiImage = nil
                 AnalyticsManager.shared.logEvent("음식 검색", parameters: ["음식 이름": foodName])
