@@ -140,6 +140,14 @@ class UserSession: ObservableObject {
     }
     
     @MainActor
+    func giveGift() async throws(DomainError) {
+        guard let userInfo else { return }
+        do {
+            self.userInfo = try await userRepository.update(collection: "User", userID: userInfo.id, field: ["remainingTimes": FieldValue.increment(Int64(3)), "didReceiveGift": true])
+        } catch { EventBus.shared.errorPublisher.send(error) }
+    }
+    
+    @MainActor
     func incrementSeeds(_ count: Int) async throws(DomainError) {
         if count < 0 { assertionFailure("incrementSeeds 메서드에 음수가 들어갔어요.") }
         
