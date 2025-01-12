@@ -38,7 +38,6 @@ struct InfoSetUpStartView: View {
                 skipButton
             }
         }
-
     }
     
     private var navigationHeader: some View {
@@ -47,11 +46,9 @@ struct InfoSetUpStartView: View {
     }
     
     private var content: some View {
-        let setupStartTitle = String(localized: "health_info_setup_start_title")
-        let setupStartContent = String(localized: "health_info_setup_start_content")
         
         return VStack(spacing: 24) {
-            Text(setupStartTitle)
+            Text(Localization.Label.setupStartTitle)
                 .textStyle(typographies.heading1)
                 .foregroundStyle(PLColor.neutral800)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -62,7 +59,7 @@ struct InfoSetUpStartView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: .infinity)
             
-            Text(setupStartContent)
+            Text(Localization.Label.setupStartContent)
                 .textStyle(typographies.paragraph1)
                 .foregroundStyle(PLColor.neutral700)
         }

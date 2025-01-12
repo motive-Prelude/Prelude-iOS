@@ -198,6 +198,9 @@ enum Localization {
         static var seedWarningTitle = String(localized: "seed_warning_title")
         static var seedWarningSubtitle = String(localized: "seed_warning_subtitle")
         
+        static var setupStartTitle = String(localized: "health_info_setup_start_title")
+        static var setupStartContent = String(localized: "health_info_setup_start_content")
+        
         static var appName = String(localized: "Prelude")
     }
     
