@@ -16,13 +16,15 @@ final class UserInfo {
     var healthInfo: HealthInfo?
     var lastModified: Date
     var didAgreeToTermsAndConditions: Bool
+    var didReceiveGift: Bool
     
-    init(id: String, remainingTimes: UInt, healthInfo: HealthInfo? = nil, lastModified: Date = Date(), didAgreeToTermsAndConditions: Bool = false) {
+    init(id: String, remainingTimes: UInt, healthInfo: HealthInfo? = nil, lastModified: Date = Date(), didAgreeToTermsAndConditions: Bool = false, didReceiveGift: Bool = false) {
         self.id = id
         self.remainingTimes = remainingTimes
         self.healthInfo = healthInfo
         self.lastModified = lastModified
         self.didAgreeToTermsAndConditions = didAgreeToTermsAndConditions
+        self.didReceiveGift = didReceiveGift
     }
     
     required init(from decoder: Decoder) throws {
@@ -33,6 +35,7 @@ final class UserInfo {
         self.healthInfo = try container.decodeIfPresent(HealthInfo.self, forKey: .healthInfo)
         self.lastModified = try container.decode(Date.self, forKey: .lastModified)
         self.didAgreeToTermsAndConditions = try container.decode(Bool.self, forKey: .didAgreeToTermsAndConditions)
+        self.didReceiveGift = try container.decode(Bool.self, forKey: .didReceiveGift)
     }
 }
 
@@ -45,6 +48,7 @@ extension UserInfo: Convertible {
         record["remainingTimes"] = self.remainingTimes as CKRecordValue
         record["lastModified"] = self.lastModified as CKRecordValue
         record["didAgreeToTermsAndConditions"] = self.didAgreeToTermsAndConditions as CKRecordValue
+        record["didReceiveGift"] = self.didReceiveGift as CKRecordValue
         
         if let healthInfo = healthInfo {
             do {
@@ -61,12 +65,14 @@ extension UserInfo: Convertible {
     convenience init?(from record: CKRecord) {
         guard let remainingTimes = record["remainingTimes"] as? UInt,
               let lastModified = record["lastModified"] as? Date,
-        let didAgreeToTermsAndConditions = record["didAgreeToTermsAndConditions"] as? Bool else {
+        let didAgreeToTermsAndConditions = record["didAgreeToTermsAndConditions"] as? Bool,
+        let didReceiveGift = record["didReceiveGift"] as? Bool
+        else {
             return nil
         }
         let id = record.recordID.recordName
         
-        self.init(id: id, remainingTimes: remainingTimes, lastModified: lastModified, didAgreeToTermsAndConditions: didAgreeToTermsAndConditions)
+        self.init(id: id, remainingTimes: remainingTimes, lastModified: lastModified, didAgreeToTermsAndConditions: didAgreeToTermsAndConditions, didReceiveGift: didReceiveGift)
         
         if let healthInfoData = record["healthInfo"] as? Data {
             do {
@@ -82,7 +88,7 @@ extension UserInfo: Convertible {
 // MARK: Codable
 extension UserInfo: Codable {
     enum CodingKeys: String, CodingKey {
-        case id, remainingTimes, healthInfo, lastModified, didAgreeToTermsAndConditions
+        case id, remainingTimes, healthInfo, lastModified, didAgreeToTermsAndConditions, didReceiveGift
     }
     
     func encode(to encoder: Encoder) throws {
@@ -92,5 +98,6 @@ extension UserInfo: Codable {
         try container.encode(healthInfo, forKey: .healthInfo)
         try container.encode(lastModified, forKey: .lastModified)
         try container.encode(didAgreeToTermsAndConditions, forKey: .didAgreeToTermsAndConditions)
+        try container.encode(didReceiveGift, forKey: .didReceiveGift)
     }
 }

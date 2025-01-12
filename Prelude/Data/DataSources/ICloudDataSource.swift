@@ -28,7 +28,6 @@ class ICloudDataSource {
     func save(record: CKRecord) async throws {
         do {
             try await database.save(record)
-            print("저장 완료!")
         } catch let error as CKError { throw error }
     }
     
@@ -87,6 +86,7 @@ class ICloudDataSource {
             iCloudRecord["remainingTimes"] = user.remainingTimes
             iCloudRecord["lastModified"] = user.lastModified
             iCloudRecord["didAgreeToTermsAndConditions"] = user.didAgreeToTermsAndConditions
+            iCloudRecord["didReceiveGift"] = user.didReceiveGift
             
             if let healthInfo = user.healthInfo {
                 do {
