@@ -15,9 +15,10 @@ struct PLSlider: View {
     @State private var handleOffset: CGFloat = -12
     @State private var dragStartOffset: CGFloat = -12
     @State private var barWidth: CGFloat = 0
+    @State private var previousValue: Int = 0
     @Binding var selectedValue: Int
     @Environment(\.plTypographySet) var typographies
-    
+    let generator = UIImpactFeedbackGenerator(style: .light)
     
     var body: some View {
         VStack(spacing: 16) {
@@ -81,7 +82,13 @@ struct PLSlider: View {
                     
                     handleOffset = stepIndex * stepWidth - 12
                     
-                    selectedValue = Int(stepIndex) * (maxValue - minValue) / (steps)
+                    let newValue = Int(stepIndex) * (maxValue - minValue) / (steps)
+                    if newValue != previousValue {
+                        generator.impactOccurred()
+                        previousValue = newValue
+                    }
+                    
+                    selectedValue = newValue
                 }
                 .onEnded { _ in
                     dragStartOffset = handleOffset
