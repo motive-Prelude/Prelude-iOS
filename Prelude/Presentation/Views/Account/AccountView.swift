@@ -23,8 +23,8 @@ struct AccountView: View {
             Task {
                 let reauthResult = await userSession.reauthenticate(.apple)
                 
-                if reauthResult {
-                    await userSession.deleteAccount() {
+                if !reauthResult.isEmpty {
+                    await userSession.deleteAccount(sub: reauthResult) {
                         navigationManager.screenPath = [.content]
                         alertManager.hideAlert()
                     }
