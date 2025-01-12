@@ -31,17 +31,22 @@ class PromptGenerator {
     }
     
     func generatePrompt(with healthInfo: HealthInfo) -> String {
+        let languageCode = Locale.current.language.languageCode?.identifier ?? "en"
+        
         return """
             "prompt": [
                 "intro": "다음은 임산부 사용자의 건강 정보야",
                 "healthInfo": [
-                    "pregnantWeek": \(healthInfo.gestationalWeek.rawValue),
+                    "pregnantWeek": \(healthInfo.gestationalWeek.localized),
                     "bmi": \(healthInfo.bmi),
-                    "bloodPressure": \(healthInfo.bloodPressure.rawValue),
-                    "diabetes": \(healthInfo.diabetes.rawValue)
+                    "bloodPressure": \(healthInfo.bloodPressure.localized),
+                    "diabetes": \(healthInfo.diabetes.localized),
+                    "restrictions": \(healthInfo.restrictions.map { String($0.rawValue) }.joined(separator: ", ")),
+                    "local": \(languageCode),
                 ],
+                "note": "음식이 여러 개일 경우 가장 식별 신뢰도가 높은 하나의 음식을 선정해서 그 음식만 평가해줘!",
                 "instruction": "다음에 올 사용자의 질문에 instruction 내용을 바탕으로 성실히 답변해줘!",
-                "note": "음식이 여러 개일 경우 가장 식별 신뢰도가 높은 하나의 음식을 선정해서 그 음식만 평가해줘!"
+                
             ]
         """
     }
