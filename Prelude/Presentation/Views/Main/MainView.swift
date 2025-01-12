@@ -62,10 +62,17 @@ struct MainView: View {
                 .presentationDetents([.fraction(0.45)])
                 .presentationCornerRadius(24)
         }
-        .fullScreenCover(isPresented: $showpPurchaseView) { PurchaseView() }
+        .fullScreenCover(isPresented: $showpPurchaseView) {
+            PurchaseView()
+                .trackScreen(screenName: "구매 뷰")
+        }
         .ignoresSafeArea(.all, edges: [.top, .horizontal])
         .navigationBarBackButtonHidden()
         .onTapGesture { hideKeyboard() }
+        .onAppear {
+            mainViewModel.bind(userSession: userSession)
+            mainViewModel.requestTrackingAuthorizationIfNeeded()
+        }
     }
     
     private var navigationHeader: some View {
@@ -174,6 +181,7 @@ struct MainView: View {
                 }
                 navigationManager.navigate(.result(userSelectPrompt: mainViewModel.prompt + userSelectPrompt, image: uiImage))
                 self.uiImage = nil
+                AnalyticsManager.shared.logEvent("음식 검색", parameters: ["음식 이름": foodName])
             }
         }
     }

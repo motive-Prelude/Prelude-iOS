@@ -36,6 +36,7 @@ class AlertManager: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] error in
                 self?.showToast(error)
+                AnalyticsManager.shared.logEvent("Toast Error", parameters: ["error": error.localizedDescription])
             }
             .store(in: &cancellables)
         

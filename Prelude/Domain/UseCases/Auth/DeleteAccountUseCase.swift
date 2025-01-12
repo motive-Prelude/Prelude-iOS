@@ -9,17 +9,25 @@ import Foundation
 
 class DeleteAccountUseCase {
     private let authRepository: AuthRepository
+    private let userRepository: UserRepository
     
-    init(authRepository: AuthRepository) {
+    init(authRepository: AuthRepository, userRepository: UserRepository) {
         self.authRepository = authRepository
+        self.userRepository = userRepository
     }
     
-    func execute(userID: String) async throws(DomainError) {
+    func execute(userID: String, sub: String) async throws(DomainError) {
         do {
             try await authRepository.deleteAccount(userID: userID)
-        } catch {
-            throw parseError(error)
-        }
+            let currentUser = try await userRepository.fetch(collection: "User", userID: userID)
+            let deletedUser = UserInfo(id: sub, remainingTimes: 0,
+                                       didAgreeToTermsAndConditions: currentUser.didAgreeToTermsAndConditions,
+                                       didReceiveGift: currentUser.didReceiveGift)
+            try await userRepository.delete(collection: "User", userID: userID)
+            try await userRepository.create(collection: "Deleted User", user: deletedUser)
+            
+        } catch let error as AuthError { throw parseError(error) }
+        catch { throw .unknown }
     }
     
     private func parseError(_ error: AuthError) -> DomainError {

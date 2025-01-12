@@ -31,6 +31,8 @@ final class NavigationManager: ObservableObject {
     }
     
     func navigate(_ destination: AppScreen) {
+        if let last = screenPath.last, last == destination { return }
+        
         screenPath.append(destination)
     }
     
@@ -90,6 +92,24 @@ extension AppScreen {
                 PurchaseView()
             case .result(let userSelectedPrompt, let image):
                 ResultView(userSelectedPrompt: userSelectedPrompt, image: image)
+        }
+    }
+    
+    var name: String {
+        switch self {
+            case .content: return "Content"
+            case .onboarding: return "Onboarding"
+            case .infoSetupStart: return "Info Setup Start"
+            case .healthInfoSetup: return "Health Info Setup"
+            case .healthInfoConfirm: return "Health Info Confirm"
+            case .welcome: return "Welcome"
+            case .healthInfoEdit: return "Health Info Edit"
+            case .disclaimer: return "Disclaimer"
+            case .main: return "Main"
+            case .setting: return "Setting"
+            case .account: return "Account"
+            case .purchase: return "Purchase"
+            case .result: return "Result"
         }
     }
 }

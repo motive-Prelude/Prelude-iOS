@@ -41,6 +41,7 @@
 		071C843C2C66FC6D0055C393 /* ImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C843B2C66FC6D0055C393 /* ImageRepository.swift */; };
 		071C843E2C66FCC80055C393 /* ImageRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C843D2C66FCC80055C393 /* ImageRepositoryImpl.swift */; };
 		071C84432C6704800055C393 /* FileUploadResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C84422C6704800055C393 /* FileUploadResponse.swift */; };
+		071E709A2D2E2A9700B499EA /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071E70992D2E2A9700B499EA /* AnalyticsManager.swift */; };
 		074148C82C67EDB300D79562 /* Judgement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148C72C67EDB300D79562 /* Judgement.swift */; };
 		074148CD2C67F66100D79562 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 074148CC2C67F66100D79562 /* Lottie */; };
 		074148D42C6800CA00D79562 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148D32C6800CA00D79562 /* Font+.swift */; };
@@ -75,6 +76,7 @@
 		07A50DBF2CE74F3100DE94BD /* OCRRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A50DBE2CE74F3100DE94BD /* OCRRepository.swift */; };
 		07A50DC12CE74F9F00DE94BD /* OCRRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A50DC02CE74F9F00DE94BD /* OCRRepositoryImpl.swift */; };
 		07AA0F102D237751009ADFF6 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AA0F0F2D237751009ADFF6 /* KeyboardObserver.swift */; };
+		07C2E2E22D33731C00CC6049 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 07C2E2E12D33731C00CC6049 /* InfoPlist.xcstrings */; };
 		07C413E62D2BF1B0005A7858 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 07C413E52D2BF1B0005A7858 /* Localizable.xcstrings */; };
 		07D43FD72D279F38000D8562 /* ErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D43FD62D279F38000D8562 /* ErrorMapper.swift */; };
 		07D43FD92D27D17B000D8562 /* EventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D43FD82D27D17B000D8562 /* EventBus.swift */; };
@@ -120,6 +122,7 @@
 		071C843B2C66FC6D0055C393 /* ImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepository.swift; sourceTree = "<group>"; };
 		071C843D2C66FCC80055C393 /* ImageRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepositoryImpl.swift; sourceTree = "<group>"; };
 		071C84422C6704800055C393 /* FileUploadResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUploadResponse.swift; sourceTree = "<group>"; };
+		071E70992D2E2A9700B499EA /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		074148C72C67EDB300D79562 /* Judgement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Judgement.swift; sourceTree = "<group>"; };
 		074148D32C6800CA00D79562 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		074148E12C6819E000D79562 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
@@ -146,6 +149,7 @@
 		07A50DBE2CE74F3100DE94BD /* OCRRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRRepository.swift; sourceTree = "<group>"; };
 		07A50DC02CE74F9F00DE94BD /* OCRRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRRepositoryImpl.swift; sourceTree = "<group>"; };
 		07AA0F0F2D237751009ADFF6 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
+		07C2E2E12D33731C00CC6049 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		07C413E52D2BF1B0005A7858 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		07D43FD62D279F38000D8562 /* ErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapper.swift; sourceTree = "<group>"; };
 		07D43FD82D27D17B000D8562 /* EventBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBus.swift; sourceTree = "<group>"; };
@@ -200,6 +204,7 @@
 		071C83CF2C66E1CB0055C393 = {
 			isa = PBXGroup;
 			children = (
+				07C2E2E12D33731C00CC6049 /* InfoPlist.xcstrings */,
 				07C413E52D2BF1B0005A7858 /* Localizable.xcstrings */,
 				07F3AF592CF4306100A39F2F /* DesignSystem */,
 				071C83DA2C66E1CB0055C393 /* Prelude */,
@@ -301,6 +306,7 @@
 				07AA0F0F2D237751009ADFF6 /* KeyboardObserver.swift */,
 				07D43FD62D279F38000D8562 /* ErrorMapper.swift */,
 				07D43FD82D27D17B000D8562 /* EventBus.swift */,
+				071E70992D2E2A9700B499EA /* AnalyticsManager.swift */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -615,6 +621,7 @@
 				07C413E62D2BF1B0005A7858 /* Localizable.xcstrings in Resources */,
 				076D441E2D2A4DBD00B6D20E /* Secrets.xcconfig in Resources */,
 				0704DF3E2D23AC1500906D9B /* loadingBloomPot.json in Resources */,
+				07C2E2E22D33731C00CC6049 /* InfoPlist.xcstrings in Resources */,
 				0704DF3F2D23AC1500906D9B /* splashTangtang.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -676,6 +683,7 @@
 				077E44272D045A87006B9CF6 /* AuthRepositoryImpl.swift in Sources */,
 				077E442B2D056103006B9CF6 /* AuthCredentialMapper.swift in Sources */,
 				071C84262C66E30A0055C393 /* CreateMessageResponse.swift in Sources */,
+				071E709A2D2E2A9700B499EA /* AnalyticsManager.swift in Sources */,
 				071C84272C66E30A0055C393 /* Message.swift in Sources */,
 				077E44182D042FAD006B9CF6 /* OnboardingViewModel.swift in Sources */,
 				071C841D2C66E30A0055C393 /* MessageRepositoryImpl.swift in Sources */,
@@ -820,7 +828,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = "ㅈ디";
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Prelude/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -831,8 +839,8 @@
 				INFOPLIST_FILE = Prelude/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Prelude;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSCameraUsageDescription = "사진첩 접근에 허용해주세요";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "사용자 맞춤 서비스 제공을 위해 권한을 허용해주세요.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -847,7 +855,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.1;
-				MARKETING_VERSION = 1.02;
+				MARKETING_VERSION = 1.03;
 				PRODUCT_BUNDLE_IDENTIFIER = Eric.motive.prelude;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -872,7 +880,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = "ㅈ디";
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Prelude/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
@@ -883,8 +891,8 @@
 				INFOPLIST_FILE = Prelude/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Prelude;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSCameraUsageDescription = "사진첩 접근에 허용해주세요";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "사용자 맞춤 서비스 제공을 위해 권한을 허용해주세요.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -899,7 +907,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.1;
-				MARKETING_VERSION = 1.02;
+				MARKETING_VERSION = 1.03;
 				PRODUCT_BUNDLE_IDENTIFIER = Eric.motive.prelude;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

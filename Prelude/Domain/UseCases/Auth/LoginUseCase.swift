@@ -9,18 +9,34 @@ import Foundation
 
 class LoginUseCase {
     private let authRepository: AuthRepository
+    private let userRepository: UserRepository
     
-    init(authRepository: AuthRepository) {
+    init(authRepository: AuthRepository, userRepository: UserRepository) {
         self.authRepository = authRepository
+        self.userRepository = userRepository
     }
     
     
-    func execute(parameter: AuthParameter) async throws(DomainError) -> String {
+    func execute(parameter: AuthParameter) async throws(DomainError) -> UserInfo {
         do {
-            let result = try await authRepository.logIn(parameter: parameter)
-            return result
+            let (userID, sub) = try await authRepository.logIn(parameter: parameter)
+            let deletedUser = await userRepository.checkRejoinUser(from: sub)
+            
+            if let deletedUser {
+                let rejoinUser = UserInfo(id: userID, remainingTimes: 0, didReceiveGift: deletedUser.didReceiveGift)
+                try await userRepository.create(collection: "User", user: rejoinUser)
+                try await userRepository.delete(collection: "Deleted User", userID: sub)
+                
+                return rejoinUser
+            } else {
+                let userInfo = try await userRepository.fetch(collection: "User", userID: userID)
+                
+                return userInfo
+            }
         }
-        catch { throw parseError(error) }
+        catch let error as AuthError { throw parseError(error) }
+        catch let error as DomainError { throw error }
+        catch { throw .unknown }
     }
     
     private func parseError(_ error: AuthError) -> DomainError {

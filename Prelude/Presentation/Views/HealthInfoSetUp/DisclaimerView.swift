@@ -15,6 +15,7 @@ struct DisclaimerView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var userSession: UserSession
     
+    @Environment(\.openURL) var openURL
     @Environment(\.plTypographySet) var typographies
     
     var body: some View {
@@ -28,7 +29,7 @@ struct DisclaimerView: View {
                 .padding(.bottom, 44)
                 .fixedSize(horizontal: false, vertical: true)
         } buttons: { button }
-        .navigationBarBackButtonHidden()
+            .navigationBarBackButtonHidden()
     }
     
     private var headline: some View {
@@ -47,16 +48,14 @@ struct DisclaimerView: View {
                 .textStyle(typographies.paragraph1)
                 .foregroundStyle(PLColor.neutral800)
                 .fixedSize(horizontal: false, vertical: true)
-                
+            
         }
     }
     
     private var termsAndConditionsToggle: some View {
         VStack(spacing: 20) {
             HStack(spacing: 26) {
-                Text(Localization.Label.healthDisclaimerAcceptance)
-                    .textStyle(typographies.label)
-                    .foregroundStyle(PLColor.neutral800)
+                linkedText(Localization.Label.healthDisclaimerAcceptance, url: "https://kind-push-1b8.notion.site/Health-Disclaimer-16c73460715e80e49f0efc541c57aff3?pvs=4")
                     .layoutPriority(1)
                 
                 Toggle(isOn: $healthDisclaimerToggleState) {
@@ -66,9 +65,7 @@ struct DisclaimerView: View {
             }
             
             HStack(spacing: 26) {
-                Text(Localization.Label.privacyPolicyAcceptance)
-                    .textStyle(typographies.label)
-                    .foregroundStyle(PLColor.neutral800)
+                linkedText(Localization.Label.privacyPolicyAcceptance, url: "https://kind-push-1b8.notion.site/Privacy-Policy-16173460715e80629d45cb61058a3e8c?pvs=4")
                     .layoutPriority(1)
                 
                 Toggle(isOn: $privacyPolicyToggleState) {
@@ -93,11 +90,36 @@ struct DisclaimerView: View {
                     return
                 }
                 if await userSession.updateCurrentUser() {
-                    await MainActor.run { navigationManager.navigate(.welcome) }
+                    await MainActor.run { navigationManager.navigate(userSession.hasReceiveGift ? .main : .welcome) }
                 }
                 
             }
-        }
+        }   
+    }
+    
+    private func linkedText(_ text: String, url: String) -> some View {
+        let components = text.components(separatedBy: "__")
+        
+        var firstPart = AttributedString(components[0])
+        firstPart.font = typographies.paragraph1.font
+        firstPart.foregroundColor = PLColor.neutral800
+        
+        var linkPart = AttributedString(components[1])
+        linkPart.font = typographies.label.font
+        linkPart.foregroundColor = PLColor.neutral800
+        linkPart.underlineStyle = .single
+        linkPart.link = URL(string: url)
+        
+        var lastPart = AttributedString(components[2])
+        lastPart.font = typographies.paragraph1.font
+        lastPart.foregroundColor = PLColor.neutral800
+        
+        var attributedText = firstPart
+        attributedText.append(linkPart)
+        attributedText.append(lastPart)
+        
+        return Text(attributedText).lineSpacing(6)
+
     }
 }
 

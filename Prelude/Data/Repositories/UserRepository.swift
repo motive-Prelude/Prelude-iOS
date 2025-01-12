@@ -26,29 +26,29 @@ class UserRepository {
         observeICloudChanges()
     }
     
-    func create(user: UserInfo) async throws(DomainError) {
+    func create(collection: String, user: UserInfo) async throws(DomainError) {
         do {
-            try await firestoreDataSource.create(collection: "User", data: user)
+            try await firestoreDataSource.create(collection: collection, data: user)
             await saveToSecondaryDataSource(user: user)
         } catch { throw ErrorMapper.map(error) }
     }
     
-    private func createNewUser(userID: String) async throws(DomainError) -> UserInfo {
-        let newUserInfo = UserInfo(id: userID, remainingTimes: 0)
+    private func createNewUser(collection: String, userID: String) async throws(DomainError) -> UserInfo {
+        let newUserInfo = UserInfo(id: userID, remainingTimes: 0, didReceiveGift: false)
         
-        do { try await create(user: newUserInfo) }
+        do { try await create(collection: collection, user: newUserInfo) }
         catch { throw error }
         
         return newUserInfo
     }
     
-    func fetch(userID: String) async throws(DomainError) -> UserInfo {
+    func fetch(collection: String, userID: String) async throws(DomainError) -> UserInfo {
         do {
-            let user = try await firestoreDataSource.fetch(collection: "User", documentID: userID)
+            let user = try await firestoreDataSource.fetch(collection: collection, documentID: userID)
             await saveToSecondaryDataSource(user: user)
             
             return user
-        } catch .notFound { return try await createNewUser(userID: userID) }
+        } catch .notFound { return try await createNewUser(collection: collection, userID: userID) }
         catch { throw .unknown }
     }
     
@@ -60,21 +60,30 @@ class UserRepository {
         } catch { throw ErrorMapper.map(error) }
     }
     
-    func update(userID: String, field: [String: Any]) async throws(DomainError) -> UserInfo {
+    func update(collection: String, userID: String, field: [String: Any]) async throws(DomainError) -> UserInfo {
         do {
-            try await firestoreDataSource.update(collection: "User", documentID: userID, fields: field)
-            let newUserInfo = try await self.fetch(userID: userID)
+            try await firestoreDataSource.update(collection: collection, documentID: userID, fields: field)
+            let newUserInfo = try await self.fetch(collection: collection, userID: userID)
             return newUserInfo
         } catch let error as DataSourceError { throw ErrorMapper.map(error) }
         catch let error as DomainError { throw error }
         catch { throw .unknown }
     }
     
-    func delete(userID: String) async throws(DomainError) {
+    func delete(collection: String, userID: String) async throws(DomainError) {
         do {
-            try await firestoreDataSource.delete(collection: "User", documentID: userID)
+            try await firestoreDataSource.delete(collection: collection, documentID: userID)
             try swiftDataSource.removeAll()
         } catch { throw ErrorMapper.map(error) }
+    }
+    
+    func checkRejoinUser(from sub: String) async -> UserInfo? {
+        do {
+            let deletedUser = try await firestoreDataSource.fetch(collection: "Deleted User", documentID: sub)
+            return deletedUser
+        } catch { print(error) }
+        
+        return nil
     }
     
     private func observeICloudChanges() {

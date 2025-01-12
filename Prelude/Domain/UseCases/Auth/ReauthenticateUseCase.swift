@@ -14,9 +14,10 @@ class ReauthenticateUseCase {
         self.authRepository = authRepository
     }
     
-    func execute(parameter: AuthParameter) async throws(DomainError) {
+    func execute(parameter: AuthParameter) async throws(DomainError) -> String {
         do {
-            try await authRepository.reauthenticate(parameter: parameter)
+            let sub = try await authRepository.reauthenticate(parameter: parameter)
+            return sub
         } catch { throw ErrorMapper.map(error) }
     }
 }

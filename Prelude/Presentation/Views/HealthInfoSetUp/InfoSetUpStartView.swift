@@ -14,12 +14,13 @@ struct InfoSetUpStartView: View {
     @Environment(\.plTypographySet) var typographies
     
     var primaryAlertAction: AlertAction {
-        
         return AlertAction(title: Localization.Button.enterInfoButtonTitle, action: { navigationManager.navigate(.healthInfoSetup) })
     }
     var secondaryAlertAction: AlertAction {
-        
-        return AlertAction(title: Localization.Button.skipButtonTitle, action: { navigationManager.navigate(.disclaimer) })
+        return AlertAction(title: Localization.Button.skipButtonTitle) {
+            navigationManager.navigate(.disclaimer)
+            logSkipConfirm()
+        }
     }
     
     
@@ -37,7 +38,6 @@ struct InfoSetUpStartView: View {
                 skipButton
             }
         }
-
     }
     
     private var navigationHeader: some View {
@@ -46,11 +46,9 @@ struct InfoSetUpStartView: View {
     }
     
     private var content: some View {
-        let setupStartTitle = String(localized: "health_info_setup_start_title")
-        let setupStartContent = String(localized: "health_info_setup_start_content")
         
         return VStack(spacing: 24) {
-            Text(setupStartTitle)
+            Text(Localization.Label.setupStartTitle)
                 .textStyle(typographies.heading1)
                 .foregroundStyle(PLColor.neutral800)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -61,7 +59,7 @@ struct InfoSetUpStartView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: .infinity)
             
-            Text(setupStartContent)
+            Text(Localization.Label.setupStartContent)
                 .textStyle(typographies.paragraph1)
                 .foregroundStyle(PLColor.neutral700)
         }
@@ -78,7 +76,18 @@ struct InfoSetUpStartView: View {
             alertManager.showAlert(title: Localization.Dialog.dialogSkipTitle,
                                    message: Localization.Dialog.dialogSkipDescription,
                                    actions: [secondaryAlertAction, primaryAlertAction])
+            logSkipTap()
+            
+            
         }
+    }
+    
+    private func logSkipTap() {
+        AnalyticsManager.shared.logEvent("skip_button_tap", parameters: ["screen_name": "info_setup_start"])
+    }
+    
+    private func logSkipConfirm() {
+        AnalyticsManager.shared.logEvent("skip_button_confirm", parameters: ["screen_name": "info_setup_start"])
     }
 }
 

@@ -91,13 +91,16 @@ struct HealthInfoSetUpPage: View {
             switch TabSelection(rawValue: currentPage+1) {
                 case .basic:
                     BasicInfoSetUpView(gestationalWeek: $gestationalWeek, height: $height, weight: $weight)
+                        .trackScreen(screenName: "건강 정보 입력 뷰 1")
                     
                 case .medicalHistory:
                     MedicalInfoSetUpView(bloodPressure: $bloodPressure,
                                          diabetes: $diabetes)
+                    .trackScreen(screenName: "건강 정보 입력 뷰 2")
                     
                 case .allergies:
                     AllergiesInfoSetUpView(allergies: $allergies)
+                        .trackScreen(screenName: "건강 정보 입력 뷰 3")
                     
                 default: EmptyView()
             }
