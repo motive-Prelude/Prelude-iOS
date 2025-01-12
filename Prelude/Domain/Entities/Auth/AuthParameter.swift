@@ -6,4 +6,6 @@
 //
 
 
-protocol AuthParameter { }
+protocol AuthParameter {
+    var idToken: String { get }
+}
