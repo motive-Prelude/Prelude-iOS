@@ -61,9 +61,9 @@ final class DIContainer: ObservableObject {
         register(PerformOCRUseCase.self, dependency: PerformOCRUseCase(ocrRepository: resolve(OCRRepository.self)!))
         register(PredictFoodTextUseCase.self, dependency: PredictFoodTextUseCase(repository: resolve(TextPredictionRepository.self)!))
         register(ImageClassifierUseCase.self, dependency: ImageClassifierUseCase())
-        register(LoginUseCase.self, dependency: LoginUseCase(authRepository: resolve(AuthRepository.self)!))
+        register(LoginUseCase.self, dependency: LoginUseCase(authRepository: resolve(AuthRepository.self)!, userRepository: resolve(UserRepository.self)!))
         register(LogOutUseCase.self, dependency: LogOutUseCase(authRepository: resolve(AuthRepository.self)!))
-        register(DeleteAccountUseCase.self, dependency: DeleteAccountUseCase(authRepository: resolve(AuthRepository.self)!))
+        register(DeleteAccountUseCase.self, dependency: DeleteAccountUseCase(authRepository: resolve(AuthRepository.self)!, userRepository: resolve(UserRepository.self)!))
         register(ObserveAuthStateUseCase.self, dependency: ObserveAuthStateUseCase(authRepository: resolve(AuthRepository.self)!))
         register(ReauthenticateUseCase.self, dependency: ReauthenticateUseCase(authRepository: resolve(AuthRepository.self)!))
         // UploadImageUseCase 등록
