@@ -69,6 +69,10 @@ struct MainView: View {
         .ignoresSafeArea(.all, edges: [.top, .horizontal])
         .navigationBarBackButtonHidden()
         .onTapGesture { hideKeyboard() }
+        .onAppear {
+            mainViewModel.bind(userSession: userSession)
+            mainViewModel.requestTrackingAuthorizationIfNeeded()
+        }
     }
     
     private var navigationHeader: some View {

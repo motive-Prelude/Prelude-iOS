@@ -5,6 +5,7 @@
 //  Created by 송지혁 on 8/9/24.
 //
 
+import AppTrackingTransparency
 import Combine
 import UIKit
 import SwiftUI
@@ -28,5 +29,12 @@ class MainViewModel: ObservableObject {
                 self.prompt = self.promptGenerator.generatePrompt(with: healthInfo)
             }
             .store(in: &cancellables)
+    }
+    
+    func requestTrackingAuthorizationIfNeeded() {
+        let status = ATTrackingManager.trackingAuthorizationStatus
+        if status == .notDetermined {
+            Task { await ATTrackingManager.requestTrackingAuthorization() }
+        }
     }
 }
