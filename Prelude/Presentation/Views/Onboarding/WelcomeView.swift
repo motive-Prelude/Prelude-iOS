@@ -60,7 +60,8 @@ struct WelcomeView: View {
                     EventBus.shared.errorPublisher.send(.networkUnavailable)
                     return
                 }
-                try? await userSession.incrementSeeds(3)
+                
+                if !userSession.hasReceiveGift { try await userSession.giveGift() }
                 navigationManager.navigate(.main)
             }
         }
