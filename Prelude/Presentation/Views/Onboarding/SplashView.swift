@@ -32,7 +32,6 @@ struct SplashView: View {
             }
             
             
-            
             if alertManager.isAlertVisible { alert }
             
             

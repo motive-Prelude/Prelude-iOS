@@ -64,7 +64,7 @@ class FirestoreDataSource<Data: Codable & Identifiable & Equatable> where Data.I
     
     private func parseFirestoreError(_ error: NSError) -> DataSourceError {
         let error = FirestoreErrorCode(_nsError: error)
-        print("몇 번이나: \(error.errorCode)")
+        
         switch error.code {
             case .deadlineExceeded: return .timeout
             case .unauthenticated: return .unauthenticated
