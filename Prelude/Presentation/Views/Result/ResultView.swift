@@ -48,8 +48,10 @@ struct ResultView: View {
             if resultViewModel.isLoading == nil || resultViewModel.isLoading == true {
                 LoadingView(currentProcedure: $currentProcedure)
                     .task { await checkValidation() }
+                    .trackScreen(screenName: "로딩 뷰")
             } else {
                 resultView
+                    .trackScreen(screenName: "결과 뷰")
             }
         }
         .ignoresSafeArea()

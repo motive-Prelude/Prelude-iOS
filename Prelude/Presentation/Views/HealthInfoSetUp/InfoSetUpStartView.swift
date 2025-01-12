@@ -14,12 +14,13 @@ struct InfoSetUpStartView: View {
     @Environment(\.plTypographySet) var typographies
     
     var primaryAlertAction: AlertAction {
-        
         return AlertAction(title: Localization.Button.enterInfoButtonTitle, action: { navigationManager.navigate(.healthInfoSetup) })
     }
     var secondaryAlertAction: AlertAction {
-        
-        return AlertAction(title: Localization.Button.skipButtonTitle, action: { navigationManager.navigate(.disclaimer) })
+        return AlertAction(title: Localization.Button.skipButtonTitle) {
+            navigationManager.navigate(.disclaimer)
+            logSkipConfirm()
+        }
     }
     
     
@@ -78,7 +79,18 @@ struct InfoSetUpStartView: View {
             alertManager.showAlert(title: Localization.Dialog.dialogSkipTitle,
                                    message: Localization.Dialog.dialogSkipDescription,
                                    actions: [secondaryAlertAction, primaryAlertAction])
+            logSkipTap()
+            
+            
         }
+    }
+    
+    private func logSkipTap() {
+        AnalyticsManager.shared.logEvent("skip_button_tap", parameters: ["screen_name": "info_setup_start"])
+    }
+    
+    private func logSkipConfirm() {
+        AnalyticsManager.shared.logEvent("skip_button_confirm", parameters: ["screen_name": "info_setup_start"])
     }
 }
 
