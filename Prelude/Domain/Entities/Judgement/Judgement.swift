@@ -11,6 +11,7 @@ struct Judgement: Decodable, Hashable {
     let productName: String
     let recognition: Bool
     let safetyAssessment: String
+    let link: String
     let details: [JudgementDetail]
     let conclusion: String
     
@@ -18,6 +19,7 @@ struct Judgement: Decodable, Hashable {
         case productName = "product_name"
         case recognition = "vision_recognition"
         case safetyAssessment = "safety_assessment"
+        case link
         case details
         case conclusion
     }

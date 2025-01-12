@@ -167,7 +167,7 @@ struct ResultView: View {
                 ScrollView(showsIndicators: false) {
                     headline(result: result)
                     resultContent
-                    
+//                    sourceLink
                     Spacer()
                 }
                 .padding(.bottom, 8)
@@ -251,6 +251,16 @@ struct ResultView: View {
                 
                 chatGPTWarning
         }
+    }
+    
+    @ViewBuilder
+    private var sourceLink: some View {
+        if let judgement = resultViewModel.judgement {
+            Link(destination: URL(string: judgement.link)!) {
+                Text("출처 보기")
+            }
+        }
+        
     }
     
     private var chatGPTWarning: some View {
