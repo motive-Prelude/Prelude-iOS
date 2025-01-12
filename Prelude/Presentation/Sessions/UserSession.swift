@@ -44,8 +44,7 @@ class UserSession: ObservableObject {
     
     func login(parameter: AuthParameter) async {
         do {
-            let userID = try await loginUseCase.execute(parameter: parameter)
-            let userInfo = try await userRepository.fetch(userID: userID)
+            let userInfo = try await loginUseCase.execute(parameter: parameter)
             
             await MainActor.run {
                 self.isAuthenticated = true
@@ -65,22 +64,19 @@ class UserSession: ObservableObject {
         } catch { EventBus.shared.errorPublisher.send(error) }
     }
     
-    func reauthenticate(_ loginProvider: LoginProvider) async -> Bool {
+    func reauthenticate(_ loginProvider: LoginProvider) async -> String {
         let helper = getAuthHelper(loginProvider)
         do {
             let parameter = try await helper.performAuth()
-            try await reauthenticateUseCase.execute(parameter: parameter)
+            return try await reauthenticateUseCase.execute(parameter: parameter)
         } catch let error as DomainError {
             EventBus.shared.errorPublisher.send(error)
-            return false
         }
         catch {
-            print(#function, error)
-            EventBus.shared.errorPublisher.send(DomainError.authenticationFailed(reason: "인증 실패"))
-            return false
+            EventBus.shared.errorPublisher.send(DomainError.authenticationFailed(reason: "Authentication Failed"))
         }
         
-        return true
+        return ""
     }
     
     func getAuthHelper(_ loginProvider: LoginProvider) -> any AuthHelper {
@@ -89,11 +85,10 @@ class UserSession: ObservableObject {
         }
     }
     
-    func deleteAccount(completion: @escaping () -> ()) async {
+    func deleteAccount(sub: String, completion: @escaping () -> ()) async {
         guard let userID = userInfo?.id else { return }
         do {
-            try await deleteAccountUseCase.execute(userID: userID)
-            try await userRepository.delete(userID: userID)
+            try await deleteAccountUseCase.execute(userID: userID, sub: sub)
         } catch {
             EventBus.shared.errorPublisher.send(error)
             return
@@ -112,7 +107,7 @@ class UserSession: ObservableObject {
         userInfo.healthInfo = healthInfo
         do {
             let healthInfoDict = try Firestore.Encoder().encode(healthInfo)
-            Task { try await userRepository.update(userID: userInfo.id, field: ["healthInfo": healthInfoDict]) }
+            Task { try await userRepository.update(collection: "User", userID: userInfo.id, field: ["healthInfo": healthInfoDict]) }
         } catch let error as DomainError { EventBus.shared.errorPublisher.send(error) }
         catch { }
     }
@@ -123,14 +118,13 @@ class UserSession: ObservableObject {
             try await userRepository.update(user: userInfo)
             return true
         } catch { EventBus.shared.errorPublisher.send(error) }
-        
         return false
     }
     
     func syncCurrentUserFromServer() async throws(DomainError) -> UserInfo? {
         guard let userID = userInfo?.id else { return nil }
         do {
-            let newUserInfo = try await userRepository.fetch(userID: userID)
+            let newUserInfo = try await userRepository.fetch(collection: "User", userID: userID)
             await MainActor.run { self.userInfo = newUserInfo }
             return newUserInfo
             
@@ -153,7 +147,7 @@ class UserSession: ObservableObject {
         
         guard let userInfo = userInfo else { return }
         do {
-            self.userInfo = try await userRepository.update(userID: userInfo.id, field: ["remainingTimes": FieldValue.increment(Int64(count))])
+            self.userInfo = try await userRepository.update(collection: "User", userID: userInfo.id, field: ["remainingTimes": FieldValue.increment(Int64(count))])
         } catch { EventBus.shared.errorPublisher.send(error) }
     }
     
@@ -163,7 +157,7 @@ class UserSession: ObservableObject {
         
         guard let userInfo = userInfo else { return }
         do {
-            self.userInfo = try await userRepository.update(userID: userInfo.id, field: ["remainingTimes": FieldValue.increment(Int64(-count))])
+            self.userInfo = try await userRepository.update(collection: "User", userID: userInfo.id, field: ["remainingTimes": FieldValue.increment(Int64(-count))])
         } catch { EventBus.shared.errorPublisher.send(error) }
     }
     
@@ -187,7 +181,7 @@ class UserSession: ObservableObject {
             if let userID = userID {
                 Task {
                     do {
-                        let userInfo = try await self.userRepository.fetch(userID: userID)
+                        let userInfo = try await self.userRepository.fetch(collection: "User", userID: userID)
                         await MainActor.run {
                             self.userInfo = userInfo
                             self.isAuthenticated = true
