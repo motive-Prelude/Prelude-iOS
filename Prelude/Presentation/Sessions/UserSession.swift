@@ -37,6 +37,11 @@ class UserSession: ObservableObject {
         observeAuthState()
     }
     
+    var hasReceiveGift: Bool {
+        guard let userInfo else { return true }
+        return userInfo.didReceiveGift
+    }
+    
     func login(parameter: AuthParameter) async {
         do {
             let userID = try await loginUseCase.execute(parameter: parameter)
