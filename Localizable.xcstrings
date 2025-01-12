@@ -1101,13 +1101,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I acknowledge and accept the terms of the Health Disclaimer"
+            "value" : "I acknowledge and accept the terms of the __Health Disclaimer__"
           }
         },
         "ko-KR" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "건강 관련 고지사항의 내용을 이해하고 이에 동의합니다."
+            "state" : "needs_review",
+            "value" : "__건강 관련 고지사항__의 내용을 이해하고 이에 동의합니다."
           }
         }
       }
@@ -1893,13 +1893,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I agree to the Privacy Policy and Terms of Use "
+            "value" : "I agree to the __Privacy Policy and Terms of Use__"
           }
         },
         "ko-KR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "개인정보처리방침, 이용약관 에 동의합니다."
+            "value" : "__개인정보처리방침, 이용약관__ 에 동의합니다."
           }
         }
       }
