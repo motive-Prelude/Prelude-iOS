@@ -23,6 +23,7 @@ struct PreludeApp: App {
                                                        deleteAccountUseCase: DIContainer.shared.resolve(DeleteAccountUseCase.self)!,
                                                        observeAuthStateUseCase: DIContainer.shared.resolve(ObserveAuthStateUseCase.self)!)
     @StateObject private var keyboardObserver = KeyboardObserver()
+    @StateObject private var networkMonitor = NetworkMonitor.shared
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
@@ -36,13 +37,13 @@ struct PreludeApp: App {
                 .environmentObject(navigationManager)
                 .environmentObject(store)
                 .environmentObject(userSession)
+                .environmentObject(networkMonitor)
                 .environment(\.plTypographySet, currentLocalizationTypographySet())
         }
         
     }
     
     func currentLocalizationTypographySet() -> PLTypographySet {
-        let identifier = Locale.current.identifier
         guard let languageCode = Locale.current.language.languageCode else { return PLTypographySetKey.defaultValue }
         switch languageCode {
             case "ko":
@@ -67,7 +68,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         application.registerForRemoteNotifications()
-        
         
         return true
     }
