@@ -60,3 +60,10 @@ extension View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
+
+
+extension View {
+    func trackScreen(screenName: String) -> some View {
+        self.modifier(ScreenTrackingModifier(screenName: screenName))
+    }
+}
