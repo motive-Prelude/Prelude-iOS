@@ -1112,6 +1112,23 @@
         }
       }
     },
+    "health_disclaimer_acceptance_URL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://kind-push-1b8.notion.site/Health-Disclaimer-16c73460715e80e49f0efc541c57aff3?pvs=4"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://kind-push-1b8.notion.site/16c73460715e80a6ba4deec1d88c68f3?pvs=4"
+          }
+        }
+      }
+    },
     "health_disclaimer_content" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1904,6 +1921,23 @@
         }
       }
     },
+    "privacy_policy_acceptance_URL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://kind-push-1b8.notion.site/Privacy-Policy-16173460715e80629d45cb61058a3e8c?pvs=4"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://kind-push-1b8.notion.site/16173460715e8090a261fc9f2ba793e6?pvs=4"
+          }
+        }
+      }
+    },
     "purchase_benefit_1" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2209,6 +2243,9 @@
           }
         }
       }
+    },
+    "출처 보기" : {
+
     }
   },
   "version" : "1.0"

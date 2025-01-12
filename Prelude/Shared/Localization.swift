@@ -219,4 +219,9 @@ enum Localization {
     enum Placeholder {
         static var textFieldPlaceholder = String(localized: "textfield_placeholder_food_name")
     }
+    
+    enum URL {
+        static var healthDisclaimerAcceptanceURL = String(localized: "health_disclaimer_acceptance_URL")
+        static var privacyPolicyAcceptanceURL = String(localized: "privacy_policy_acceptance_URL")
+    }
 }

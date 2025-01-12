@@ -55,7 +55,7 @@ struct DisclaimerView: View {
     private var termsAndConditionsToggle: some View {
         VStack(spacing: 20) {
             HStack(spacing: 26) {
-                linkedText(Localization.Label.healthDisclaimerAcceptance, url: "https://kind-push-1b8.notion.site/Health-Disclaimer-16c73460715e80e49f0efc541c57aff3?pvs=4")
+                linkedText(Localization.Label.healthDisclaimerAcceptance, url: Localization.URL.healthDisclaimerAcceptanceURL)
                     .layoutPriority(1)
                 
                 Toggle(isOn: $healthDisclaimerToggleState) {
@@ -65,7 +65,7 @@ struct DisclaimerView: View {
             }
             
             HStack(spacing: 26) {
-                linkedText(Localization.Label.privacyPolicyAcceptance, url: "https://kind-push-1b8.notion.site/Privacy-Policy-16173460715e80629d45cb61058a3e8c?pvs=4")
+                linkedText(Localization.Label.privacyPolicyAcceptance, url: Localization.URL.privacyPolicyAcceptanceURL)
                     .layoutPriority(1)
                 
                 Toggle(isOn: $privacyPolicyToggleState) {
