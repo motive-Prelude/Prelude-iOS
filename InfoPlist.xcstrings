@@ -31,13 +31,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This app needs access to your camera to take photos."
+            "value" : "This app requires camera access for the food photo capturing feature. The photos will be used to assess the safety of the food."
           }
         },
         "ko-KR" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "사진을 촬영하기 위해 카메라 접근이 필요합니다."
+            "state" : "needs_review",
+            "value" : "이 앱은 음식 사진 촬영 기능을 위해 카메라 권한을 필요로 합니다. 사진은 음식의 안전성을 판별하는데 사용됩니다."
           }
         }
       }
@@ -48,13 +48,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This app uses tracking to improve your experience."
+            "value" : "This app requires tracking permission to deliver personalized ads and content tailored to your interests. The collected data will be used to enhance your app experience."
           }
         },
         "ko-KR" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "사용자 경험 향상을 위해 추적 권한이 필요합니다."
+            "state" : "needs_review",
+            "value" : "이 앱은 맞춤형 광고와 사용자의 관심사에 맞는 콘텐츠를 제공하기 위해 추적 권한이 필요합니다. 수집된 데이터는 귀하의 앱 경험을 개선하는 데 사용됩니다."
           }
         }
       }
