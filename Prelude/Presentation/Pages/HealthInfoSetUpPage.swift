@@ -35,10 +35,12 @@ struct HealthInfoSetUpPage: View {
             navigationHeader
             headline
         } content: {
-            tabs
-            Spacer()
-            pageIndicator
-                .padding(.bottom, 16)
+            VStack(spacing: 0) {
+                tabs
+                Spacer()
+                pageIndicator
+                    .padding(.bottom, 16)
+            }
         } buttons: { button }
     }
     

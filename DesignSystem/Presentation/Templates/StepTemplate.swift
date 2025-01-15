@@ -23,11 +23,13 @@ struct StepTemplate<Background: View, Header: View, Content: View, Buttons: View
                 header()
                 content()
                     .padding(.top, contentTopPadding)
+                Spacer()
                 buttons()
             }
             .padding(.horizontal, 16)
+            .padding(.bottom, 32)
         }
-        .ignoresSafeArea(.all, edges: [.top, .horizontal])
+        .ignoresSafeArea(.all, edges: [.top, .horizontal, .bottom])
         .navigationBarBackButtonHidden()
         .onTapGesture { hideKeyboard() }
         
