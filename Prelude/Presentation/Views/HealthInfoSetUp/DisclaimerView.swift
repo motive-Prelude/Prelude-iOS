@@ -48,6 +48,8 @@ struct DisclaimerView: View {
                 .textStyle(typographies.paragraph1)
                 .foregroundStyle(PLColor.neutral800)
                 .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(6)
+                .minimumScaleFactor(0.1)
             
         }
     }

@@ -49,6 +49,8 @@ struct WelcomeView: View {
             Text(Localization.Label.welcomeGiftContent)
             .textStyle(typographies.paragraph1)
             .foregroundStyle(PLColor.neutral700)
+            .lineLimit(8)
+            .minimumScaleFactor(0.1)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
