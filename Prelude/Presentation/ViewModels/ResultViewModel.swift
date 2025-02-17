@@ -17,16 +17,17 @@ class ResultViewModel: ObservableObject {
     var cancellables = Set<AnyCancellable>()
     @Published var receivedMessage: String?
     @Published var imageErrorMessage: String?
-    @Published var userHealthInfo: HealthInfo?
     
     @Published var judgement: Judgement?
+    @Published var citations: [Citation] = []
     @Published var isLoading: Bool?
     
     init(assistantInteractionFacade: AssistantInteractionFacadeImpl = AssistantInteractionFacadeImpl(
         createThreadAndRunUseCase: DIContainer.shared.resolve(CreateThreadAndRunUseCase.self)!,
         listRunStepUseCase: DIContainer.shared.resolve(ListRunStepUseCase.self)!,
         retrieveMessageUseCase: DIContainer.shared.resolve(RetrieveMessageUseCase.self)!,
-        uploadImageUseCase: DIContainer.shared.resolve(UploadImageUseCase.self)!
+        uploadImageUseCase: DIContainer.shared.resolve(UploadImageUseCase.self)!,
+        perplexityChatUseCase: DIContainer.shared.resolve(PerplexityChatUseCase.self)!
     ),
          performOCRUseCase: PerformOCRUseCase = DIContainer.shared.resolve(PerformOCRUseCase.self)!,
          predictFoodTextUseCase: PredictFoodTextUseCase = DIContainer.shared.resolve(PredictFoodTextUseCase.self)!,
@@ -55,14 +56,15 @@ class ResultViewModel: ObservableObject {
     }
     
     
-    func sendMessage(_ message: String, image: UIImage?) async throws(DomainError) {
+    func sendMessage(_ message: String, image: UIImage?, healthInfo: HealthInfo?) async throws(DomainError) {
         do {
             await MainActor.run { self.isLoading = true }
             
-            let result = try await assistantInteractionFacade.interact(with: message, image: image)
+            let (judgement, citations) = try await assistantInteractionFacade.interact(with: message, image: image, healthInfo: healthInfo)
             
             await MainActor.run {
-                self.judgement = result
+                self.judgement = judgement
+                self.citations = citations
                 self.isLoading = false
             }
         } catch { throw error }
