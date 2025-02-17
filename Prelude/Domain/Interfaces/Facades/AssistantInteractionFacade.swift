@@ -9,5 +9,5 @@ import Combine
 import UIKit
 
 protocol AssistantInteractionFacade {
-    func interact(with message: String, image: UIImage?) async throws -> Judgement
+    func interact(with message: String, image: UIImage?, healthInfo: HealthInfo?) async throws(DomainError) -> (Judgement, [Citation])
 }
