@@ -17,7 +17,7 @@ final class RunRepositoryImpl: RunRepository {
     
     func createRun(threadID: String, assistantID: String) async throws(DomainError) -> RunResponse {
         let body = apiService.createRunBody(assistantID: assistantID)
-        guard let url = URL(string: EndPoint.runs(threadID: threadID).urlString) else { throw .unknown }
+        guard let url = URL(string: OpenAIEndPoint.runs(threadID: threadID).urlString) else { throw .unknown }
         let request = apiService.makeURLRequest(to: url, body: .json(body))
         do {
             let result: RunResponse = try await apiService.fetchData(with: request)

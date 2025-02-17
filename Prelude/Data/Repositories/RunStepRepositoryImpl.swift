@@ -15,7 +15,7 @@ final class RunStepRepositoryImpl: RunStepRepository {
     }
     
     func listRunSteps(threadID: String, runID: String) async throws(DomainError) -> RunStepResponse {
-        guard let url = URL(string: EndPoint.runStep(threadID: threadID, runID: runID).urlString) else { throw .unknown }
+        guard let url = URL(string: OpenAIEndPoint.runStep(threadID: threadID, runID: runID).urlString) else { throw .unknown }
         let request = apiService.makeURLRequest(to: url, method: .GET)
         
         do {

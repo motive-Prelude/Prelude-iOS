@@ -17,7 +17,7 @@ final class MessageRepositoryImpl: MessageRepository {
     func createMessage(threadID: String, text: String, fileId: String) async throws(DomainError) -> CreateMessageResponse {
         
         let body = apiService.makeMessageBody(role: "user", text: text, fileId: fileId)
-        guard let url = URL(string: EndPoint.messages(threadID: threadID).urlString) else { throw .unknown }
+        guard let url = URL(string: OpenAIEndPoint.messages(threadID: threadID).urlString) else { throw .unknown }
         let request = apiService.makeURLRequest(to: url, body: .json(body))
         
         do {
@@ -28,7 +28,7 @@ final class MessageRepositoryImpl: MessageRepository {
     
     
     func retrieveMessage(threadID: String, messageID: String) async throws(DomainError) -> RetrieveMessageResponse {
-        guard let url = URL(string: EndPoint.retrieveMessage(threadID: threadID, messageID: messageID).urlString) else { throw .unknown }
+        guard let url = URL(string: OpenAIEndPoint.retrieveMessage(threadID: threadID, messageID: messageID).urlString) else { throw .unknown }
         let request = apiService.makeURLRequest(to: url, method: .GET)
         
         do {

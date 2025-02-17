@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum EndPoint {
+enum OpenAIEndPoint {
     static let baseURL = "https://api.openai.com/v1/threads"
     static let imageBaseURL = "https://api.openai.com/v1/files"
     
@@ -23,21 +23,21 @@ enum EndPoint {
     var urlString: String {
         switch self {
             case .runs(let threadID):
-                return "\(EndPoint.baseURL)/\(threadID)/runs"
+                return "\(OpenAIEndPoint.baseURL)/\(threadID)/runs"
             case .messages(let threadID):
-                return "\(EndPoint.baseURL)/\(threadID)/messages"
+                return "\(OpenAIEndPoint.baseURL)/\(threadID)/messages"
             case .threads:
-                return EndPoint.baseURL
+                return OpenAIEndPoint.baseURL
             case .specificThread(let threadID):
-                return "\(EndPoint.baseURL)/\(threadID)"
+                return "\(OpenAIEndPoint.baseURL)/\(threadID)"
             case .runStep(threadID: let threadID, runID: let runID):
-                return "\(EndPoint.baseURL)/\(threadID)/runs/\(runID)/steps"
+                return "\(OpenAIEndPoint.baseURL)/\(threadID)/runs/\(runID)/steps"
             case .retrieveMessage(threadID: let threadID, messageID: let messageID):
-                return "\(EndPoint.baseURL)/\(threadID)/messages/\(messageID)"
+                return "\(OpenAIEndPoint.baseURL)/\(threadID)/messages/\(messageID)"
             case .uploadFile:
-                return "\(EndPoint.imageBaseURL)"
+                return "\(OpenAIEndPoint.imageBaseURL)"
             case .threadsAndRun:
-                return "\(EndPoint.baseURL)/runs"
+                return "\(OpenAIEndPoint.baseURL)/runs"
         }
     }
     

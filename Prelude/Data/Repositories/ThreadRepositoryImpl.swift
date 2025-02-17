@@ -16,7 +16,7 @@ final class ThreadRepositoryImpl: ThreadRepository {
     
     func createThread(messages: [String], fileId: String) async throws(DomainError) -> ThreadResponse {
         let body = apiService.makeThreadBody(role: "user", messages: messages, fileId: fileId)
-        guard let url = URL(string: EndPoint.threads.urlString) else { throw .unknown }
+        guard let url = URL(string: OpenAIEndPoint.threads.urlString) else { throw .unknown }
         let request = apiService.makeURLRequest(to: url, body: .json(body))
         do {
             let result: ThreadResponse = try await apiService.fetchData(with: request)
