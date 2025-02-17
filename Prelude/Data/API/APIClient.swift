@@ -1,5 +1,5 @@
 //
-//  APIService.swift
+//  APIClient.swift
 //  Junction
 //
 //  Created by 송지혁 on 8/9/24.
@@ -17,6 +17,31 @@ enum HTTPBody {
 }
 
 final class APIClient {
+    func send<R: APIRequest>(_ request: R) async throws(APIError) -> R.Response {
+        let request = request.makeURLRequest()
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 300
+        configuration.timeoutIntervalForResource = 300
+        let session = URLSession(configuration: configuration)
+        
+        do {
+            let (data, response) = try await session.data(for: request)
+            if let httpResponse = response as? HTTPURLResponse,
+               !(200...299).contains(httpResponse.statusCode) {
+                let errorMessage = String(data: data, encoding: .utf8) ?? "No error message"
+                print(errorMessage)
+                throw APIError.serverError
+            }
+            
+            return try JSONDecoder().decode(R.Response.self, from: data)
+        } catch(let error) {
+            print(error)
+            throw APIError.serverError
+        }
+        
+        
+    }
+    
     func fetchData<T: Decodable>(with request: URLRequest) async throws(APIError) -> T {
         do {
             let (data, _) = try await URLSession.shared.data(for: request)

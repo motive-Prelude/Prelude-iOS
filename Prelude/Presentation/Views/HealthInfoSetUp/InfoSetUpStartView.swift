@@ -32,7 +32,7 @@ struct InfoSetUpStartView: View {
                 content
                 Spacer()
             }
-        } buttons: {
+        } footer: {
             VStack(spacing: 8) {
                 startButton
                 skipButton

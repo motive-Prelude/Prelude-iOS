@@ -15,7 +15,7 @@ final class CreateThreadAndRunRepositoryImpl: CreateThreadAndRunRepository {
     }
     
     func createThreadAndRun(assistantID: String, messages: [String], fileID: String) async throws(DomainError) -> ThreadAndRunResponse {
-        guard let url = URL(string: EndPoint.threadsAndRun.urlString) else { throw .unknown }
+        guard let url = URL(string: OpenAIEndPoint.threadsAndRun.urlString) else { throw .unknown }
         let body = apiClient.makeThreadAndRunBody(assistantID: assistantID, role: "user", messages: messages, fileID: fileID)
         let request = apiClient.makeURLRequest(to: url, body: .json(body))
         

@@ -16,7 +16,7 @@ final class ImageRepositoryImpl: ImageRepository {
     }
     
     func uploadImage(image: UIImage) async throws(DomainError) -> FileUploadResponse {
-        guard let url = URL(string: EndPoint.uploadFile.urlString) else { throw .unknown }
+        guard let url = URL(string: OpenAIEndPoint.uploadFile.urlString) else { throw .unknown }
         do {
             let result: FileUploadResponse = try await apiClient.uploadImage(to: url, image: image)
             return result

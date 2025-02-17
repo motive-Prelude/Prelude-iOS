@@ -13,9 +13,11 @@ class AssistantInteractionFacadeImpl: AssistantInteractionFacade {
     private let listRunStepUseCase: ListRunStepUseCase
     private let retrieveMessageUseCase: RetrieveMessageUseCase
     private let uploadImageUseCase: UploadImageUseCase
+    private let perplexityChatUseCase: PerplexityChatUseCase
+    private let geminiChatRepository = GeminiChatRepository(apiClient: APIClient())
     
-    private var assistantID: String {
-        guard let assistantID = Bundle.main.object(forInfoDictionaryKey: "ASSISTANT_ID") as? String else { return "" }
+    private var foodNameAssistantID: String {
+        guard let assistantID = Bundle.main.object(forInfoDictionaryKey: "ASSISTANT_ID_FIND_FOOD_NAME") as? String else { return "" }
         return assistantID
     }
     
@@ -24,28 +26,35 @@ class AssistantInteractionFacadeImpl: AssistantInteractionFacade {
     init(createThreadAndRunUseCase: CreateThreadAndRunUseCase,
          listRunStepUseCase: ListRunStepUseCase,
          retrieveMessageUseCase: RetrieveMessageUseCase,
-         uploadImageUseCase: UploadImageUseCase) {
+         uploadImageUseCase: UploadImageUseCase,
+         perplexityChatUseCase: PerplexityChatUseCase) {
         self.createThreadAndRunUseCase = createThreadAndRunUseCase
         self.listRunStepUseCase = listRunStepUseCase
         self.retrieveMessageUseCase = retrieveMessageUseCase
         self.uploadImageUseCase = uploadImageUseCase
+        self.perplexityChatUseCase = perplexityChatUseCase
     }
     
-    public func interact(with message: String, image: UIImage?) async throws(DomainError) -> Judgement {
-        var fileID: String = ""
-        
-        if let image { fileID = try await uploadImageUseCase.execute(image).id }
-        let runResponse = try await createThreadAndRunUseCase.execute(assistantID: assistantID, messages: [message], fileID: fileID)
-        let threadID = runResponse.threadID
-        let runID = runResponse.runID
-        let messageID = try await waitForMessageID(threadID: threadID, runID: runID)
-        let message = try await waitForMessage(threadID: threadID, messageID: messageID)
-        guard let data = message.data(using: .utf8) else { fatalError("encoding 안됌") }
+    public func interact(with foodName: String = "", image: UIImage?, healthInfo: HealthInfo?) async throws(DomainError) -> (Judgement, [Citation]) {
+        let findingFoodNamePrompt = PromptGenerator.shared.generateFindingFoodNamePrompt()
+        let findingFoodNutritionPrompt = PromptGenerator.shared.generateFindingFoodNutritionPrompt()
+        let foodSafetyPrompt = PromptGenerator.shared.generateMedicalInformationPrompt(healthInfo: healthInfo)
+        let jsonPostProcessingPrompt = PromptGenerator.shared.generateJSONPostProcessingPrompt()
         
         do {
-            let judgement = try JSONDecoder().decode(Judgement.self, from: data)
-            return judgement
-        } catch { throw .unknown }
+            guard let result = try await geminiChatRepository.fetch(image: image, messages: [findingFoodNamePrompt, findingFoodNutritionPrompt, foodSafetyPrompt, jsonPostProcessingPrompt]) else { throw DomainError.serverError }
+            let cleanedJSON = result.answer
+                .replacingOccurrences(of: "`", with: "")
+                .replacingOccurrences(of: "json", with: "")
+                .replacingOccurrences(of: "\n", with: "")
+                .replacingOccurrences(of: "* ", with: "")
+                .replacingOccurrences(of: "*", with: "")
+            
+            let answerData = cleanedJSON.data(using: .utf8)!
+            
+            let judgement = try JSONDecoder().decode(Judgement.self, from: answerData)
+            return (judgement, result.citations)
+        } catch { throw .serverError }
     }
     
     private func waitForMessageID(threadID: String, runID: String, maxAttempts: Int = 10, delayInSeconds: TimeInterval = 1.0) async throws(DomainError) -> String {

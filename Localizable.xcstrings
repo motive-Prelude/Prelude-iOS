@@ -1299,6 +1299,23 @@
         }
       }
     },
+    "label_citations" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "citations"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "출처"
+          }
+        }
+      }
+    },
     "label_health_disclaimer" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1441,13 +1458,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This is guidance only. Confirm for safety."
+            "value" : "This advice cannot replace personalized consultation with a medical professional. Always seek the advice of a qualified physician before making any medical decisions."
           }
         },
         "ko-KR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이 가이드는 참고용입니다. 정확한 안전 여부를 확인하세요."
+            "value" : "이 조언은 의료 전문가의 개인적인 상담을 대신할 수 없습니다. 모든 의료 관련 결정을 내리기 전에 반드시 의사의 전문적인 조언을 구하세요."
           }
         }
       }
@@ -2244,8 +2261,22 @@
         }
       }
     },
-    "출처 보기" : {
-
+    "출처" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "citations"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "출처"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

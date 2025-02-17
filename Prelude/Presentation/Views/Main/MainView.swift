@@ -10,7 +10,7 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var userSession: UserSession
-    
+    @EnvironmentObject var keyboardObserver: KeyboardObserver
     @Environment(\.plTypographySet) var typographies
     
     @StateObject var mainViewModel = MainViewModel()
@@ -20,11 +20,6 @@ struct MainView: View {
     @State private var isFocused = false
     @State private var showpPurchaseView = false
     @State private var showSeedlowSheet = false
-    
-    var userSelectPrompt: String {
-        if foodName.isEmpty { return "" }
-        return "유저가 알려준 음식의 이름은 \(foodName)이야\n"
-    }
     
     var remainingTimes: UInt {
         guard let userInfo = userSession.userInfo else { return 0 }
@@ -36,24 +31,29 @@ struct MainView: View {
             PLColor.neutral50
                 .ignoresSafeArea()
             
+            
             VStack(spacing: 0) {
                 navigationHeader
-                    .padding(.bottom, 70)
                 
-                if !isFocused { greetingText }
+                Spacer()
+                
+                if !isFocused  { greetingText }
+                
+                mainDish
+                
+                if let _ = uiImage {
+                    foodNameTextField
+                        .padding(.bottom, isFocused ? 70 : 0)
+                }
                 
                 Spacer()
                 
                 if let _ = uiImage {
-                    foodNameTextField
-                        .padding(.bottom, isFocused ? 10 : 106)
-                    
                     button
                 }
             }
             .padding(.horizontal, 16)
-            
-            mainDish
+            .padding(.bottom, 16)
             
         }
         .sheet(isPresented: $isShowingImagePicker) { ImagePicker(image: $uiImage, sourceType: .camera) }
@@ -66,7 +66,6 @@ struct MainView: View {
             PurchaseView()
                 .trackScreen(screenName: "구매 뷰")
         }
-        .ignoresSafeArea(.all, edges: [.top, .horizontal])
         .navigationBarBackButtonHidden()
         .onTapGesture { hideKeyboard() }
         .onAppear {
@@ -97,6 +96,7 @@ struct MainView: View {
             .textStyle(typographies.heading1)
             .foregroundStyle(PLColor.neutral800)
             .multilineTextAlignment(.center)
+            .fixedSize(horizontal: true, vertical: true)
     }
     
     private var mainDish: some View {
@@ -180,7 +180,7 @@ struct MainView: View {
                     return
                 }
                 
-                navigationManager.navigate(.result(userSelectPrompt: mainViewModel.prompt + userSelectPrompt, image: uiImage))
+                navigationManager.navigate(.result(foodName: foodName, image: uiImage))
                 self.uiImage = nil
                 AnalyticsManager.shared.logEvent("음식 검색", parameters: ["음식 이름": foodName])
             }

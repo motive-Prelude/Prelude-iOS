@@ -4,8 +4,16 @@
 <dict>
 	<key>API_KEY</key>
 	<string>$(API_KEY)</string>
-	<key>ASSISTANT_ID</key>
-	<string>$(ASSISTANT_ID)</string>
+	<key>ASSISTANT_ID_FIND_FOOD_NUTRITION</key>
+	<string>$(ASSISTANT_ID_FIND_FOOD_NUTRITION)</string>
+	<key>ASSISTANT_ID_FIND_FOOD_NAME</key>
+	<string>$(ASSISTANT_ID_FIND_FOOD_NAME)</string>
+	<key>ASSISTANT_ID_FOOD_INTAKE_JUDGEMENT</key>
+	<string>$(ASSISTANT_ID_FOOD_INTAKE_JUDGEMENT)</string>
+	<key>PERPLEXITY_API_KEY</key>
+	<string>$(PERPLEXITY_API_KEY)</string>
+	<key>GEMINI_API_KEY</key>
+	<string>$(GEMINI_API_KEY)</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>

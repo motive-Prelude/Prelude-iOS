@@ -27,8 +27,7 @@ struct PLNavigationHeader<Leading: View, Trailing: View>: View {
                 .textStyle(typographies.label)
                 .foregroundStyle(PLColor.neutral800)
         }
-        .padding(.bottom, 12)
-        .padding(.top, 60)
+        .padding(.vertical)
     }
 
 }

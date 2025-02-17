@@ -39,10 +39,9 @@ struct PurchaseView: View {
             navigationHeader
         } content: {
             purchaseView
-        } buttons: {
+        } footer: {
             footer
         }
-
     }
     
     private var background: some View {

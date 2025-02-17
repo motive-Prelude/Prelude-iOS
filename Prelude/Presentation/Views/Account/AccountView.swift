@@ -45,7 +45,7 @@ struct AccountView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             
-        } buttons: { EmptyView() }
+        } footer: { EmptyView() }
             .trackScreen(screenName: "계정 뷰")
     }
     

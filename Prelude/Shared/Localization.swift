@@ -150,6 +150,8 @@ enum Localization {
             return String(format: formatString, cost)
         }
         
+        static var citationLabel = String(localized: "label_citations")
+        
         static var deleteAccountDescription = String(localized: "delete_account_description")
         
         static func paySuccessToastMessage(_ count: Int) -> String {

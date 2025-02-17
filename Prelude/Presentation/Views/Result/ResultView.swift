@@ -15,11 +15,12 @@ enum JudgeResult {
 }
 
 struct ResultView: View {
-    let userSelectedPrompt: String
+    let foodName: String
     let image: UIImage?
     @StateObject var resultViewModel = ResultViewModel()
     @Environment(\.dismiss) var dismiss
     @Environment(\.plTypographySet) var typographies
+    @Environment(\.openURL) var openURL
     
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var userSession: UserSession
@@ -54,7 +55,6 @@ struct ResultView: View {
                     .trackScreen(screenName: "결과 뷰")
             }
         }
-        .ignoresSafeArea()
         .navigationBarBackButtonHidden()
     }
     
@@ -97,8 +97,10 @@ struct ResultView: View {
     }
     
     private func sendMessage(image: UIImage) async {
+        let healthInfo = userSession.userInfo?.healthInfo
+        
         do {
-            try await resultViewModel.sendMessage(userSelectedPrompt, image: image)
+            try await resultViewModel.sendMessage(foodName, image: image, healthInfo: healthInfo)
             try await userSession.decrementSeeds(1)
         } catch { showAlert(error) }
     }
@@ -166,8 +168,9 @@ struct ResultView: View {
                 }
                 ScrollView(showsIndicators: false) {
                     headline(result: result)
+                    citations
                     resultContent
-//                    sourceLink
+                    
                     Spacer()
                 }
                 .padding(.bottom, 8)
@@ -192,7 +195,7 @@ struct ResultView: View {
                         .multilineTextAlignment(.center)
                     
                     HStack(spacing: 0) {
-                        Text(Localization.Result.resultTitleFoodName(judgement.productName))
+                        Text(Localization.Result.resultTitleFoodName(judgement.foodName))
                             .textStyle(typographies.title1)
                             .foregroundStyle(PLColor.neutral800)
     
@@ -230,19 +233,17 @@ struct ResultView: View {
     @ViewBuilder
     private var resultContent: some View {
         if let judgement = resultViewModel.judgement {
-                Text(judgement.conclusion)
-                .textStyle(typographies.paragraph1)
-                .foregroundStyle(PLColor.neutral800)
-                    .padding(.bottom, 10)
-                    .padding(.top, 44)
-                
-                ForEach(judgement.details, id: \.self) { detail in
+            ForEach(judgement.nutritionDetail, id: \.self) { detail in
                     VStack(alignment: .leading, spacing: 5) {
-                        Text(detail.title)
+                        Text(detail.nutrient)
                             .textStyle(typographies.label)
                             .foregroundStyle(PLColor.neutral800)
                         
-                        Text(detail.content)
+                        Text(detail.value)
+                            .textStyle(typographies.label)
+                            .foregroundStyle(PLColor.neutral800)
+                        
+                        Text(detail.description)
                             .textStyle(typographies.paragraph1)
                             .foregroundStyle(PLColor.neutral800)
                     }
@@ -254,17 +255,37 @@ struct ResultView: View {
     }
     
     @ViewBuilder
-    private var sourceLink: some View {
-        if let judgement = resultViewModel.judgement {
-            Link(destination: URL(string: judgement.link)!) {
-                Text("출처 보기")
+    private var citations: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(Localization.Label.citationLabel)
+                .textStyle(typographies.label)
+                .foregroundStyle(PLColor.neutral800)
+                .padding(.bottom, 10)
+            
+            ScrollView(.horizontal) {
+                LazyHStack {
+                    ForEach(resultViewModel.citations, id: \.self) { citation in
+                        Text(citation.title)
+                            .textStyle(typographies.paragraph1)
+                            .foregroundStyle(PLColor.neutral800)
+                            .padding(.horizontal)
+                            .padding(.vertical, 3)
+                            .background(Capsule().fill(PLColor.neutral100))
+                            .onTapGesture {
+                                guard let url = URL(string: citation.url) else { return }
+                                openURL(url)
+                            }
+                    }
+                }
             }
+            .scrollIndicators(.never)
         }
-        
+        .padding(.top, 20)
+        .padding(.bottom, 16)
     }
-    
+        
     private var chatGPTWarning: some View {
-        HStack(spacing: 4) {
+        HStack(alignment: .top, spacing: 4) {
             Image(systemName: "exclamationmark.circle")
                 .font(.system(size: 16))
                 .foregroundStyle(PLColor.negative)
@@ -281,4 +302,3 @@ struct ResultView: View {
         .padding(.bottom, 24)
     }
 }
-

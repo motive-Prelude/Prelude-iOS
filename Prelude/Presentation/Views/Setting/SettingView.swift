@@ -28,7 +28,7 @@ struct SettingView: View {
                 settingList
                 Spacer()
             }
-        } buttons: { EmptyView() }
+        } footer: { EmptyView() }
     }
     
     private var navigationHeader: some View {
