@@ -39,6 +39,7 @@ struct PreludeApp: App {
                 .environmentObject(userSession)
                 .environmentObject(networkMonitor)
                 .environment(\.plTypographySet, currentLocalizationTypographySet())
+                .dynamicTypeSize(.medium)
         }
         
     }
