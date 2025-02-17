@@ -60,3 +60,23 @@ extension View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
+
+
+extension View {
+    func trackScreen(screenName: String) -> some View {
+        self.modifier(ScreenTrackingModifier(screenName: screenName))
+    }
+}
+
+struct ConditionalSafeAreaModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        let safeEdges: Edge.Set = UIDevice.current.userInterfaceIdiom == .pad ? [.horizontal] : [.horizontal, .top, .bottom]
+        return content.ignoresSafeArea(.all, edges: safeEdges)
+    }
+}
+
+extension View {
+    func applyConditionalSafeArea() -> some View {
+        self.modifier(ConditionalSafeAreaModifier())
+    }
+}

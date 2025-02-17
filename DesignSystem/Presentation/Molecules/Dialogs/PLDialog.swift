@@ -8,11 +8,16 @@
 import SwiftUI
 
 struct PLDialog: View {
+    @Environment(\.plTypographySet) var typographies
+    
     let title: String
     let description: String
     
     let cancelButtonLabel: String
     let confirmButtonLabel: String
+    
+    var primaryColor: Color?
+    var secondaryColor: Color?
     
     let confirmAction: () -> Void
     let cancelAction: () -> Void
@@ -31,23 +36,23 @@ struct PLDialog: View {
     private var contentView: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .textStyle(.title1)
+                .textStyle(typographies.title1)
                 .foregroundStyle(PLColor.neutral800)
             
             Text(description)
-                .textStyle(.paragraph2)
+                .textStyle(typographies.paragraph2)
                 .foregroundStyle(PLColor.neutral700)
         }
     }
     private var actionButtons: some View {
-        HStack(alignment: .bottom, spacing: 8) {
+        HStack(alignment: .bottom, spacing: 20) {
             Spacer()
             PLActionButton(label: cancelButtonLabel,
                            type: .secondary,
                            contentType: .text,
                            size: .medium,
                            shape: .none,
-                           isDisabled: false) {
+                           directionalBackgroundColor: secondaryColor) {
                 cancelAction()
             }
             
@@ -56,7 +61,7 @@ struct PLDialog: View {
                            contentType: .text,
                            size: .small,
                            shape: .rect,
-                           isDisabled: false) {
+                           directionalBackgroundColor: primaryColor) {
                 confirmAction()
             }
         }

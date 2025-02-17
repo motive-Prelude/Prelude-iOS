@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PLActionButton: View {
+    @Environment(\.plTypographySet) var typographies
+    
     private(set) var label: String? = nil
     private(set) var icon: Image? = nil
     let type: ButtonType
@@ -18,8 +20,6 @@ struct PLActionButton: View {
     var directionalForegroundColor: Color? = nil
     var directionalBackgroundColor: Color? = nil
     let action: () -> Void
-    
-    
     
     var body: some View {
         Button(action: action) {
@@ -48,7 +48,7 @@ struct PLActionButton: View {
     private var titleView: some View {
         if let label {
             Text(label)
-                .textStyle(.label)
+                .textStyle(typographies.label)
         }
     }
     

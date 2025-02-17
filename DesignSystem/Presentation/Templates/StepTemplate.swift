@@ -10,9 +10,9 @@ import SwiftUI
 struct StepTemplate<Background: View, Header: View, Content: View, Buttons: View>: View {
     let backgroundColor: Background
     let contentTopPadding: CGFloat
-    @ViewBuilder let header: () -> Header
-    @ViewBuilder let content: () -> Content
-    @ViewBuilder let buttons: () -> Buttons
+    let header: () -> Header
+    let content: () -> Content
+    let footer: () -> Buttons
     
     var body: some View {
         ZStack {
@@ -20,14 +20,20 @@ struct StepTemplate<Background: View, Header: View, Content: View, Buttons: View
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
-                header()
-                content()
-                    .padding(.top, contentTopPadding)
-                buttons()
+                VStack(spacing: 0) {
+                    header()
+                        .padding(.bottom, contentTopPadding)
+                    content()
+                    
+                    Spacer()
+                }
+                    
+                Spacer()
+                footer()
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .padding(.horizontal, 16)
         }
-        .ignoresSafeArea(.all, edges: [.top, .horizontal])
         .navigationBarBackButtonHidden()
         .onTapGesture { hideKeyboard() }
         

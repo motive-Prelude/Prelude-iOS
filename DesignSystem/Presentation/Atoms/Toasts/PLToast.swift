@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PLToast: View {
+    @Environment(\.plTypographySet) var typographies
+    
     private(set) var icon: Image?
     let message: String
     
@@ -35,7 +37,7 @@ struct PLToast: View {
     }
     private var messageView: some View {
         Text(message)
-            .textStyle(.paragraph2)
+            .textStyle(typographies.paragraph2)
             .foregroundStyle(PLColor.neutral50)
     }
     private var backgroundView: some View {
