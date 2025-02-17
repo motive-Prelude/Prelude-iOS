@@ -22,10 +22,9 @@ struct WelcomeView: View {
                 welcomeGift
                 Spacer()
             }
-        } buttons: {
+        } footer: {
             startButton
         }
-
     }
     
     private var navigationHeader: some View {

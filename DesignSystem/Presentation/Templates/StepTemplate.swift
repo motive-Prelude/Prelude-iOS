@@ -12,7 +12,7 @@ struct StepTemplate<Background: View, Header: View, Content: View, Buttons: View
     let contentTopPadding: CGFloat
     @ViewBuilder let header: () -> Header
     @ViewBuilder let content: () -> Content
-    @ViewBuilder let buttons: () -> Buttons
+    let footer: () -> Buttons
     
     var body: some View {
         ZStack {

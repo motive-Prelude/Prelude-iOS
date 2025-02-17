@@ -23,9 +23,11 @@ struct HealthInfoConfirmView: View {
             headline
                 .padding(.top, 100)
         } content: {
-            HealthInfoListView(healthInfo: healthInfo, mode: mode)
-            Spacer()
-        } buttons: { buttonGroup }
+            VStack(spacing: 0) {
+                HealthInfoListView(healthInfo: healthInfo, mode: mode)
+                Spacer()
+            }
+        } footer: { buttonGroup }
         .navigationBarBackButtonHidden()
     }
     

@@ -64,12 +64,15 @@ struct LoadingView: View {
             Text(Localization.Loading.loadingStepImageReview)
                 .textStyle(typographies.label)
                 .foregroundStyle(currentProcedure == 1 ? PLColor.neutral800 : PLColor.neutral300)
+            
             Text(Localization.Loading.loadingStepCheckIngredient)
                 .textStyle(typographies.label)
                 .foregroundStyle(currentProcedure == 2 ? PLColor.neutral800 : PLColor.neutral300)
+            
             Text(Localization.Loading.loadingStepCollectDetail)
                 .textStyle(typographies.label)
                 .foregroundStyle(currentProcedure == 3 ? PLColor.neutral800 : PLColor.neutral300)
+            
             
         }
     }

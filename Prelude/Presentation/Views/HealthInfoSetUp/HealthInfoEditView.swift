@@ -26,7 +26,7 @@ struct HealthInfoEditView: View {
                 }
                 Spacer()
             }
-        } buttons: { EmptyView() }
+        } footer: { EmptyView() }
             .onChange(of: selectedKeyPath) { _, _ in
                 if selectedKeyPath != nil { isSheetPresented = true }
             }
