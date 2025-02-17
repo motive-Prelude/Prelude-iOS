@@ -40,6 +40,7 @@ struct WelcomeView: View {
                 .foregroundStyle(PLColor.neutral800)
                 .multilineTextAlignment(.leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .minimumScaleFactor(0.3)
             
             Image(.welcomeGift)
                 .resizable()
@@ -49,7 +50,7 @@ struct WelcomeView: View {
             .textStyle(typographies.paragraph1)
             .foregroundStyle(PLColor.neutral700)
             .lineLimit(8)
-            .minimumScaleFactor(0.1)
+            .minimumScaleFactor(0.3)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

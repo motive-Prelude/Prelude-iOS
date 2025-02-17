@@ -23,12 +23,14 @@ struct DisclaimerView: View {
             headline
                 .padding(.top, 100)
         } content: {
-            disclaimerParagraph
-            Spacer()
-            termsAndConditionsToggle
-                .padding(.bottom, 44)
-                .fixedSize(horizontal: false, vertical: true)
-        } buttons: { button }
+            VStack(spacing: 0) {
+                disclaimerParagraph
+                Spacer()
+                termsAndConditionsToggle
+                    .padding(.bottom, 44)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        } footer: { button }
             .navigationBarBackButtonHidden()
     }
     
@@ -48,8 +50,7 @@ struct DisclaimerView: View {
                 .textStyle(typographies.paragraph1)
                 .foregroundStyle(PLColor.neutral800)
                 .fixedSize(horizontal: false, vertical: true)
-                .lineLimit(6)
-                .minimumScaleFactor(0.1)
+                .minimumScaleFactor(0.5)
             
         }
     }
@@ -120,7 +121,8 @@ struct DisclaimerView: View {
         attributedText.append(linkPart)
         attributedText.append(lastPart)
         
-        return Text(attributedText).lineSpacing(6)
+        return Text(attributedText)
+            .lineSpacing(6)
 
     }
 }
@@ -129,3 +131,4 @@ struct DisclaimerView: View {
     DisclaimerView()
         .environmentObject(NavigationManager())
 }
+

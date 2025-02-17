@@ -32,16 +32,24 @@ struct HealthInfoSetUpPage: View {
     
     var body: some View {
         StepTemplate(backgroundColor: PLColor.neutral50, contentTopPadding: 44) {
-            navigationHeader
-            headline
+            VStack(spacing: 0) {
+                navigationHeader
+                headline
+                    .layoutPriority(1)
+            }
         } content: {
             VStack(spacing: 0) {
                 tabs
                 Spacer()
-                pageIndicator
-                    .padding(.bottom, 16)
+
             }
-        } buttons: { button }
+        } footer: {
+            VStack(spacing: 16) {
+                pageIndicator
+                button
+            }
+            .layoutPriority(1)
+        }
     }
     
     private var navigationHeader: some View {
@@ -77,8 +85,6 @@ struct HealthInfoSetUpPage: View {
     }
     
     private func headLineTitle(_ currentPage: Int) -> String {
-        
-        
         switch currentPage {
             case 1: return Localization.Label.basicInfoTitle
             case 2: return Localization.Label.medicalHistoryTitle
@@ -89,7 +95,7 @@ struct HealthInfoSetUpPage: View {
     }
     
     private var tabs: some View {
-        VStack {
+        VStack(spacing: 0) {
             switch TabSelection(rawValue: currentPage+1) {
                 case .basic:
                     BasicInfoSetUpView(gestationalWeek: $gestationalWeek, height: $height, weight: $weight)

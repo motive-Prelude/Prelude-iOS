@@ -25,13 +25,11 @@ struct AllergiesInfoSetUpView: View {
         Text(Localization.Allergy.sensitivitiesQuestion)
             .textStyle(typographies.title1)
             .foregroundStyle(PLColor.neutral800)
-            .minimumScaleFactor(0.1)
     }
     
     private var checkInstruction: some View {
         Text(Localization.Allergy.checkAllInstruction)
             .textStyle(typographies.paragraph2)
             .foregroundStyle(PLColor.neutral500)
-            .minimumScaleFactor(0.1)
     }
 }
