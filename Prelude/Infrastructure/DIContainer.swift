@@ -47,6 +47,7 @@ final class DIContainer: ObservableObject {
             swiftDataSource: resolve(SwiftDataSource.self)!,
             iCloudDataSource: resolve(ICloudDataSource.self)!,
             firestoreDataSource: resolve(FirestoreDataSource<UserInfo>.self)!))
+        register(PerplexityChatRepository.self, dependency: PerplexityChatRepository(apiClient: resolve(APIClient.self)!))
         
         // ImageRepository 등록
         register(ImageRepository.self, dependency:  ImageRepositoryImpl(apiClient: resolve(APIClient.self)!))
