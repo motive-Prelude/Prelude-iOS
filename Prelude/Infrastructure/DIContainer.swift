@@ -67,6 +67,7 @@ final class DIContainer: ObservableObject {
         register(DeleteAccountUseCase.self, dependency: DeleteAccountUseCase(authRepository: resolve(AuthRepository.self)!, userRepository: resolve(UserRepository.self)!))
         register(ObserveAuthStateUseCase.self, dependency: ObserveAuthStateUseCase(authRepository: resolve(AuthRepository.self)!))
         register(ReauthenticateUseCase.self, dependency: ReauthenticateUseCase(authRepository: resolve(AuthRepository.self)!))
+        register(PerplexityChatUseCase.self, dependency: PerplexityChatUseCase(repository: resolve(PerplexityChatRepository.self)!))
         // UploadImageUseCase 등록
         register(UploadImageUseCase.self, dependency: UploadImageUseCase(repository: resolve(ImageRepository.self)!))
     }
