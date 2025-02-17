@@ -55,7 +55,7 @@ enum AppScreen: Hashable, Identifiable {
     case setting
     case account
     case purchase
-    case result(userSelectPrompt: String, image: UIImage?)
+    case result(foodName: String, image: UIImage?)
     
     
     var id: AppScreen { self }
@@ -90,8 +90,8 @@ extension AppScreen {
                 AccountView()
             case .purchase:
                 PurchaseView()
-            case .result(let userSelectedPrompt, let image):
-                ResultView(userSelectedPrompt: userSelectedPrompt, image: image)
+            case .result(let foodName, let image):
+                ResultView(foodName: foodName, image: image)
         }
     }
     
