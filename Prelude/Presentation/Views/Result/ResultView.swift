@@ -18,6 +18,7 @@ struct ResultView: View {
     let foodName: String
     let image: UIImage?
     @StateObject var resultViewModel = ResultViewModel()
+    @State private var hasSentMessage = false
     @Environment(\.dismiss) var dismiss
     @Environment(\.plTypographySet) var typographies
     @Environment(\.openURL) var openURL
@@ -87,7 +88,12 @@ struct ResultView: View {
         resultViewModel.detectFoodOrNot(image: image) { result in
             if result {
                 processNextProcedure()
-                Task { await sendMessage(image: image) }
+                if !hasSentMessage {
+                    hasSentMessage = true
+                    Task {
+                        await sendMessage(image: image)
+                    }
+                }
             } else {
                 alertManager.showAlert(title: Localization.Dialog.dialogNotFoodTitle,
                                        message: Localization.Dialog.dialogNotFoodDescription,
@@ -100,7 +106,14 @@ struct ResultView: View {
         let healthInfo = userSession.userInfo?.healthInfo
         
         do {
-            try await resultViewModel.sendMessage(foodName, image: image, healthInfo: healthInfo)
+            for _ in 0..<10 {
+                try? await SignpostLogger.measure(name: "LLM AI") {
+                    try await resultViewModel.sendMessage(foodName, image: image, healthInfo: healthInfo)
+                }
+                
+                try? await Task.sleep(nanoseconds: 200_000_000)
+            }
+            
             try await userSession.decrementSeeds(1)
         } catch { showAlert(error) }
     }
