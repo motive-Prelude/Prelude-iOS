@@ -15,10 +15,18 @@ enum WeightUnit: String, MeasurableUnit {
     case pound = "lb"
     
     var symbol: String { self.rawValue }
+    
+    var maxLength: Int {
+        switch self {
+            case .kilogram: 3
+            case .pound: 3
+        }
+    }
+    
     var placeholder: String {
         switch self {
-            case .kilogram: "Weight (kg)"
-            case .pound: "Weight (lb)"
+            case .kilogram: "\(Localization.Label.weightLabel) (kg)"
+            case .pound: "\(Localization.Label.weightLabel) (lb)"
         }
     }
     
@@ -49,5 +57,10 @@ enum WeightUnit: String, MeasurableUnit {
 struct Weight: Measurable {
     var value: Double
     var unit: WeightUnit
+    
+    init(_ value: Double, _ unit: WeightUnit) {
+        self.value = value
+        self.unit = unit
+    }
     
 }

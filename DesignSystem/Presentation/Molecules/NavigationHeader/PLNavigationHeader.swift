@@ -8,23 +8,26 @@
 import SwiftUI
 
 struct PLNavigationHeader<Leading: View, Trailing: View>: View {
+    @Environment(\.plTypographySet) var typographies
+    
     let title: String
     let leadingItem: () -> Leading
     let trailingItem: () -> Trailing
     
     
     var body: some View {
-        HStack(spacing: 0) {
-            leadingItem()
-            Spacer()
+        ZStack {
+            HStack(spacing: 0) {
+                leadingItem()
+                Spacer()
+                trailingItem()
+            }
+            
             Text(title)
-                .textStyle(.label)
+                .textStyle(typographies.label)
                 .foregroundStyle(PLColor.neutral800)
-            Spacer()
-            trailingItem()
         }
-        .padding(.bottom, 12)
-        .padding(.top, 60)
+        .padding(.vertical)
     }
 
 }

@@ -11,8 +11,11 @@ struct PLFormButton: View {
     private(set) var label: String? = nil
     private(set) var description: String? = nil
     @Binding var isSelected: Bool
+    @Environment(\.plTypographySet) var typographies
+    
     let contentType: FormButtonContent
     let mode: SizeMode
+    var onTap: (() -> ())? = nil
     
     var style: FormButtonStyleData {
         ButtonStyleMapper.style(for: FormButtonStyleKey(contentType: contentType, mode: mode))
@@ -29,9 +32,8 @@ struct PLFormButton: View {
         .overlay(borderView)
         .padding(1)
         .onTapGesture {
-            withAnimation {
-                isSelected.toggle()
-            }
+            withAnimation { isSelected.toggle() }
+            onTap?()
         }
         
     }
@@ -40,7 +42,7 @@ struct PLFormButton: View {
     private var titleView: some View {
         if let label {
             Text(label)
-                .textStyle(.label)
+                .textStyle(typographies.label)
                 .foregroundStyle(labelColor)
         }
     }
@@ -49,7 +51,7 @@ struct PLFormButton: View {
     private var descriptionView: some View {
         if let description, contentType == .description {
             Text(description)
-                .textStyle(.paragraph2)
+                .textStyle(typographies.paragraph2)
                 .foregroundStyle(style.descriptionColor)
         }
     }

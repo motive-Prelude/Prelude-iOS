@@ -7,11 +7,12 @@
 
 
 protocol MeasurableUnit: Hashable, Codable {
-    associatedtype Value: Equatable
+    associatedtype Value: Equatable & FloatingPoint
     
     var symbol: String { get }
     var subUnits: [Self] { get }
     var placeholder: String { get }
+    var maxLength: Int { get }
     
     func toBaseUnit(_ value: Value) -> Value
     func fromBaseUnit(_ value: Value) -> Value

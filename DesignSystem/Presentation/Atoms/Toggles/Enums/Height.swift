@@ -20,11 +20,19 @@ enum HeightUnit: String, MeasurableUnit {
         }
     }
     
+    var maxLength: Int {
+        switch self {
+            case .centimeter: 3
+            case .feet: 1
+            case .inch: 2
+        }
+    }
+    
     var placeholder: String {
         switch self {
-            case .centimeter: "Height (cm)"
-            case .feet: "Height (ft)"
-            case .inch: "Height (in)"
+            case .centimeter: "\(Localization.Label.heightLabel) (cm)"
+            case .feet: "\(Localization.Label.heightLabel) (ft)"
+            case .inch: "\(Localization.Label.heightLabel) (in)"
         }
     }
     
@@ -64,4 +72,9 @@ enum HeightUnit: String, MeasurableUnit {
 struct Height: Measurable {
     var value: Double
     var unit: HeightUnit
+    
+    init(_ value: Double, _ unit: HeightUnit) {
+        self.value = value
+        self.unit = unit
+    }
 }

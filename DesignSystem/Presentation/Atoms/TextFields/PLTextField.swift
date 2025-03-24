@@ -13,6 +13,9 @@ struct PLTextField<Unit: MeasurableUnit>: View {
     private(set) var unit: Unit?
     let keyboard: UIKeyboardType
     @FocusState var isFocused: Bool
+    
+    @Environment(\.plTypographySet) var typographies
+    
     var onFocused: ((Bool) -> Void)? = nil
     
     var body: some View {
@@ -32,19 +35,27 @@ struct PLTextField<Unit: MeasurableUnit>: View {
         .contentShape(Rectangle())
         .onTapGesture { isFocused = true }
         .onChange(of: isFocused) { _, _ in onFocused?(isFocused) }
+        .onChange(of: text) { _, newValue in
+            guard let unit else { return }
+            if newValue.count > unit.maxLength {
+                text = String(newValue.prefix(unit.maxLength))
+            }
+        }
+        .ignoresSafeArea(.all, edges: .bottom)
+        
     }
     
     @ViewBuilder
     private var placeholderView: some View {
         if text.isEmpty {
             Text(placeholder)
-                .textStyle(.paragraph1)
+                .textStyle(typographies.paragraph1)
                 .foregroundStyle(PLColor.neutral500)
         }
     }
     private var textField: some View {
         TextField("", text: $text, axis: .horizontal)
-            .textStyle(.paragraph1)
+            .textStyle(typographies.paragraph1)
             .foregroundStyle(PLColor.neutral800)
             .fixedSize(horizontal: true, vertical: false)
             .focused($isFocused)
@@ -55,7 +66,7 @@ struct PLTextField<Unit: MeasurableUnit>: View {
     private var unitView: some View {
         if let unit, !text.isEmpty {
             Text(unit.symbol)
-                .textStyle(.paragraph1)
+                .textStyle(typographies.paragraph1)
                 .foregroundStyle(PLColor.neutral500)
                 .transition(.opacity)
         }

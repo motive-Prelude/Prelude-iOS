@@ -1,4 +1,4 @@
-# Safe for Two - iOS
+# Prelude - iOS
 
 
 ###  Author
@@ -27,8 +27,10 @@
 
 ### ✨ Tech Stack
 * SwiftUI
-* Combine
-* Assistant API
+* Swift Concurrency
+* SwiftData
+* CloudKit
+* REST API
 
 
 <br />
@@ -47,27 +49,66 @@
 ### 🗂️ Folder Structure
 
 ```
-📦Junction
+📦Prelude
  ┣ 📂Data
  ┃ ┣ 📂API
- ┃ ┃ ┣ 📜APIService.swift
- ┃ ┃ ┗ 📜EndPoint.swift
+ ┃ ┃ ┣ 📂EndPoints
+ ┃ ┃ ┃ ┣ 📜GeminiEndPoint.swift
+ ┃ ┃ ┃ ┣ 📜OpenAIEndPoint.swift
+ ┃ ┃ ┃ ┗ 📜PerplexityEndPoint.swift
+ ┃ ┃ ┣ 📂Protocols
+ ┃ ┃ ┃ ┣ 📜APIRequest.swift
+ ┃ ┃ ┃ ┗ 📜Endpoint.swift
+ ┃ ┃ ┣ 📂Requests
+ ┃ ┃ ┃ ┣ 📜GeminiRequest.swift
+ ┃ ┃ ┃ ┗ 📜PerplexityRequest.swift
+ ┃ ┃ ┣ 📂Responses
+ ┃ ┃ ┃ ┗ 📜PerplexityResponse.swift
+ ┃ ┃ ┗ 📜APIClient.swift
+ ┃ ┣ 📂DataSources
+ ┃ ┃ ┣ 📜FirebaseAuthDataSource.swift
+ ┃ ┃ ┣ 📜FirestoreDataSource.swift
+ ┃ ┃ ┣ 📜ICloudDataSource.swift
+ ┃ ┃ ┗ 📜SwiftDataSource.swift
+ ┃ ┣ 📂Errors
+ ┃ ┃ ┣ 📜APIError.swift
+ ┃ ┃ ┣ 📜AuthError.swift
+ ┃ ┃ ┣ 📜DataSourceError.swift
+ ┃ ┃ ┗ 📜RepositoryError.swift
  ┃ ┣ 📂Facades
  ┃ ┃ ┗ 📜AssistantInteractionFacadeImpl.swift
- ┃ ┗ 📂Repositories
+ ┃ ┣ 📂Repositories
+ ┃ ┃ ┣ 📜AuthRepositoryImpl.swift
+ ┃ ┃ ┣ 📜CreateThreadAndRunRepositoryImpl.swift
+ ┃ ┃ ┣ 📜GeminiChatRepository.swift
  ┃ ┃ ┣ 📜ImageRepositoryImpl.swift
  ┃ ┃ ┣ 📜MessageRepositoryImpl.swift
+ ┃ ┃ ┣ 📜OCRRepositoryImpl.swift
+ ┃ ┃ ┣ 📜PerplexityChatRepository.swift
  ┃ ┃ ┣ 📜RunRepositoryImpl.swift
  ┃ ┃ ┣ 📜RunStepRepositoryImpl.swift
- ┃ ┃ ┗ 📜ThreadRepositoryImpl.swift
+ ┃ ┃ ┣ 📜TextPredictionRepositoryImpl.swift
+ ┃ ┃ ┣ 📜ThreadRepositoryImpl.swift
+ ┃ ┃ ┗ 📜UserRepository.swift
+ ┃ ┣ 📜.DS_Store
+ ┃ ┗ 📜AuthCredentialMapper.swift
  ┣ 📂Domain
  ┃ ┣ 📂Entities
+ ┃ ┃ ┣ 📂Assistant
+ ┃ ┃ ┃ ┣ 📂FoodName
+ ┃ ┃ ┃ ┃ ┣ 📜FoodNameAssistantResponse.swift
+ ┃ ┃ ┃ ┃ ┣ 📜FoodNutritionResponse.swift
+ ┃ ┃ ┃ ┃ ┗ 📜FoodSafetyRequest.swift
+ ┃ ┃ ┃ ┗ 📂Judgement
+ ┃ ┃ ┃ ┃ ┗ 📜Judgement.swift
+ ┃ ┃ ┣ 📂Auth
+ ┃ ┃ ┃ ┣ 📜AppleAuthCredentialParameter.swift
+ ┃ ┃ ┃ ┣ 📜AuthParameter.swift
+ ┃ ┃ ┃ ┗ 📜LoginProvider.swift
  ┃ ┃ ┣ 📂File
  ┃ ┃ ┃ ┗ 📜FileUploadResponse.swift
  ┃ ┃ ┣ 📂Health
  ┃ ┃ ┃ ┗ 📜HealthInfo.swift
- ┃ ┃ ┣ 📂Judgement
- ┃ ┃ ┃ ┗ 📜Judgement.swift
  ┃ ┃ ┣ 📂Message
  ┃ ┃ ┃ ┣ 📜CreateMessageResponse.swift
  ┃ ┃ ┃ ┣ 📜Message.swift
@@ -78,45 +119,121 @@
  ┃ ┃ ┃ ┗ 📜RunResponse.swift
  ┃ ┃ ┣ 📂RunStep
  ┃ ┃ ┃ ┗ 📜RunStepResponse.swift
- ┃ ┃ ┗ 📂Thread
+ ┃ ┃ ┣ 📂Thread
  ┃ ┃ ┃ ┗ 📜ThreadResponse.swift
+ ┃ ┃ ┣ 📂ThreadAndRun
+ ┃ ┃ ┃ ┣ 📜ThreadAndRunBody.swift
+ ┃ ┃ ┃ ┗ 📜ThreadAndRunResponse.swift
+ ┃ ┃ ┣ 📂UserInfo
+ ┃ ┃ ┃ ┗ 📜UserInfo.swift
+ ┃ ┃ ┗ 📜.DS_Store
+ ┃ ┣ 📂Errors
+ ┃ ┃ ┗ 📜StoreError.swift
+ ┃ ┣ 📂Events
+ ┃ ┃ ┗ 📜ToastEvent.swift
  ┃ ┣ 📂Interfaces
  ┃ ┃ ┣ 📂Facades
  ┃ ┃ ┃ ┗ 📜AssistantInteractionFacade.swift
- ┃ ┃ ┗ 📂Repositories
+ ┃ ┃ ┣ 📂Repositories
+ ┃ ┃ ┃ ┣ 📜AuthRepository.swift
+ ┃ ┃ ┃ ┣ 📜ChatRepository.swift
+ ┃ ┃ ┃ ┣ 📜CreateThreadAndRunRepository.swift
  ┃ ┃ ┃ ┣ 📜ImageRepository.swift
  ┃ ┃ ┃ ┣ 📜MessageRepository.swift
+ ┃ ┃ ┃ ┣ 📜OCRRepository.swift
  ┃ ┃ ┃ ┣ 📜RunRepository.swift
  ┃ ┃ ┃ ┣ 📜RunStepRepository.swift
+ ┃ ┃ ┃ ┣ 📜TextPredictionRepository.swift
  ┃ ┃ ┃ ┗ 📜ThreadRepository.swift
+ ┃ ┃ ┗ 📜Convertible.swift
  ┃ ┣ 📂UseCases
- ┃ ┃ ┣ 📜CreateMessageUseCase.swift
- ┃ ┃ ┣ 📜CreateRunUseCase.swift
- ┃ ┃ ┣ 📜CreateThreadUseCase.swift
- ┃ ┃ ┣ 📜ListRunStepUseCase.swift
- ┃ ┃ ┣ 📜RetrieveMessageUseCase.swift
- ┃ ┃ ┗ 📜UploadImageUseCase.swift
+ ┃ ┃ ┣ 📂Assistant
+ ┃ ┃ ┃ ┣ 📜CreateMessageUseCase.swift
+ ┃ ┃ ┃ ┣ 📜CreateRunUseCase.swift
+ ┃ ┃ ┃ ┣ 📜CreateThreadAndRunUseCase.swift
+ ┃ ┃ ┃ ┣ 📜CreateThreadUseCase.swift
+ ┃ ┃ ┃ ┣ 📜ImageClassifierUseCase.swift
+ ┃ ┃ ┃ ┣ 📜ListRunStepUseCase.swift
+ ┃ ┃ ┃ ┣ 📜PerformOCRUseCase.swift
+ ┃ ┃ ┃ ┣ 📜PerplexityChatUseCase.swift
+ ┃ ┃ ┃ ┣ 📜PredictFoodTextUseCase.swift
+ ┃ ┃ ┃ ┣ 📜RetrieveMessageUseCase.swift
+ ┃ ┃ ┃ ┗ 📜UploadImageUseCase.swift
+ ┃ ┃ ┣ 📂Auth
+ ┃ ┃ ┃ ┣ 📜DeleteAccountUseCase.swift
+ ┃ ┃ ┃ ┣ 📜LoginUseCase.swift
+ ┃ ┃ ┃ ┣ 📜LogoutUseCase.swift
+ ┃ ┃ ┃ ┣ 📜ObserveAuthStateUseCase.swift
+ ┃ ┃ ┃ ┗ 📜ReauthenticateUseCase.swift
+ ┃ ┃ ┣ 📂User
+ ┃ ┃ ┗ 📜.DS_Store
  ┃ ┗ 📜.DS_Store
  ┣ 📂Infrastructure
+ ┃ ┣ 📜.DS_Store
+ ┃ ┣ 📜AlertManager.swift
+ ┃ ┣ 📜AnalyticsManager.swift
+ ┃ ┣ 📜AppleAuthHelper.swift
+ ┃ ┣ 📜CryptoUtils.swift
  ┃ ┣ 📜DIContainer.swift
- ┃ ┗ 📜NavigationManager.swift
+ ┃ ┣ 📜ErrorMapper.swift
+ ┃ ┣ 📜EventBus.swift
+ ┃ ┣ 📜KeyboardObserver.swift
+ ┃ ┣ 📜NavigationManager.swift
+ ┃ ┣ 📜NetworkMonitor.swift
+ ┃ ┗ 📜PromptGenerator.swift
  ┣ 📂Presentation
  ┃ ┣ 📂Extensions
  ┃ ┃ ┣ 📜Font+.swift
- ┃ ┃ ┗ 📜UIApplication+.swift
+ ┃ ┃ ┣ 📜UIApplication+.swift
+ ┃ ┃ ┗ 📜UIImage+.swift
+ ┃ ┣ 📂Pages
+ ┃ ┃ ┗ 📜HealthInfoSetUpPage.swift
+ ┃ ┣ 📂Sessions
+ ┃ ┃ ┗ 📜UserSession.swift
  ┃ ┣ 📂ViewModels
- ┃ ┃ ┣ 📜HealthSetUpViewModel.swift
+ ┃ ┃ ┣ 📜.DS_Store
  ┃ ┃ ┣ 📜MainViewModel.swift
+ ┃ ┃ ┣ 📜OnboardingViewModel.swift
  ┃ ┃ ┗ 📜ResultViewModel.swift
- ┃ ┗ 📂Views
+ ┃ ┣ 📂Views
+ ┃ ┃ ┣ 📂Account
+ ┃ ┃ ┃ ┗ 📜AccountView.swift
+ ┃ ┃ ┣ 📂Account 2
+ ┃ ┃ ┣ 📂HealthInfoSetUp
+ ┃ ┃ ┃ ┣ 📜AllergiesInfoSetUpView.swift
+ ┃ ┃ ┃ ┣ 📜BasicInfoSetUpView.swift
+ ┃ ┃ ┃ ┣ 📜DisclaimerView.swift
+ ┃ ┃ ┃ ┣ 📜FlowLayout.swift
+ ┃ ┃ ┃ ┣ 📜HealthInfoConfirmView.swift
+ ┃ ┃ ┃ ┣ 📜HealthInfoEditView.swift
+ ┃ ┃ ┃ ┣ 📜HealthInfoItemEditSheet.swift
+ ┃ ┃ ┃ ┣ 📜HealthInfoListView.swift
+ ┃ ┃ ┃ ┣ 📜InfoSetUpStartView.swift
+ ┃ ┃ ┃ ┗ 📜MedicalInfoSetUpView.swift
+ ┃ ┃ ┣ 📂Main
+ ┃ ┃ ┃ ┣ 📜ImagePicker.swift
+ ┃ ┃ ┃ ┣ 📜MainView.swift
+ ┃ ┃ ┃ ┗ 📜SeedlowSheet.swift
+ ┃ ┃ ┣ 📂Main 2
+ ┃ ┃ ┣ 📂Onboarding
+ ┃ ┃ ┃ ┣ 📜OnboardingPage.swift
+ ┃ ┃ ┃ ┣ 📜OnboardingTabContent.swift
+ ┃ ┃ ┃ ┣ 📜SplashView.swift
+ ┃ ┃ ┃ ┗ 📜WelcomeView.swift
+ ┃ ┃ ┣ 📂Onboarding 2
+ ┃ ┃ ┣ 📂Purchase
+ ┃ ┃ ┃ ┗ 📜PurchaseView.swift
+ ┃ ┃ ┣ 📂Purchase 2
+ ┃ ┃ ┣ 📂Result
+ ┃ ┃ ┃ ┣ 📜LoadingView.swift
+ ┃ ┃ ┃ ┗ 📜ResultView.swift
+ ┃ ┃ ┣ 📂Result 2
+ ┃ ┃ ┣ 📂Setting
+ ┃ ┃ ┃ ┗ 📜SettingView.swift
+ ┃ ┃ ┣ 📂Setting 2
  ┃ ┃ ┣ 📜ContentView.swift
- ┃ ┃ ┣ 📜HealthCheckView.swift
- ┃ ┃ ┣ 📜HealthInfoSetUpView.swift
- ┃ ┃ ┣ 📜ImagePicker.swift
- ┃ ┃ ┣ 📜LoadingView.swift
- ┃ ┃ ┣ 📜MainView.swift
- ┃ ┃ ┣ 📜OnboardingView.swift
- ┃ ┃ ┗ 📜ResultView.swift
+ ┃ ┃ ┗ 📜CustomAlertView.swift
+ ┃ ┗ 📜.DS_Store
  ┣ 📂Preview Content
  ┃ ┗ 📂Preview Assets.xcassets
  ┃ ┃ ┗ 📜Contents.json
@@ -125,66 +242,238 @@
  ┃ ┃ ┣ 📂AccentColor.colorset
  ┃ ┃ ┃ ┗ 📜Contents.json
  ┃ ┃ ┣ 📂AppIcon.appiconset
+ ┃ ┃ ┃ ┣ 📜.DS_Store
+ ┃ ┃ ┃ ┣ 📜100.png
+ ┃ ┃ ┃ ┣ 📜102.png
+ ┃ ┃ ┃ ┣ 📜1024.png
+ ┃ ┃ ┃ ┣ 📜108.png
+ ┃ ┃ ┃ ┣ 📜114.png
+ ┃ ┃ ┃ ┣ 📜120.png
+ ┃ ┃ ┃ ┣ 📜128.png
+ ┃ ┃ ┃ ┣ 📜144.png
+ ┃ ┃ ┃ ┣ 📜152.png
+ ┃ ┃ ┃ ┣ 📜16.png
+ ┃ ┃ ┃ ┣ 📜167.png
+ ┃ ┃ ┃ ┣ 📜172.png
+ ┃ ┃ ┃ ┣ 📜180.png
+ ┃ ┃ ┃ ┣ 📜196.png
+ ┃ ┃ ┃ ┣ 📜20.png
+ ┃ ┃ ┃ ┣ 📜216.png
+ ┃ ┃ ┃ ┣ 📜234.png
+ ┃ ┃ ┃ ┣ 📜256.png
+ ┃ ┃ ┃ ┣ 📜258.png
+ ┃ ┃ ┃ ┣ 📜29.png
+ ┃ ┃ ┃ ┣ 📜32.png
+ ┃ ┃ ┃ ┣ 📜40.png
+ ┃ ┃ ┃ ┣ 📜48.png
+ ┃ ┃ ┃ ┣ 📜50.png
+ ┃ ┃ ┃ ┣ 📜512.png
+ ┃ ┃ ┃ ┣ 📜55.png
+ ┃ ┃ ┃ ┣ 📜57.png
+ ┃ ┃ ┃ ┣ 📜58.png
+ ┃ ┃ ┃ ┣ 📜60.png
+ ┃ ┃ ┃ ┣ 📜64.png
+ ┃ ┃ ┃ ┣ 📜66.png
+ ┃ ┃ ┃ ┣ 📜72.png
+ ┃ ┃ ┃ ┣ 📜76.png
+ ┃ ┃ ┃ ┣ 📜80.png
+ ┃ ┃ ┃ ┣ 📜87.png
+ ┃ ┃ ┃ ┣ 📜88.png
+ ┃ ┃ ┃ ┣ 📜92.png
  ┃ ┃ ┃ ┗ 📜Contents.json
- ┃ ┃ ┣ 📂OnboardingGraphic.imageset
+ ┃ ┃ ┣ 📂Dish.imageset
+ ┃ ┃ ┃ ┣ 📜.DS_Store
  ┃ ┃ ┃ ┣ 📜Contents.json
- ┃ ┃ ┃ ┗ 📜OnboardingGraphic.png
- ┃ ┃ ┣ 📂arrowDown.imageset
+ ┃ ┃ ┃ ┣ 📜dish 1.png
+ ┃ ┃ ┃ ┣ 📜dish 2.png
+ ┃ ┃ ┃ ┗ 📜dish 3.png
+ ┃ ┃ ┣ 📂Logo.imageset
+ ┃ ┃ ┃ ┣ 📜.DS_Store
  ┃ ┃ ┃ ┣ 📜Contents.json
- ┃ ┃ ┃ ┗ 📜arrowDown.png
- ┃ ┃ ┣ 📂circleBubble.imageset
+ ┃ ┃ ┃ ┣ 📜logo 1.png
+ ┃ ┃ ┃ ┣ 📜logo 2.png
+ ┃ ┃ ┃ ┗ 📜logo 3.png
+ ┃ ┃ ┣ 📂Page1.imageset
  ┃ ┃ ┃ ┣ 📜Contents.json
- ┃ ┃ ┃ ┗ 📜circleBubble.png
- ┃ ┃ ┣ 📂gray1.colorset
+ ┃ ┃ ┃ ┣ 📜Page 1.png
+ ┃ ┃ ┃ ┣ 📜Page 2.png
+ ┃ ┃ ┃ ┗ 📜Page 3.png
+ ┃ ┃ ┣ 📂Page2.imageset
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┣ 📜Page 2.png
+ ┃ ┃ ┃ ┣ 📜Page 3.png
+ ┃ ┃ ┃ ┗ 📜Page 4.png
+ ┃ ┃ ┣ 📂Page3.imageset
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┣ 📜Page 3.png
+ ┃ ┃ ┃ ┣ 📜Page 4.png
+ ┃ ┃ ┃ ┗ 📜Page 5.png
+ ┃ ┃ ┣ 📂Setting.imageset
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┗ 📜Setting.png
+ ┃ ┃ ┣ 📂attention.imageset
+ ┃ ┃ ┃ ┣ 📜.DS_Store
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┣ 📜attention 1.png
+ ┃ ┃ ┃ ┣ 📜attention 2.png
+ ┃ ┃ ┃ ┗ 📜attention.png
+ ┃ ┃ ┣ 📂back.imageset
+ ┃ ┃ ┃ ┣ 📜Back 1.png
+ ┃ ┃ ┃ ┣ 📜Back 2.png
+ ┃ ┃ ┃ ┣ 📜Back 3.png
  ┃ ┃ ┃ ┗ 📜Contents.json
- ┃ ┃ ┣ 📂gray10.colorset
+ ┃ ┃ ┣ 📂capture.imageset
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┣ 📜capture 1.png
+ ┃ ┃ ┃ ┣ 📜capture 2.png
+ ┃ ┃ ┃ ┗ 📜capture.png
+ ┃ ┃ ┣ 📂cautionTriangle.imageset
+ ┃ ┃ ┃ ┣ 📜.DS_Store
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┣ 📜Yellow Triangle Illust 1.png
+ ┃ ┃ ┃ ┣ 📜Yellow Triangle Illust 2.png
+ ┃ ┃ ┃ ┗ 📜Yellow Triangle Illust.png
+ ┃ ┃ ┣ 📂check.imageset
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┣ 📜check 1.png
+ ┃ ┃ ┃ ┣ 📜check 2.png
+ ┃ ┃ ┃ ┗ 📜check.png
+ ┃ ┃ ┣ 📂checkSmall.imageset
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┗ 📜checkSmall.png
+ ┃ ┃ ┣ 📂chevronRight.imageset
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┣ 📜chevron 1.png
+ ┃ ┃ ┃ ┣ 📜chevron 2.png
+ ┃ ┃ ┃ ┗ 📜chevron.png
+ ┃ ┃ ┣ 📂clipboardIllust.imageset
+ ┃ ┃ ┃ ┣ 📜.DS_Store
+ ┃ ┃ ┃ ┣ 📜Clipboard Illust 1.png
+ ┃ ┃ ┃ ┣ 📜Clipboard Illust 2.png
+ ┃ ┃ ┃ ┣ 📜Clipboard Illust.png
  ┃ ┃ ┃ ┗ 📜Contents.json
- ┃ ┃ ┣ 📂gray2.colorset
+ ┃ ┃ ┣ 📂close.imageset
+ ┃ ┃ ┃ ┣ 📜.DS_Store
+ ┃ ┃ ┃ ┣ 📜Close 1.png
+ ┃ ┃ ┃ ┣ 📜Close 2.png
+ ┃ ┃ ┃ ┣ 📜Close 3.png
  ┃ ┃ ┃ ┗ 📜Contents.json
- ┃ ┃ ┣ 📂gray3.colorset
+ ┃ ┃ ┣ 📂closeSmall.imageset
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┣ 📜closeSmall 1.png
+ ┃ ┃ ┃ ┣ 📜closeSmall 2.png
+ ┃ ┃ ┃ ┗ 📜closeSmall.png
+ ┃ ┃ ┣ 📂errorLight.imageset
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┣ 📜Error Light 1.png
+ ┃ ┃ ┃ ┣ 📜Error Light 2.png
+ ┃ ┃ ┃ ┗ 📜Error Light.png
+ ┃ ┃ ┣ 📂hill.imageset
+ ┃ ┃ ┃ ┣ 📜.DS_Store
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┣ 📜Hill Illust 1.png
+ ┃ ┃ ┃ ┣ 📜Hill Illust 2.png
+ ┃ ┃ ┃ ┗ 📜Hill Illust.png
+ ┃ ┃ ┣ 📂negative.colorset
  ┃ ┃ ┃ ┗ 📜Contents.json
- ┃ ┃ ┣ 📂gray4.colorset
+ ┃ ┃ ┣ 📂negativeX.imageset
+ ┃ ┃ ┃ ┣ 📜.DS_Store
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┣ 📜Red X Illust 1.png
+ ┃ ┃ ┃ ┣ 📜Red X Illust 2.png
+ ┃ ┃ ┃ ┗ 📜Red X Illust.png
+ ┃ ┃ ┣ 📂neutral0.colorset
  ┃ ┃ ┃ ┗ 📜Contents.json
- ┃ ┃ ┣ 📂gray8.colorset
+ ┃ ┃ ┣ 📂neutral100.colorset
  ┃ ┃ ┃ ┗ 📜Contents.json
- ┃ ┃ ┣ 📂gray9.colorset
+ ┃ ┃ ┣ 📂neutral200.colorset
  ┃ ┃ ┃ ┗ 📜Contents.json
- ┃ ┃ ┣ 📂green1.colorset
+ ┃ ┃ ┣ 📂neutral300.colorset
+ ┃ ┃ ┃ ┗ 📜Contents.json
+ ┃ ┃ ┣ 📂neutral400.colorset
+ ┃ ┃ ┃ ┗ 📜Contents.json
+ ┃ ┃ ┣ 📂neutral50.colorset
+ ┃ ┃ ┃ ┗ 📜Contents.json
+ ┃ ┃ ┣ 📂neutral500.colorset
+ ┃ ┃ ┃ ┗ 📜Contents.json
+ ┃ ┃ ┣ 📂neutral600.colorset
+ ┃ ┃ ┃ ┗ 📜Contents.json
+ ┃ ┃ ┣ 📂neutral700.colorset
+ ┃ ┃ ┃ ┗ 📜Contents.json
+ ┃ ┃ ┣ 📂neutral800.colorset
+ ┃ ┃ ┃ ┗ 📜Contents.json
+ ┃ ┃ ┣ 📂neutral900.colorset
  ┃ ┃ ┃ ┗ 📜Contents.json
  ┃ ┃ ┣ 📂offblack.colorset
  ┃ ┃ ┃ ┗ 📜Contents.json
  ┃ ┃ ┣ 📂offwhite.colorset
  ┃ ┃ ┃ ┗ 📜Contents.json
- ┃ ┃ ┣ 📂pink1.colorset
+ ┃ ┃ ┣ 📂onboarding1.imageset
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┣ 📜Onboarding 1 Illust 1.png
+ ┃ ┃ ┃ ┣ 📜Onboarding 1 Illust 2.png
+ ┃ ┃ ┃ ┗ 📜Onboarding 1 Illust.png
+ ┃ ┃ ┣ 📂onboarding2.imageset
+ ┃ ┃ ┃ ┣ 📜Contents.json
+ ┃ ┃ ┃ ┣ 📜Onboarding 2 Illust 1.png
+ ┃ ┃ ┃ ┣ 📜Onboarding 2 Illust 2.png
+ ┃ ┃ ┃ ┗ 📜Onboarding 2 Illust.png
+ ┃ ┃ ┣ 📂positive.colorset
  ┃ ┃ ┃ ┗ 📜Contents.json
- ┃ ┃ ┣ 📂pinky.imageset
+ ┃ ┃ ┣ 📂positiveCircle.imageset
+ ┃ ┃ ┃ ┣ 📜.DS_Store
  ┃ ┃ ┃ ┣ 📜Contents.json
- ┃ ┃ ┃ ┗ 📜pinky.png
- ┃ ┃ ┣ 📂speechBubble.imageset
+ ┃ ┃ ┃ ┣ 📜_Green Circle Illust 1.png
+ ┃ ┃ ┃ ┣ 📜_Green Circle Illust 2.png
+ ┃ ┃ ┃ ┗ 📜_Green Circle Illust.png
+ ┃ ┃ ┣ 📂redo.imageset
+ ┃ ┃ ┃ ┣ 📜.DS_Store
  ┃ ┃ ┃ ┣ 📜Contents.json
- ┃ ┃ ┃ ┗ 📜speechBubble.png
- ┃ ┃ ┣ 📂stitchBox.imageset
+ ┃ ┃ ┃ ┣ 📜Redo 3.png
+ ┃ ┃ ┃ ┣ 📜Redo 4.png
+ ┃ ┃ ┃ ┗ 📜Redo.png
+ ┃ ┃ ┣ 📂seedlow.imageset
+ ┃ ┃ ┃ ┣ 📜.DS_Store
  ┃ ┃ ┃ ┣ 📜Contents.json
- ┃ ┃ ┃ ┗ 📜stitchBox.png
- ┃ ┃ ┣ 📂tree.imageset
+ ┃ ┃ ┃ ┣ 📜Seed Low Illust 1.png
+ ┃ ┃ ┃ ┣ 📜Seed Low Illust 2.png
+ ┃ ┃ ┃ ┗ 📜Seed Low Illust.png
+ ┃ ┃ ┣ 📂warning.colorset
+ ┃ ┃ ┃ ┗ 📜Contents.json
+ ┃ ┃ ┣ 📂welcomeGift.imageset
+ ┃ ┃ ┃ ┣ 📜.DS_Store
  ┃ ┃ ┃ ┣ 📜Contents.json
- ┃ ┃ ┃ ┗ 📜tree.png
- ┃ ┃ ┣ 📂xBubble.imageset
- ┃ ┃ ┃ ┣ 📜Contents.json
- ┃ ┃ ┃ ┗ 📜xBubble.png
+ ┃ ┃ ┃ ┣ 📜Gift Illust 1.png
+ ┃ ┃ ┃ ┣ 📜Gift Illust 2.png
+ ┃ ┃ ┃ ┗ 📜Gift Illust.png
  ┃ ┃ ┣ 📜.DS_Store
  ┃ ┃ ┗ 📜Contents.json
- ┃ ┣ 📂Font
- ┃ ┃ ┣ 📜Pretendard-Bold.otf
- ┃ ┃ ┣ 📜Pretendard-Medium.otf
- ┃ ┃ ┣ 📜Pretendard-Regular.otf
- ┃ ┃ ┗ 📜Pretendard-SemiBold.otf
- ┃ ┗ 📜loadingAnimation.json
+ ┃ ┣ 📂EmbeddingValue
+ ┃ ┃ ┗ 📜text_embeddings.json
+ ┃ ┣ 📂FoodDetectionModel
+ ┃ ┃ ┣ 📂MobileCLIPImageEncoder.mlpackage
+ ┃ ┃ ┃ ┣ 📂Data
+ ┃ ┃ ┃ ┃ ┗ 📂com.apple.CoreML
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂weights
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜weight.bin
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜model.mlmodel
+ ┃ ┃ ┃ ┗ 📜Manifest.json
+ ┃ ┃ ┣ 📜.DS_Store
+ ┃ ┃ ┗ 📜FoodTextDetection.mlmodel
+ ┃ ┣ 📜.DS_Store
+ ┃ ┣ 📜GoogleService-Info.plist
+ ┃ ┣ 📜Info.plist
+ ┃ ┣ 📜Prelude.storekit
+ ┃ ┣ 📜Secrets.xcconfig
+ ┃ ┣ 📜loadingBloomPot.json
+ ┃ ┗ 📜splashTangtang.json
+ ┣ 📂Shared
+ ┃ ┣ 📜Localization.swift
+ ┃ ┗ 📜Store.swift
  ┣ 📜.DS_Store
- ┣ 📜Info.plist
- ┣ 📜Junction.entitlements
- ┣ 📜JunctionApp.swift
- ┗ 📜Secrets.xcconfig
+ ┣ 📜Prelude.entitlements
+ ┣ 📜PreludeApp.swift
+ ┗ 📜Products.plist
 ```
 
 
@@ -243,37 +532,18 @@ ex) `feat: 홈 UI 구현`
 
 * **태그**
   
-`hotfix` : issue나, QA에서 급한 버그 수정에 사용
+`[HOTFIX]` : issue나, QA에서 급한 버그 수정에 사용
 
-`fix` : 버그, 오류 해결
+`[Fix]` : 버그, 오류 해결
 
-`add` : Feat 이외의 부수적인 코드 추가, 라이브러리 추가, 새로운 파일 생성 시
+`[Style]` : 코드 포맷팅, 코드 변경이 없는 경우
 
-`style` : 코드 포맷팅, 코드 변경이 없는 경우
+`[Feat]` : 새로운 기능 구현
 
-`feat` : 새로운 기능 구현
+`[Delete]` : 쓸모없는 코드 삭제
 
-`del` : 쓸모없는 코드 삭제
+`[Docs]` : README나 WIKI 등의 문서 개정
 
-`docs` : README나 WIKI 등의 문서 개정
+`[Chores]` : 코드 수정, 내부 파일 수정, 빌드 업무 수정, 패키지 매니저 수정
 
-`chore` : 코드 수정, 내부 파일 수정, 빌드 업무 수정, 패키지 매니저 수정
-
-`move` : 프로젝트 내 파일이나 코드의 이동
-
-`rename` : 파일 이름 변경이 있을 때 사용합니다.
-
-`refactor` : 전면 수정이 있을 때 사용합니다
-
-
-
-### Code Convention
-**swift-style-guide**
-Sonic iOS 멤버는 아래 swift code convention을 참고해 코드를 작성한다.
-
-- [Google Swift Style Guide](https://google.github.io/swift/)
-- [Airbnb Swift Style Guide](https://github.com/airbnb/swift)
-- [Linkedin Swift Style Guide](https://github.com/linkedin/swift-style-guide)
-- [Raywenderlich Swift Style Guide](https://github.com/raywenderlich/swift-style-guide)
-- [StyleShare Swift Style Guide](https://github.com/StyleShare/swift-style-guide#%EC%B5%9C%EB%8C%80-%EC%A4%84-%EA%B8%B8%EC%9D%B4)
-- [Channel Talk Swift Code Convention Guide](https://github.com/channel-io/ios-convention-guide)
+`[Refactor]` : 전면 수정이 있을 때 사용합니다
