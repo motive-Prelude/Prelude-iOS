@@ -43,6 +43,7 @@
 		071C843E2C66FCC80055C393 /* ImageRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C843D2C66FCC80055C393 /* ImageRepositoryImpl.swift */; };
 		071C84432C6704800055C393 /* FileUploadResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C84422C6704800055C393 /* FileUploadResponse.swift */; };
 		071E709A2D2E2A9700B499EA /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071E70992D2E2A9700B499EA /* AnalyticsManager.swift */; };
+		0725508C2D913EB30010013A /* SignpostLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0725508B2D913EB30010013A /* SignpostLogger.swift */; };
 		074148CD2C67F66100D79562 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 074148CC2C67F66100D79562 /* Lottie */; };
 		074148D42C6800CA00D79562 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148D32C6800CA00D79562 /* Font+.swift */; };
 		074148E22C6819E000D79562 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074148E12C6819E000D79562 /* UIApplication+.swift */; };
@@ -125,6 +126,7 @@
 		071C843D2C66FCC80055C393 /* ImageRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepositoryImpl.swift; sourceTree = "<group>"; };
 		071C84422C6704800055C393 /* FileUploadResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUploadResponse.swift; sourceTree = "<group>"; };
 		071E70992D2E2A9700B499EA /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
+		0725508B2D913EB30010013A /* SignpostLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignpostLogger.swift; sourceTree = "<group>"; };
 		074148D32C6800CA00D79562 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		074148E12C6819E000D79562 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		074148E62C681D8600D79562 /* HealthInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthInfo.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				07D43FD62D279F38000D8562 /* ErrorMapper.swift */,
 				07D43FD82D27D17B000D8562 /* EventBus.swift */,
 				071E70992D2E2A9700B499EA /* AnalyticsManager.swift */,
+				0725508B2D913EB30010013A /* SignpostLogger.swift */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -684,6 +687,7 @@
 				074148ED2C68410200D79562 /* ResultViewModel.swift in Sources */,
 				071C843C2C66FC6D0055C393 /* ImageRepository.swift in Sources */,
 				071C83DC2C66E1CB0055C393 /* PreludeApp.swift in Sources */,
+				0725508C2D913EB30010013A /* SignpostLogger.swift in Sources */,
 				071C84292C66E30A0055C393 /* RetrieveMessageResponse.swift in Sources */,
 				071C842A2C66E30A0055C393 /* RunRequest.swift in Sources */,
 				071C842E2C66E30A0055C393 /* AssistantInteractionFacade.swift in Sources */,
