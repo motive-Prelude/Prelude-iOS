@@ -15,8 +15,10 @@ class ICloudDataSource {
     private let zoneID = CKRecordZone.ID(zoneName: "prelude.zone",
                                          ownerName: CKCurrentUserDefaultName)
     private let zone: CKRecordZone
-    let cloudKitNotificationSubject = PassthroughSubject<Void, Never>()
+    let cloudKitNotificationSubject = PassthroughSubject<String, Never>()
     private var cancellables = Set<AnyCancellable>()
+    
+    private let subscriptionID = "UserInfoSubscriptionID"
     
     private init() {
         self.zone = CKRecordZone(zoneID: zoneID)
@@ -25,22 +27,58 @@ class ICloudDataSource {
         
     }
     
-    func save(record: CKRecord) async throws {
+    func save<T: CloudKitConvertible>(_ entity: T) async throws(DataSourceError) {
         do {
+            let record = entity.toCKRecord()
             try await database.save(record)
-        } catch let error as CKError { throw error }
+        } catch let error as CKError where error.code == .serverRecordChanged {
+            guard let serverRecord = error.serverRecord else { throw .unknown }
+            let id = serverRecord.recordID.recordName
+            
+            throw .conflict(id: id)
+            
+        }
+        catch { throw .unknown }
     }
     
-    func save(user: UserInfo) async throws(DataSourceError) {
+    func save(_ ckRecord: CKRecord) async throws(DataSourceError) {
         do {
-            let record = user.toCKRecord()
-            try await save(record: record)
-        } catch let error as CKError where error.code == .serverRecordChanged {
-            guard let iCloudRecord = error.serverRecord else { throw .unknown }
-            let _ = try await mergeAndSave(user: user, iCloudRecord: iCloudRecord)
-            
+            try await database.save(ckRecord)
+        } catch let error as CKError {
+            throw parseError(error)
         } catch { throw .unknown }
     }
+    
+    func fetch<T: CloudKitConvertible>(id: String) async throws(DataSourceError) -> T? {
+        let recordID = CKRecord.ID(recordName: id, zoneID: zoneID)
+        
+        do {
+            let record = try await database.record(for: recordID)
+            return T(from: record)
+        } catch let error as CKError { throw parseError(error) }
+        catch { throw .unknown }
+    }
+    
+    func fetch(id: String) async throws(DataSourceError) -> CKRecord {
+        let recordID = CKRecord.ID(recordName: id, zoneID: zoneID)
+        
+        do {
+            let record = try await database.record(for: recordID)
+            return record
+        } catch let error as CKError { throw parseError(error) }
+        catch { throw .unknown }
+    }
+    
+    func delete(id: String) async throws(DataSourceError) {
+        let recordID = CKRecord.ID(recordName: id, zoneID: zoneID)
+        
+        do {
+            try await database.deleteRecord(withID: recordID)
+        } catch let error as CKError {
+            throw parseError(error)
+        } catch { throw .unknown }
+    }
+    
     
     private func setupCustomZone() async throws(DataSourceError) {
         do { try await database.save(zone) }
@@ -50,7 +88,6 @@ class ICloudDataSource {
     }
     
     private func setupCloudKitSubscription() async throws(DataSourceError) {
-        let subscriptionID = "UserInfoSubscriptionID"
         let subscription = CKRecordZoneSubscription(zoneID: zoneID, subscriptionID: subscriptionID)
         let notificationInfo = CKSubscription.NotificationInfo()
         notificationInfo.shouldSendContentAvailable = true
@@ -63,44 +100,15 @@ class ICloudDataSource {
     }
     
     func processNotification(userInfo: [AnyHashable: Any]) {
-        let notification = CKNotification(fromRemoteNotificationDictionary: userInfo)
-        if let subscriptionID = notification?.subscriptionID, subscriptionID == "UserInfoSubscriptionID" {
-            cloudKitNotificationSubject.send()
-        }
-    }
-    
-    func fetch(userID: String) async throws(DataSourceError) -> CKRecord? {
-        do {
-            let recordID = CKRecord.ID(recordName: userID, zoneID: zoneID)
-            let record = try await database.record(for: recordID)
-            return record
-        } catch let error as CKError {
-            throw parseError(error)
-        } catch { throw .unknown }
-    }
-    
-    @discardableResult
-    func mergeAndSave(user: UserInfo, iCloudRecord: CKRecord) async throws(DataSourceError) -> UserInfo {
-        guard let iCloudDate = iCloudRecord["lastModified"] as? Date else { throw DataSourceError.unknown }
-        if user.lastModified > iCloudDate {
-            iCloudRecord["remainingTimes"] = user.remainingTimes
-            iCloudRecord["lastModified"] = user.lastModified
-            iCloudRecord["didAgreeToTermsAndConditions"] = user.didAgreeToTermsAndConditions
-            iCloudRecord["didReceiveGift"] = user.didReceiveGift
-            
-            if let healthInfo = user.healthInfo {
-                do {
-                    let jsonData = try JSONEncoder().encode(healthInfo)
-                    iCloudRecord["healthInfo"] = jsonData as CKRecordValue
-                } catch { throw .unknown }
-            }
-            
-            do { try await save(record: iCloudRecord) }
-            catch { throw .unknown }
+        guard let notification = CKNotification(fromRemoteNotificationDictionary: userInfo) as? CKQueryNotification,
+              let recordID = notification.recordID,
+              let subscriptionID = notification.subscriptionID,
+              subscriptionID == self.subscriptionID else {
+            return
         }
         
-        guard let mergedUserInfo = UserInfo(from: iCloudRecord) else { throw DataSourceError.unknown }
-        return mergedUserInfo
+        let recordName = recordID.recordName
+        cloudKitNotificationSubject.send(recordName)
     }
     
     private func parseError(_ error: CKError) -> DataSourceError {
@@ -110,7 +118,6 @@ class ICloudDataSource {
             case .notAuthenticated: return .unauthenticated
             case .permissionFailure: return .permissionDenied
             case .quotaExceeded: return .quotaExceeded
-            case .serverRecordChanged: return .conflict
             case .requestRateLimited: return .tooManyRequests
             default: return .unknown
         }
