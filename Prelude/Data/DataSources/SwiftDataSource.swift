@@ -61,10 +61,9 @@ class SwiftDataSource {
         try save()
     }
     
-    func removeAll() throws(DataSourceError) {
+    func removeAll<T: PersistentModel>(type data: T.Type) throws(DataSourceError) {
         do {
-            try deleteAll(of: UserInfo.self)
-            try deleteAll(of: HealthInfo.self)
+            try deleteAll(of: data)
         } catch { throw error }
     }
     
