@@ -12,5 +12,6 @@ enum RepositoryError: Error {
     case cloudDataNotFound
     case localDataNotFound
     case dataParsingError
+    case conflict
     case unknownError
 }
