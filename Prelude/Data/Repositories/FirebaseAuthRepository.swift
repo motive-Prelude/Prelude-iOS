@@ -8,48 +8,48 @@
 import FirebaseAuth
 import Foundation
 
-final class AuthRepositoryImpl: AuthRepository {
+final class FirebaseAuthRepository: AuthRepository {
     private let dataSource: FirebaseAuthDataSource
     
     init(dataSource: FirebaseAuthDataSource) {
         self.dataSource = dataSource
     }
     
-    func logIn(parameter: AuthParameter) async throws(AuthError) -> (userID: String, sub: String) {
+    func logIn(parameter: AuthParameter) async throws(RepositoryError) -> (userID: String, sub: String) {
         guard let credential = getCredential(from: parameter) else { throw .invalidCredential }
         guard let sub = decodeSub(from: parameter.idToken) else { throw .invalidCredential }
         
         do {
             let userID = try await dataSource.logIn(credential: credential)
             return (userID, sub)
-        } catch { throw AuthError(from: error) }
+        } catch { throw ErrorMapper.mapToRepository(error) }
     }
     
-    func logOut() throws(AuthError) {
+    func logOut() throws(RepositoryError) {
         do { try dataSource.logOut() }
-        catch { throw AuthError(from: error) }
+        catch { throw ErrorMapper.mapToRepository(error) }
     }
     
-    func deleteAccount(userID: String) async throws(AuthError) {
-        do { try await dataSource.deleteAccount(userID: userID) }
-        catch { throw AuthError(from: error) }
+    func deleteAccount(id: String) async throws(RepositoryError) {
+        do { try await dataSource.deleteAccount(userID: id) }
+        catch { throw ErrorMapper.mapToRepository(error) }
     }
     
-    func reauthenticate(parameter: AuthParameter) async throws(AuthError) -> String {
+    func reauthenticate(parameter: AuthParameter) async throws(RepositoryError) -> String {
         guard let credential = getCredential(from: parameter) else { throw .invalidCredential }
         guard let sub = decodeSub(from: parameter.idToken) else { throw .invalidCredential }
         do {
             try await dataSource.reauthenticate(credential: credential)
             return sub
         }
-        catch { throw AuthError(from: error) }
+        catch { throw ErrorMapper.mapToRepository(error) }
     }
     
-    func observeAuthState(onChange: @escaping (String?) -> Void) -> AuthStateDidChangeListenerHandle {
+    func observeAuthState(onChange: @escaping (String?) -> Void) -> AuthListenerHandle {
         return dataSource.observeAuthState(onChange: onChange)
     }
     
-    func removeAuthListener(_ handle: AuthStateDidChangeListenerHandle) {
+    func removeAuthListener(_ handle: AuthListenerHandle) {
         return dataSource.removeAuthListener(handle)
     }
     
