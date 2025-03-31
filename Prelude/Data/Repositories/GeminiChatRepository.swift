@@ -17,7 +17,7 @@ final class GeminiChatRepository {
     }
     
     func fetch(image: UIImage?, messages: [String]) async throws(DomainError) -> GeminiResponse? {
-        let imageData = image?.jpegData(compressionQuality: 1)
+        let imageData = image?.jpegData(compressionQuality: 0.7)
         let base64String = imageData?.base64EncodedString() ?? ""
         let request = GeminiRequest<GeminiResponse>(endpoint: .chat(prompt: messages, image: base64String))
         
