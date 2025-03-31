@@ -48,6 +48,31 @@ struct MainView: View {
                 
                 Spacer()
                 
+                ScrollView {
+                    Text(mainViewModel.foodName)
+                        .foregroundStyle(.black)
+                    
+                    ForEach(mainViewModel.citations, id: \.self) { citation in
+                        Text(citation.title)
+                            .foregroundStyle(.black)
+                        Text(citation.url)
+                            .foregroundStyle(.black)
+                            .padding(.bottom, 16)
+                        
+            
+                    }
+                }
+                
+                
+                Button("SearchFood") {
+                    Task {
+                        await SignpostLogger.measure(name: "Search Food") {
+                            await mainViewModel.searchFood(uiImage)
+                        }
+                    }
+                    
+                }
+                
                 if let _ = uiImage {
                     button
                 }
@@ -180,7 +205,7 @@ struct MainView: View {
                     return
                 }
                 
-                navigationManager.navigate(.result(foodName: foodName, image: uiImage))
+                navigationManager.navigate(.result(foodName: mainViewModel.foodName, image: uiImage))
                 self.uiImage = nil
                 AnalyticsManager.shared.logEvent("음식 검색", parameters: ["음식 이름": foodName])
             }
