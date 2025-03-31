@@ -80,9 +80,12 @@ class PromptGenerator {
     func generateFindingFoodNutritionPrompt() -> String {
             """
             1. Must Perform a 'google grounding mode'(real time google web search) to find the exact nutritional information of the described food. Finding the product's Nutrition Facts label is the most accurate approach.
-            2. If you find the product's Nutrition Facts label, recognize all possible values listed on the label.
+            2. If you find the product's Nutrition Facts label, Extract and clearly list ALL nutritional values exactly as they appear on the Nutrition Facts label
             3. For foods whose nutritional content varies depending on additional ingredients or quantities, provide the average nutritional values.
-            4. Instead of results like "varies depending on the amount of soy sauce," present quantitative data such as "15g (average serving size)."
+            
+            Important:
+            - Ensure you do not omit any nutritional information listed on the label.
+            - All nutritional values must include exact numerical values (numbers and units) without qualitative descriptions.
             """
     }
     
@@ -128,5 +131,39 @@ class PromptGenerator {
         ]
         }
         """
+    }
+    
+    func integrationPrompt(healthInfo: HealthInfo?) -> String {
+        let languageCode = Locale.current.language.languageCode?.identifier ?? "en"
+        
+        return """
+            You must strictly follow the four steps below in order. Under no circumstances should you provide any additional text or explanation besides the JSON.
+
+            [Step 1] Based on the pregnant woman's health information provided below, evaluate the medical impact of each nutrient on pregnancy strictly using recent (within 5 years) and highly credible medical evidence from reliable institutions (e.g., ACOG, WHO, FDA, PubMed, Web of Science). Clearly categorize each nutrient’s impact as exactly one of the following: "positive," "caution," or "negative."
+
+            \(generateHealthPrompt(with: healthInfo))
+
+            [Step 2] Organize the information from above precisely into the following JSON format, translating it exclusively into the language corresponding to "\(languageCode)". Absolutely no other languages or English should appear. Only return the JSON format—additional explanations or text are strictly prohibited.
+
+            Required JSON format:
+            {
+              "food": "Identified food name",
+              "is_safe": "Exactly one of positive/caution/negative",
+              "nutrition": [
+                {
+                  "nutrient": "Nutrient name",
+                  "value": "Exact numerical value (must include numbers)",
+                  "description": "Detailed, logical, and easily understandable medical impact on the pregnant woman consuming this nutrient"
+                }
+              ]
+            }
+
+            Warnings (Strictly adhere to these):
+            - If the JSON format does not match exactly, your response is invalid.
+            - If the translation is not perfectly done in the requested language, your response is invalid.
+            - Any additional explanations, sentences, greetings, or responses beyond the JSON are strictly prohibited.
+            - All information must be exclusively obtained through real-time Google web search ('google grounding mode').
+            - Medical evidence must strictly come from highly credible institutions (e.g., ACOG, WHO, FDA, PubMed, Web of Science).
+            """
     }
 }
