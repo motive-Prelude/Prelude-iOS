@@ -106,13 +106,13 @@ struct ResultView: View {
         let healthInfo = userSession.userInfo?.healthInfo
         
         do {
-            for _ in 0..<10 {
+//            for _ in 0..<10 {
                 try? await SignpostLogger.measure(name: "LLM AI") {
                     try await resultViewModel.sendMessage(foodName, image: image, healthInfo: healthInfo)
                 }
                 
-                try? await Task.sleep(nanoseconds: 200_000_000)
-            }
+//                try? await Task.sleep(nanoseconds: 200_000_000)
+//            }
             
             try await userSession.decrementSeeds(1)
         } catch { showAlert(error) }
