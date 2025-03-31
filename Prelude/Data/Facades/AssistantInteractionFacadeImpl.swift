@@ -36,13 +36,14 @@ class AssistantInteractionFacadeImpl: AssistantInteractionFacade {
     }
     
     public func interact(with foodName: String = "", image: UIImage?, healthInfo: HealthInfo?) async throws(DomainError) -> (Judgement, [Citation]) {
-        let findingFoodNamePrompt = PromptGenerator.shared.generateFindingFoodNamePrompt()
-        let findingFoodNutritionPrompt = PromptGenerator.shared.generateFindingFoodNutritionPrompt()
-        let foodSafetyPrompt = PromptGenerator.shared.generateMedicalInformationPrompt(healthInfo: healthInfo)
-        let jsonPostProcessingPrompt = PromptGenerator.shared.generateJSONPostProcessingPrompt()
+//        let findingFoodNamePrompt = PromptGenerator.shared.generateFindingFoodNamePrompt()
+//        let findingFoodNutritionPrompt = PromptGenerator.shared.generateFindingFoodNutritionPrompt()
+//        let foodSafetyPrompt = PromptGenerator.shared.generateMedicalInformationPrompt(healthInfo: healthInfo)
+//        let jsonPostProcessingPrompt = PromptGenerator.shared.generateJSONPostProcessingPrompt()
+        let integrationPrompt = PromptGenerator.shared.integrationPrompt(healthInfo: healthInfo)
         
         do {
-            guard let result = try await geminiChatRepository.fetch(image: image, messages: [findingFoodNamePrompt, findingFoodNutritionPrompt, foodSafetyPrompt, jsonPostProcessingPrompt]) else { throw DomainError.serverError }
+            guard let result = try await geminiChatRepository.fetch(image: nil, messages: [foodName + integrationPrompt]) else { throw DomainError.serverError }
             let cleanedJSON = result.answer
                 .replacingOccurrences(of: "`", with: "")
                 .replacingOccurrences(of: "json", with: "")
