@@ -13,11 +13,15 @@ import SwiftUI
 class MainViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let promptGenerator: PromptGenerator
+    private let gemini: GeminiChatRepository
     
     @Published var prompt = ""
+    @Published var foodName = ""
+    @Published var citations: [Citation] = []
     
     init(promptGenerator: PromptGenerator = PromptGenerator()) {
         self.promptGenerator = promptGenerator
+        self.gemini = GeminiChatRepository(apiClient: APIClient())
     }
     
     func bind(userSession: UserSession) {
@@ -39,4 +43,38 @@ class MainViewModel: ObservableObject {
             Task { await ATTrackingManager.requestTrackingAuthorization() }
         }
     }
+    
+    func searchFood(_ image: UIImage?) async {
+        let searchFoodPrompt = PromptGenerator.shared.generateFindingFoodNamePrompt()
+        let searchNutiritionFactPrompt = PromptGenerator.shared.generateFindingFoodNutritionPrompt()
+        let jsonFormatPrompt = """
+            Organize the information from above precisely into the following JSON format
+            Only return the JSON format—additional explanations or text are strictly prohibited.
+        
+            JSON FORMAT:
+            {
+                foodName: String
+                nutritionFacts: [
+                    {
+                        nutrient: String
+                        value: String(Must be quantitative)
+                    }
+                ]
+            }
+
+        """
+        
+        do {
+            guard let result = try await gemini.fetch(image: image, messages: [searchFoodPrompt + searchNutiritionFactPrompt + jsonFormatPrompt]) else {
+                EventBus.shared.errorPublisher.send(DomainError.serverError)
+                return
+            }
+            self.foodName = result.answer
+            self.citations = result.citations
+            return
+        } catch {
+            EventBus.shared.errorPublisher.send(error)
+        }
+    }
+    
 }
