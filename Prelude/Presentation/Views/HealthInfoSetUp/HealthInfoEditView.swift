@@ -52,7 +52,11 @@ struct HealthInfoEditView: View {
         PLNavigationHeader(Localization.NavigationHeader.navigationHeaderEditHealthInfoTitle) {
             PLActionButton(icon: Image(.back), type: .secondary, contentType: .icon, size: .small, shape: .square) {
                 navigationManager.previous()
-                userSession.update(healthInfo: healthInfo)
+                Task {
+                    do {
+                        try await userSession.update(healthInfo: healthInfo)
+                    } catch let error as DomainError { EventBus.shared.errorPublisher.send(error) }
+                }
             }
         } trailing: { EmptyView() }
 

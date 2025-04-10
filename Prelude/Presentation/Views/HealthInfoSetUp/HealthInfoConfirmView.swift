@@ -65,7 +65,7 @@ struct HealthInfoConfirmView: View {
                         return
                     }
                     
-                    if await userSession.updateCurrentUser() {
+                    if try await userSession.updateCurrentUser() {
                         await MainActor.run { navigationManager.navigate(.disclaimer) }
                     }
                 }

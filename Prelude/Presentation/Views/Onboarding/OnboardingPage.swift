@@ -26,7 +26,7 @@ struct OnboardingPage: View {
     var body: some View {
         ZStack {
             background
-                
+            
             VStack(spacing: 32) {
                 tabs
                 Group {
@@ -71,7 +71,11 @@ struct OnboardingPage: View {
             onboardingViewModel.prepareAppleLogin(request: request)
         } onCompletion: { result in
             onboardingViewModel.makeAppleLoginCredential(result: result) { parameter in
-                Task { await userSession.login(parameter: parameter) }
+                Task {
+                    do {
+                        try await userSession.login(parameter: parameter)
+                    } catch let error as DomainError { EventBus.shared.errorPublisher.send(error) }
+                }
             }
         }
         .textStyle(typographies.label)

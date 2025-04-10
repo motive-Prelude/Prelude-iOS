@@ -91,10 +91,16 @@ struct DisclaimerView: View {
                 guard NetworkMonitor.shared.isConnected else {
                     EventBus.shared.errorPublisher.send(.networkUnavailable)
                     return
+                    
                 }
-                if await userSession.updateCurrentUser() {
-                    await MainActor.run { navigationManager.navigate(userSession.hasReceiveGift ? .main : .welcome) }
-                }
+                
+                do {
+                    if try await userSession.updateCurrentUser() {
+                        await MainActor.run {
+                            navigationManager.navigate(userSession.hasReceiveGift ? .main : .welcome)
+                        }
+                    }
+                } catch let error as DomainError { EventBus.shared.errorPublisher.send(error) }
                 
             }
         }   
