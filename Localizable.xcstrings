@@ -2108,6 +2108,9 @@
         }
       }
     },
+    "SearchFood" : {
+
+    },
     "seed_warning_subtitle" : {
       "extractionState" : "manual",
       "localizations" : {
