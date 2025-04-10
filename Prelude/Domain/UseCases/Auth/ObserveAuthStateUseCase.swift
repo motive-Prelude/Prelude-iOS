@@ -5,13 +5,12 @@
 //  Created by 송지혁 on 12/25/24.
 //
 
-import FirebaseAuth
 import Foundation
 
 
 class ObserveAuthStateUseCase {
     private let authRepository: AuthRepository
-    private var authListenerHandle: AuthStateDidChangeListenerHandle?
+    private var authListenerHandle: AuthListenerHandle?
     
     init(authRepository: AuthRepository) {
         self.authRepository = authRepository
