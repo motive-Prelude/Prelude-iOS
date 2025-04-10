@@ -59,15 +59,6 @@ class PromptGenerator {
                 """
     }
     
-    func generateFoodNutritionPrompt(with foodNutrition: FoodNutritionResponse) -> String {
-        return """
-                Food Nutrition Information:
-                \(foodNutrition.nutritionInfo.map {
-                    "- \($0.nutrient): \($0.value)"
-                }.joined(separator: "\n"))
-                """
-    }
-    
     func generateFindingFoodNamePrompt() -> String {
             """
             1. Analyze the provided food photo and use Google search to identify the exact name and quantity of the food. Provide a detailed explanation of the basis for your analysis.
