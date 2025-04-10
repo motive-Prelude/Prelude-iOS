@@ -6,11 +6,13 @@
 //
 
 enum DomainError: Error {
-    case authenticationFailed(reason: String)
+    case authenticationFailed
     case networkUnavailable
     case timeout
     case serverError
+    case userNotFound
     case tooManyRequests
+    case invalidArgument
     case unknown
 }
 
