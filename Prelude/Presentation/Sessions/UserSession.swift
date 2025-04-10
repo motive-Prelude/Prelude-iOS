@@ -12,28 +12,16 @@ import Foundation
 class UserSession: ObservableObject {
     @Published private(set) var userInfo: UserInfo?
     @Published private(set) var isAuthenticated = false
-    private let userRepository: UserRepository
-    private let loginUseCase: LoginUseCase
-    private let logoutUseCase: LogOutUseCase
-    private let reauthenticateUseCase: ReauthenticateUseCase
-    private let deleteAccountUseCase: DeleteAccountUseCase
-    private let observeAuthStateUseCase: ObserveAuthStateUseCase
+    
+    private let userSyncService: UserSyncService
+    private let authFacade: AuthFacade
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(userRepository: UserRepository,
-         loginUseCase: LoginUseCase,
-         logOutUseCase: LogOutUseCase,
-         reauthenticateUseCase: ReauthenticateUseCase,
-         deleteAccountUseCase: DeleteAccountUseCase,
-         observeAuthStateUseCase: ObserveAuthStateUseCase) {
-        self.userRepository = userRepository
-        self.loginUseCase = loginUseCase
-        self.logoutUseCase = logOutUseCase
-        self.reauthenticateUseCase = reauthenticateUseCase
-        self.deleteAccountUseCase = deleteAccountUseCase
-        self.observeAuthStateUseCase = observeAuthStateUseCase
-        observeRepositoryChanges()
+    init(userSyncService: UserSyncService, authFacade: AuthFacade) {
+        self.userSyncService = userSyncService
+        self.authFacade = authFacade
+        
         observeAuthState()
     }
     
@@ -42,156 +30,108 @@ class UserSession: ObservableObject {
         return userInfo.didReceiveGift
     }
     
-    func login(parameter: AuthParameter) async {
-        do {
-            let userInfo = try await loginUseCase.execute(parameter: parameter)
-            
-            await MainActor.run {
-                self.isAuthenticated = true
-                self.userInfo = userInfo
-            }
-            
-        } catch { EventBus.shared.errorPublisher.send(error) }
+    func login(parameter: AuthParameter) async throws(DomainError) {
+        let userInfo = try await authFacade.login(parameter: parameter)
+        await MainActor.run { applyAuthenticatedState(with: userInfo) }
     }
     
-    func logout(completion: @escaping () -> ()) {
-        do {
-            try logoutUseCase.execute()
-            
-            self.userInfo = nil
-            isAuthenticated = false
-            completion()
-        } catch { EventBus.shared.errorPublisher.send(error) }
+    @MainActor
+    func logout(completion: @escaping () -> ()) throws(DomainError) {
+        try authFacade.logout()
+        applyUnauthenticatedState()
+        completion()
     }
     
-    func reauthenticate(_ loginProvider: LoginProvider) async -> String {
-        let helper = getAuthHelper(loginProvider)
-        do {
-            let parameter = try await helper.performAuth()
-            return try await reauthenticateUseCase.execute(parameter: parameter)
-        } catch let error as DomainError {
-            EventBus.shared.errorPublisher.send(error)
-        }
-        catch {
-            EventBus.shared.errorPublisher.send(DomainError.authenticationFailed(reason: "Authentication Failed"))
-        }
-        
-        return ""
+    func reauthenticate(_ loginProvider: LoginProvider) async throws(DomainError) -> String {
+        return try await authFacade.reauthenticate(loginProvider)
     }
     
-    func getAuthHelper(_ loginProvider: LoginProvider) -> any AuthHelper {
-        switch loginProvider {
-            case .apple: return AppleAuthHelper()
-        }
-    }
-    
-    func deleteAccount(sub: String, completion: @escaping () -> ()) async {
-        guard let userID = userInfo?.id else { return }
-        do {
-            try await deleteAccountUseCase.execute(userID: userID, sub: sub)
-        } catch {
-            EventBus.shared.errorPublisher.send(error)
-            return
-        }
-        
+    func deleteAccount(sub: String, completion: @escaping () -> ()) async throws(DomainError) {
+        guard let id = userInfo?.id else { throw .userNotFound }
+        try await authFacade.deleteAccount(id: id, sub: sub)
         
         await MainActor.run {
-            self.userInfo = nil
-            self.isAuthenticated = false
+            applyUnauthenticatedState()
             completion()
+        }
+        
+    }
+    
+    func update(healthInfo: HealthInfo) async throws(DomainError) {
+        guard let userInfo else { throw .userNotFound }
+        let id = userInfo.id
+        
+        let updatedUserInfo = try await userSyncService.update(id: id, fields: [.healthInfo(healthInfo)], in: .active)
+        
+        await MainActor.run {
+            self.userInfo = updatedUserInfo
         }
     }
     
-    func update(healthInfo: HealthInfo) {
-        guard let userInfo else { return }
-        userInfo.healthInfo = healthInfo
-        do {
-            let healthInfoDict = try Firestore.Encoder().encode(healthInfo)
-            Task { try await userRepository.update(collection: "User", userID: userInfo.id, field: ["healthInfo": healthInfoDict]) }
-        } catch let error as DomainError { EventBus.shared.errorPublisher.send(error) }
-        catch { }
-    }
-    
-    func updateCurrentUser() async -> Bool {
-        guard let userInfo else { return false }
-        do {
-            try await userRepository.update(user: userInfo)
-            return true
-        } catch { EventBus.shared.errorPublisher.send(error) }
-        return false
+    func updateCurrentUser() async throws(DomainError) -> Bool {
+        guard let userInfo else { throw .userNotFound }
+        try await userSyncService.save(user: userInfo, in: .active)
+        return true
     }
     
     func syncCurrentUserFromServer() async throws(DomainError) -> UserInfo? {
-        guard let userID = userInfo?.id else { return nil }
-        do {
-            let newUserInfo = try await userRepository.fetch(collection: "User", userID: userID)
-            await MainActor.run { self.userInfo = newUserInfo }
-            return newUserInfo
-            
-        } catch { EventBus.shared.errorPublisher.send(error) }
+        guard let id = userInfo?.id else { throw .userNotFound }
+        let syncedUserInfo = try await userSyncService.fetch(id: id, from: .active)
+        await MainActor.run { self.userInfo = syncedUserInfo }
         
-        return nil
+        return syncedUserInfo
     }
     
     @MainActor
-    func giveGift() async throws(DomainError) {
-        guard let userInfo else { return }
-        do {
-            self.userInfo = try await userRepository.update(collection: "User", userID: userInfo.id, field: ["remainingTimes": FieldValue.increment(Int64(3)), "didReceiveGift": true])
-        } catch { EventBus.shared.errorPublisher.send(error) }
+    func addGiftTokens(_ amount: Int) async throws(DomainError) {
+        guard let userInfo else { throw .userNotFound }
+        
+        let id = userInfo.id
+        self.userInfo = try await userSyncService.update(id: id, fields: [.remainingTimes(amount)], in: .active)
     }
     
     @MainActor
-    func incrementSeeds(_ count: Int) async throws(DomainError) {
-        if count < 0 { assertionFailure("incrementSeeds 메서드에 음수가 들어갔어요.") }
+    func incrementSeeds(_ amount: Int) async throws(DomainError) {
+        if amount < 0 { throw DomainError.invalidArgument }
         
         guard let userInfo = userInfo else { return }
-        do {
-            self.userInfo = try await userRepository.update(collection: "User", userID: userInfo.id, field: ["remainingTimes": FieldValue.increment(Int64(count))])
-        } catch { EventBus.shared.errorPublisher.send(error) }
+        let id = userInfo.id
+        self.userInfo = try await userSyncService.update(id: id, fields: [.incrementRemainingTimes(amount)], in: .active)
     }
     
     @MainActor
-    func decrementSeeds(_ count: Int) async throws(DomainError) {
-        if count < 0 { assertionFailure("incrementSeeds 메서드에 음수가 들어갔어요.") }
+    func decrementSeeds(_ amount: Int) async throws(DomainError) {
+        if amount < 0 { throw DomainError.invalidArgument }
         
         guard let userInfo = userInfo else { return }
-        do {
-            self.userInfo = try await userRepository.update(collection: "User", userID: userInfo.id, field: ["remainingTimes": FieldValue.increment(Int64(-count))])
-        } catch { EventBus.shared.errorPublisher.send(error) }
-    }
-    
-    private func observeRepositoryChanges() {
-        userRepository.iCloudChangeSubject
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let self else { return }
-                guard let userInfo else { return }
-                Task {
-                    let newUserInfo = try await self.userRepository.syncFromICloud(userID: userInfo.id)
-                    await MainActor.run { self.userInfo = newUserInfo }
-                }
-            }
-            .store(in: &cancellables)
+        let id = userInfo.id
+        self.userInfo = try await userSyncService.update(id: id, fields: [.incrementRemainingTimes(-amount)], in: .active)
     }
     
     private func observeAuthState() {
-        observeAuthStateUseCase.startObserving { [weak self] userID in
-            guard let self = self else { return }
-            if let userID = userID {
-                Task {
-                    do {
-                        let userInfo = try await self.userRepository.fetch(collection: "User", userID: userID)
-                        await MainActor.run {
-                            self.userInfo = userInfo
-                            self.isAuthenticated = true
-                        }
-                    } catch { print("UserInfo fetch 실패: \(error)") }
-                }
-            } else {
-                self.userInfo = nil
-                isAuthenticated = false
+        authFacade.observeAuthState() { [weak self] id in
+            guard let self else { return }
+            guard let id else {
+                self.applyUnauthenticatedState()
+                return
+            }
+            
+            Task {
+                do {
+                    let userInfo = try await self.userSyncService.fetch(id: id, from: .active)
+                    await MainActor.run { self.applyAuthenticatedState(with: userInfo) }
+                } catch { print("UserInfo fetch 실패: \(error)") }
             }
         }
+    }
+    
+    private func applyAuthenticatedState(with userInfo: UserInfo) {
+        self.userInfo = userInfo
+        self.isAuthenticated = true
+    }
+    
+    private func applyUnauthenticatedState() {
+        self.userInfo = nil
+        self.isAuthenticated = false
     }
 }
