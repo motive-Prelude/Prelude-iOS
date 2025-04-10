@@ -18,6 +18,6 @@ class ReauthenticateUseCase {
         do {
             let sub = try await authRepository.reauthenticate(parameter: parameter)
             return sub
-        } catch { throw ErrorMapper.map(error) }
+        } catch { throw ErrorMapper.mapToDomain(error) }
     }
 }
