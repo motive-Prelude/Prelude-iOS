@@ -35,40 +35,24 @@ final class DIContainer: ObservableObject {
         register(FirestoreDataSource<UserInfo>.self, dependency: FirestoreDataSource<UserInfo>())
         
         // Repositories
-        register(ThreadRepository.self, dependency: ThreadRepositoryImpl(apiService: resolve(APIClient.self)!))
-        register(MessageRepository.self, dependency: MessageRepositoryImpl(apiService: resolve(APIClient.self)!))
-        register(RunRepository.self, dependency: RunRepositoryImpl(apiService: resolve(APIClient.self)!))
-        register(RunStepRepository.self, dependency: RunStepRepositoryImpl(apiService: resolve(APIClient.self)!))
-        register(CreateThreadAndRunRepository.self, dependency: CreateThreadAndRunRepositoryImpl(apiClient: resolve(APIClient.self)!))
-        register(OCRRepository.self, dependency: OCRRepositoryImpl())
-        register(TextPredictionRepository.self, dependency: TextPredictionRepositoryImpl(model: try! FoodTextDetection(configuration: MLModelConfiguration())))
-        register(AuthRepository.self, dependency: AuthRepositoryImpl(dataSource: resolve(FirebaseAuthDataSource.self)!))
-        register(UserRepository.self, dependency: UserRepository(
-            swiftDataSource: resolve(SwiftDataSource.self)!,
-            iCloudDataSource: resolve(ICloudDataSource.self)!,
-            firestoreDataSource: resolve(FirestoreDataSource<UserInfo>.self)!))
-        register(PerplexityChatRepository.self, dependency: PerplexityChatRepository(apiClient: resolve(APIClient.self)!))
+        register(AuthRepository.self, dependency: FirebaseAuthRepository(dataSource: resolve(FirebaseAuthDataSource.self)!))
+        register(ICloudUserRepository.self, dependency: ICloudUserRepository(iCloudDataSource: resolve(ICloudDataSource.self)!))
+        register(FirestoreUserRepository.self, dependency: FirestoreUserRepository(dataSource: resolve(FirestoreDataSource<UserInfo>.self)!))
+        register(FirebaseAuthRepository.self, dependency: FirebaseAuthRepository(dataSource: resolve(FirebaseAuthDataSource.self)!))
+        register(SwiftDataUserRepository.self, dependency: SwiftDataUserRepository(dataSource: resolve(SwiftDataSource.self)!))
+
+        register(UserSyncService.self, dependency: UserSyncService(remoteRepository: resolve(FirestoreUserRepository.self)!, cloudRepository: resolve(ICloudUserRepository.self)!, localRepository: resolve(SwiftDataUserRepository.self)!))
         
-        // ImageRepository 등록
-        register(ImageRepository.self, dependency:  ImageRepositoryImpl(apiClient: resolve(APIClient.self)!))
-        
-        // Use Cases
-        register(CreateThreadUseCase.self, dependency: CreateThreadUseCase(repository: resolve(ThreadRepository.self)!))
-        register(CreateMessageUseCase.self, dependency: CreateMessageUseCase(repository: resolve(MessageRepository.self)!))
-        register(CreateRunUseCase.self, dependency: CreateRunUseCase(repository: resolve(RunRepository.self)!))
-        register(ListRunStepUseCase.self, dependency: ListRunStepUseCase(repository: resolve(RunStepRepository.self)!))
-        register(RetrieveMessageUseCase.self, dependency: RetrieveMessageUseCase(repository: resolve(MessageRepository.self)!))
-        register(CreateThreadAndRunUseCase.self, dependency: CreateThreadAndRunUseCase(repository: resolve(CreateThreadAndRunRepository.self)!))
-        register(PerformOCRUseCase.self, dependency: PerformOCRUseCase(ocrRepository: resolve(OCRRepository.self)!))
-        register(PredictFoodTextUseCase.self, dependency: PredictFoodTextUseCase(repository: resolve(TextPredictionRepository.self)!))
-        register(ImageClassifierUseCase.self, dependency: ImageClassifierUseCase())
-        register(LoginUseCase.self, dependency: LoginUseCase(authRepository: resolve(AuthRepository.self)!, userRepository: resolve(UserRepository.self)!))
+        register(LoginUseCase.self, dependency: LoginUseCase(authRepository: resolve(AuthRepository.self)!, userSyncService: resolve(UserSyncService.self)!))
         register(LogOutUseCase.self, dependency: LogOutUseCase(authRepository: resolve(AuthRepository.self)!))
-        register(DeleteAccountUseCase.self, dependency: DeleteAccountUseCase(authRepository: resolve(AuthRepository.self)!, userRepository: resolve(UserRepository.self)!))
+        register(DeleteAccountUseCase.self, dependency: DeleteAccountUseCase(authRepository: resolve(AuthRepository.self)!, userSyncService: resolve(UserSyncService.self)!))
         register(ObserveAuthStateUseCase.self, dependency: ObserveAuthStateUseCase(authRepository: resolve(AuthRepository.self)!))
         register(ReauthenticateUseCase.self, dependency: ReauthenticateUseCase(authRepository: resolve(AuthRepository.self)!))
-        register(PerplexityChatUseCase.self, dependency: PerplexityChatUseCase(repository: resolve(PerplexityChatRepository.self)!))
-        // UploadImageUseCase 등록
-        register(UploadImageUseCase.self, dependency: UploadImageUseCase(repository: resolve(ImageRepository.self)!))
+        
+        register(AuthFacade.self, dependency: AuthFacade(loginUseCase: resolve(LoginUseCase.self)!,
+                                                         logoutUseCase: resolve(LogOutUseCase.self)!,
+                                                         reauthenticateUseCase: resolve(ReauthenticateUseCase.self)!,
+                                                         deleteAccountUseCase: resolve(DeleteAccountUseCase.self)!,
+                                                         observeAuthStateUseCase: resolve(ObserveAuthStateUseCase.self)!))
     }
 }

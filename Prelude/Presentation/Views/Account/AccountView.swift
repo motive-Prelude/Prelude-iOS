@@ -21,14 +21,17 @@ struct AccountView: View {
     var primaryAlertAction: AlertAction {
         AlertAction(title: Localization.Button.deleteButtonTitle, directionalColor: PLColor.negative) {
             Task {
-                let reauthResult = await userSession.reauthenticate(.apple)
-                
-                if !reauthResult.isEmpty {
-                    await userSession.deleteAccount(sub: reauthResult) {
-                        navigationManager.screenPath = [.content]
-                        alertManager.hideAlert()
+                do {
+                    
+                    let reauthResult = try await userSession.reauthenticate(.apple)
+                    
+                    if !reauthResult.isEmpty {
+                        try await userSession.deleteAccount(sub: reauthResult) {
+                            navigationManager.screenPath = [.content]
+                            alertManager.hideAlert()
+                        }
                     }
-                }
+                } catch let error as DomainError { EventBus.shared.errorPublisher.send(error) }
             }
         }
     }
@@ -74,7 +77,12 @@ struct AccountView: View {
     
     private var logOutButton: some View {
         PLActionButton(label: Localization.Button.logOutButtonTitle, type: .secondary, contentType: .text, size: .medium, shape: .none) {
-            userSession.logout { navigationManager.screenPath = [.content] }
+            Task {
+                do {
+                    try userSession.logout { navigationManager.screenPath = [.content] }
+                } catch let error as DomainError { EventBus.shared.errorPublisher.send(error) }
+            }
+            
         }
         .foregroundStyle(PLColor.neutral600)
     }

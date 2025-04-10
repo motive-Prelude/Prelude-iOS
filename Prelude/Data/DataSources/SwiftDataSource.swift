@@ -34,53 +34,60 @@ class SwiftDataSource {
     }
     
     private func save() throws(DataSourceError) {
-        guard let modelContext else { return }
+        guard let modelContext else { throw .unknown }
         do { try modelContext.save() }
-        catch { print(error) }
+        catch let error as SwiftDataError { throw parseError(error) }
+        catch { throw .unknown }
     }
     
     func saveData<T: PersistentModel>(_ data: T) throws(DataSourceError) {
-        guard let modelContext else { return }
+        guard let modelContext else { throw .unknown }
         modelContext.insert(data)
         try save()
     }
     
-    func fetchLatest<T: PersistentModel>(data: T.Type) throws -> T? {
-        guard let modelContext else { return nil }
+    func fetchLatest<T: PersistentModel>(data: T.Type) throws(DataSourceError) -> T {
+        guard let modelContext else { throw .unknown }
+        
         do {
             let infos = try modelContext.fetch(FetchDescriptor<T>())
-            return infos.last
-        } catch {
+            guard let last = infos.last else { throw DataSourceError.notFound }
+            return last
+        } catch let error as DataSourceError {
             throw error
-        }
+        } catch let error as SwiftDataError {
+            throw parseError(error)
+        } catch { throw .unknown }
     }
     
     func delete<T: PersistentModel>(data: T) throws(DataSourceError) {
-        guard let modelContext else { return }
+        guard let modelContext else { throw .unknown }
         modelContext.delete(data)
         try save()
     }
     
-    func removeAll() throws(DataSourceError) {
+    func removeAll<T: PersistentModel>(type data: T.Type) throws(DataSourceError) {
         do {
-            try deleteAll(of: UserInfo.self)
-            try deleteAll(of: HealthInfo.self)
+            try deleteAll(of: data)
         } catch { throw error }
     }
     
     private func deleteAll<T: PersistentModel>(of type: T.Type) throws(DataSourceError) {
-        guard let modelContext else { return }
+        guard let modelContext else { throw .unknown }
         
         do {
             let datas = try modelContext.fetch(FetchDescriptor<T>())
             for data in datas { modelContext.delete(data) }
             try modelContext.save()
-        } catch { throw .unknown }
+        } catch let error as SwiftDataError { throw parseError(error) }
+        catch { throw .unknown }
     }
     
     private func parseError(_ error: SwiftDataError) -> DataSourceError {
         switch error {
-            default: .unknown
+            case .unknownSchema: return .notFound
+            case .missingModelContext: return .notFound
+            default: return .unknown
         }
     }
 }

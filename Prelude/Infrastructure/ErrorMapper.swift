@@ -5,41 +5,42 @@
 //  Created by 송지혁 on 1/3/25.
 //
 
-import Foundation
-
-final class ErrorMapper {
-    private init() { }
+enum ErrorMapper {
     
-    static func map(_ error: APIError) -> DomainError {
+    static func mapToRepository(_ error: AuthError) -> RepositoryError {
         switch error {
-            case .networkError: return .networkUnavailable
+            case .userMismatch, .sessionExpired, .userNotFound, .invalidCredential: return .invalidCredential
+            case .networkError: return .networkError
+            case .tooManyRequests: return .conflict
+            default: return .unknownError
+        }
+    }
+    
+    static func mapToRepository(_ error: DataSourceError) -> RepositoryError {
+        switch error {
+            case .permissionDenied, .unauthenticated: return .invalidCredential
+            case .deadlineExceeded, .timeout, .tooManyRequests: return .timeout
+            case .networkUnavailable: return .networkError
+            case .notFound: return .cloudDataNotFound
+            default: return .unknownError
+        }
+    }
+    
+    static func mapToRepository(_ error: APIError) -> RepositoryError {
+        switch error {
             case .timeout: return .timeout
-            case .serverError: return .serverError
-            default: return .unknown
+            case .networkError: return .networkError
+            default: return .unknownError
         }
     }
     
-    static func map(_ error: DataSourceError) -> DomainError {
+    static func mapToDomain(_ error: RepositoryError) -> DomainError {
         switch error {
-            case .networkUnavailable: return .networkUnavailable
-            case .unauthenticated: return .authenticationFailed(reason: "인증 실패")
-            case .notFound: return .authenticationFailed(reason: "유저를 찾을 수 없음")
-            case .timeout: return .timeout
-            case .tooManyRequests: return .tooManyRequests
-            default: return .unknown
-        }
-    }
-    
-    static func map(_ error: AuthError) -> DomainError {
-        switch error {
+            case .cloudDataNotFound, .localDataNotFound: return .userNotFound
             case .networkError: return .networkUnavailable
-            case .invalidCredential: return .authenticationFailed(reason: "인증 실패")
-            case .userDisabled: return .authenticationFailed(reason: "제한된 사용자")
-            case .sessionExpired: return .authenticationFailed(reason: "시간 초과")
-            case .tooManyRequests: return .authenticationFailed(reason: "너무 많은 시도")
+            case .dataParsingError, .timeout: return .serverError
+            case .invalidCredential: return .authenticationFailed
             default: return .unknown
-            
         }
     }
-    
 }

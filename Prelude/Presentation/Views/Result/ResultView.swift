@@ -72,8 +72,7 @@ struct ResultView: View {
         incrementRetryCount()
         
         checkNotEnoughSeeds(userInfo: recentUserInfo)
-        
-        checkFoodOrNotOnLocal(image: image)
+        await sendMessage(image: image)
     }
     
     private func checkNotEnoughSeeds(userInfo: UserInfo) {
@@ -81,24 +80,6 @@ struct ResultView: View {
             alertManager.showAlert(title: Localization.Dialog.dialogNoSeedTitle,
                                    message: Localization.Dialog.dialogNoSeedDescription,
                                    actions: [cancelAlertAction, getMoreAlertAction])
-        }
-    }
-    
-    private func checkFoodOrNotOnLocal(image: UIImage) {
-        resultViewModel.detectFoodOrNot(image: image) { result in
-            if result {
-                processNextProcedure()
-                if !hasSentMessage {
-                    hasSentMessage = true
-                    Task {
-                        await sendMessage(image: image)
-                    }
-                }
-            } else {
-                alertManager.showAlert(title: Localization.Dialog.dialogNotFoodTitle,
-                                       message: Localization.Dialog.dialogNotFoodDescription,
-                                       actions: [cancelAlertAction, retryAlertAction])
-            }
         }
     }
     

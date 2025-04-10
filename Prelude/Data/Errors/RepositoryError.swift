@@ -9,8 +9,11 @@ import Foundation
 
 enum RepositoryError: Error {
     case invalidCredential
+    case networkError
     case cloudDataNotFound
     case localDataNotFound
     case dataParsingError
+    case conflict
+    case timeout
     case unknownError
 }

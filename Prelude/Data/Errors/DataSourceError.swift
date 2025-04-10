@@ -16,7 +16,7 @@ enum DataSourceError: Error {
     case unauthenticated
     case permissionDenied
     case quotaExceeded
-    case conflict
+    case conflict(id: String)
     case tooManyRequests
     case unknown
 }

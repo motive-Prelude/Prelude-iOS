@@ -63,7 +63,9 @@ struct WelcomeView: View {
                     return
                 }
                 
-                if !userSession.hasReceiveGift { try await userSession.giveGift() }
+                do {
+                    if !userSession.hasReceiveGift { try await userSession.addGiftTokens(3) }
+                } catch let error as DomainError { EventBus.shared.errorPublisher.send(error) }
                 navigationManager.navigate(.main)
             }
         }
