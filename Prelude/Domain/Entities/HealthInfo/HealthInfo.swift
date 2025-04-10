@@ -60,7 +60,7 @@ final class HealthInfo {
 
 
 // MARK: Class -> CKRecord
-extension HealthInfo: Convertible {
+extension HealthInfo: CloudKitConvertible {
     func toCKRecord() -> CKRecord {
         let zoneID = CKRecordZone.ID(zoneName: "prelude.zone", ownerName: CKCurrentUserDefaultName)
         let recordID = CKRecord.ID(recordName: self.id, zoneID: zoneID)
