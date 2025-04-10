@@ -212,13 +212,3 @@ struct MainView: View {
         }
     }
 }
-
-#Preview {
-    MainView()
-        .environmentObject( UserSession(userRepository: DIContainer.shared.resolve(UserRepository.self)!,
-                                        loginUseCase: DIContainer.shared.resolve(LoginUseCase.self)!,
-                                        logOutUseCase: DIContainer.shared.resolve(LogOutUseCase.self)!, reauthenticateUseCase: DIContainer.shared.resolve(ReauthenticateUseCase.self)!,
-                                        deleteAccountUseCase: DIContainer.shared.resolve(DeleteAccountUseCase.self)!,
-                                        observeAuthStateUseCase: DIContainer.shared.resolve(ObserveAuthStateUseCase.self)!))
-        .environmentObject(NavigationManager())
-}
