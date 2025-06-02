@@ -1,9 +1,10 @@
 //
 //  UIImage+.swift
-//  Junction
+//  Prelude
 //
-//  Created by 송지혁 on 11/10/24.
+//  Created by 송지혁 on 5/31/25.
 //
+
 
 import UIKit
 
