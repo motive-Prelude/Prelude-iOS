@@ -5,14 +5,13 @@
 //  Created by 송지혁 on 12/31/24.
 //
 
+import ComposableArchitecture
 import SwiftUI
 
 struct WelcomeView: View {
-    @EnvironmentObject var navigationManager: NavigationManager
-    @EnvironmentObject var userSession: UserSession
-    
     @Environment(\.plTypographySet) var typographies
-
+    
+    @Bindable var store: StoreOf<WelcomeReducer>
     
     var body: some View {
         StepTemplate(backgroundColor: PLColor.neutral50, contentTopPadding: 16) {
@@ -29,7 +28,7 @@ struct WelcomeView: View {
     
     private var navigationHeader: some View {
         PLNavigationHeader("") {
-            PLActionButton(icon: Image(.back), type: .secondary, contentType: .icon, size: .small, shape: .square) { navigationManager.previous() }
+            EmptyView()
         } trailing: { EmptyView() }
     }
     
@@ -56,22 +55,10 @@ struct WelcomeView: View {
     }
     
     private var startButton: some View {
-        PLActionButton(label: Localization.Button.receiveGiftButtonTitle, type: .primary, contentType: .text, size: .large, shape: .rect) {
-            Task {
-                guard NetworkMonitor.shared.isConnected else {
-                    EventBus.shared.errorPublisher.send(.networkUnavailable)
-                    return
-                }
-                
-                do {
-                    if !userSession.hasReceiveGift { try await userSession.addGiftTokens(3) }
-                } catch let error as DomainError { EventBus.shared.errorPublisher.send(error) }
-                navigationManager.navigate(.main)
-            }
-        }
+        PLActionButton(label: Localization.Button.receiveGiftButtonTitle,
+                       type: .primary,
+                       contentType: .text,
+                       size: .large,
+                       shape: .rect) { store.send(.receiveGiftButtonTapped) }
     }
-}
-
-#Preview {
-    WelcomeView()
 }
