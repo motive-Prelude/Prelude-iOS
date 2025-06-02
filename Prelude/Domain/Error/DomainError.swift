@@ -5,7 +5,7 @@
 //  Created by 송지혁 on 10/7/24.
 //
 
-enum DomainError: Error {
+enum DomainError: Error, Equatable {
     case authenticationFailed
     case networkUnavailable
     case timeout
@@ -13,12 +13,6 @@ enum DomainError: Error {
     case userNotFound
     case tooManyRequests
     case invalidArgument
+    case insufficientCurrency
     case unknown
-}
-
-enum StoreError: Error {
-    case failedVerification
-    case insufficientFunds
-    case networkUnavailable
-    case unknownError
 }
