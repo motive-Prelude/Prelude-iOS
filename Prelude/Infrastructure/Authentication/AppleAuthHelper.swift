@@ -9,14 +9,13 @@
 import AuthenticationServices
 
 protocol AuthHelper {
-    associatedtype Parameter: AuthParameter
-    func performAuth() async throws -> Parameter
+    func performAuth() async throws -> AuthParameter
 }
 
 final class AppleAuthHelper: NSObject, AuthHelper {
-    private var continuation: CheckedContinuation<AppleAuthCredentialParameter, Error>?
+    private var continuation: CheckedContinuation<AuthParameter, Error>?
     
-    func performAuth() async throws -> AppleAuthCredentialParameter {
+    func performAuth() async throws -> AuthParameter {
         return try await withCheckedThrowingContinuation { continuation in
             self.continuation = continuation
             
@@ -51,12 +50,12 @@ extension AppleAuthHelper: ASAuthorizationControllerDelegate {
             return
         }
 
-        let param = AppleAuthCredentialParameter(
+        let parameter = AuthParameter.apple(
             idToken: identityToken,
             rawNonce: nonce,
             fullName: appleIDCredential.fullName
         )
-        continuation?.resume(returning: param)
+        continuation?.resume(returning: parameter)
         continuation = nil
     }
     
