@@ -22,12 +22,18 @@ final class AuthFacade {
         self.observeAuthStateUseCase = observeAuthStateUseCase
     }
     
-    func login(parameter: AuthParameter) async throws(DomainError) -> UserInfo {
-        let userInfo = try await loginUseCase.execute(parameter: parameter)
-        return userInfo
+    func login(_ provider: LoginProvider) async throws(DomainError) -> UserInfo {
+        do {
+            let authHelper = getAuthHelper(provider)
+            let parameter = try await authHelper.performAuth()
+            let userInfo = try await loginUseCase.execute(parameter: parameter)
+            
+            return userInfo
+        } catch let error as DomainError { throw error }
+        catch { throw .authenticationFailed }
+
     }
     
-    @MainActor
     func logout() throws(DomainError) {
         try logoutUseCase.execute()
     }
