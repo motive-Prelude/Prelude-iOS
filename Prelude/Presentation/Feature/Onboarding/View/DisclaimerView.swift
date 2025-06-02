@@ -5,18 +5,14 @@
 //  Created by 송지혁 on 12/2/24.
 //
 
+import ComposableArchitecture
 import SwiftUI
 
 struct DisclaimerView: View {
-    @State private var healthDisclaimerToggleState = false
-    @State private var privacyPolicyToggleState = false
-    
-    @EnvironmentObject var alertManager: AlertManager
-    @EnvironmentObject var navigationManager: NavigationManager
-    @EnvironmentObject var userSession: UserSession
-    
     @Environment(\.openURL) var openURL
     @Environment(\.plTypographySet) var typographies
+    
+    @Bindable var store: StoreOf<DisclaimerReducer>
     
     var body: some View {
         StepTemplate(backgroundColor: PLColor.neutral50, contentTopPadding: 44) {
@@ -61,9 +57,7 @@ struct DisclaimerView: View {
                 linkedText(Localization.Label.healthDisclaimerAcceptance, url: Localization.URL.healthDisclaimerAcceptanceURL)
                     .layoutPriority(1)
                 
-                Toggle(isOn: $healthDisclaimerToggleState) {
-                    
-                }
+                Toggle("", isOn: $store.agreedToHealthDisclaimer)
                 
             }
             
@@ -71,9 +65,7 @@ struct DisclaimerView: View {
                 linkedText(Localization.Label.privacyPolicyAcceptance, url: Localization.URL.privacyPolicyAcceptanceURL)
                     .layoutPriority(1)
                 
-                Toggle(isOn: $privacyPolicyToggleState) {
-                    
-                }
+                Toggle("", isOn: $store.agreedToPrivacyPolicy)
             }
         }
         
@@ -85,25 +77,9 @@ struct DisclaimerView: View {
                        contentType: .text,
                        size: .large,
                        shape: .rect,
-                       isDisabled: !(healthDisclaimerToggleState && privacyPolicyToggleState)) {
-            Task {
-                userSession.userInfo?.didAgreeToTermsAndConditions = true
-                guard NetworkMonitor.shared.isConnected else {
-                    EventBus.shared.errorPublisher.send(.networkUnavailable)
-                    return
-                    
-                }
-                
-                do {
-                    if try await userSession.updateCurrentUser() {
-                        await MainActor.run {
-                            navigationManager.navigate(userSession.hasReceiveGift ? .main : .welcome)
-                        }
-                    }
-                } catch let error as DomainError { EventBus.shared.errorPublisher.send(error) }
-                
-            }
-        }   
+                       isDisabled: !(store.agreedToHealthDisclaimer && store.agreedToPrivacyPolicy)) {
+            store.send(.acceptButtonTapped)
+        }
     }
     
     private func linkedText(_ text: String, url: String) -> some View {
@@ -131,10 +107,5 @@ struct DisclaimerView: View {
             .lineSpacing(6)
 
     }
-}
-
-#Preview {
-    DisclaimerView()
-        .environmentObject(NavigationManager())
 }
 
