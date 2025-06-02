@@ -6,17 +6,18 @@
 //
 
 import AuthenticationServices
+import ComposableArchitecture
 import SwiftUI
 
-struct OnboardingPage: View {
-    @StateObject var onboardingViewModel = OnboardingViewModel()
-    @EnvironmentObject var userSession: UserSession
+struct LoginView: View {
     
     @Environment(\.plTypographySet) var typographies
     
-    enum TabSelection: Int, CaseIterable, Hashable {
-        case onboarding1 = 1
-        case onboarding2
+    @Bindable var store: StoreOf<LoginReducer>
+    
+    enum Page: Int, CaseIterable, Hashable {
+        case first
+        case second
         
         static var totalCount: Int { allCases.count }
     }
@@ -33,8 +34,19 @@ struct OnboardingPage: View {
                     pageIndicator
                         .padding(.top, -32)
                     Spacer()
-                    appleLoginButton
-                        .padding(.horizontal, 16)
+                    
+                    Button("Login") { store.send(.loginButtonTapped(.apple)) }
+                    
+                    SignInWithAppleButton(.continue) { request in
+                        store.send(.loginButtonTapped(.apple))
+                    } onCompletion: { result in
+                        
+                    }
+                    .textStyle(typographies.label)
+                    .foregroundStyle(PLColor.neutral50)
+                    .clipShape(RoundedRectangle(cornerRadius: 24))
+                    .frame(height: 60)
+                    .padding(.horizontal, 16)
                 }
             }
             .navigationBarBackButtonHidden()
@@ -51,12 +63,12 @@ struct OnboardingPage: View {
             OnboardingTabContent(image: Image(.onboarding1),
                                  title: Localization.Label.firstOnboardingTitle,
                                  description: Localization.Label.firstOnboardingDescription)
-            .tag(0)
+            .tag(Page.first.rawValue)
             
             OnboardingTabContent(image: Image(.onboarding2),
                                  title: Localization.Label.secondOnboardingTitle,
                                  description: Localization.Label.secondOnboardingDescription)
-            .tag(1)
+            .tag(Page.second.rawValue)
             
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
@@ -64,27 +76,6 @@ struct OnboardingPage: View {
         
     }
     private var pageIndicator: some View {
-        PLPageIndicator(currentPage: $currentPage, totalCount: TabSelection.totalCount)
+        PLPageIndicator(currentPage: $currentPage, totalCount: Page.totalCount)
     }
-    private var appleLoginButton: some View {
-        SignInWithAppleButton(.continue) { request in
-            onboardingViewModel.prepareAppleLogin(request: request)
-        } onCompletion: { result in
-            onboardingViewModel.makeAppleLoginCredential(result: result) { parameter in
-                Task {
-                    do {
-                        try await userSession.login(parameter: parameter)
-                    } catch let error as DomainError { EventBus.shared.errorPublisher.send(error) }
-                }
-            }
-        }
-        .textStyle(typographies.label)
-        .foregroundStyle(PLColor.neutral50)
-        .clipShape(RoundedRectangle(cornerRadius: 24))
-        .frame(height: 60)
-    }
-}
-
-#Preview {
-    OnboardingPage()
 }
