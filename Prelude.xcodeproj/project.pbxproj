@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 71;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -166,6 +166,7 @@
 				071C83DA2C66E1CB0055C393 /* Prelude */,
 				07590B2F2C9D9BBE00BE6B14 /* Frameworks */,
 				071C83D92C66E1CB0055C393 /* Products */,
+				0761C4E72DEDABBE003DC63D /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -354,6 +355,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		0761C4E72DEDABBE003DC63D /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				071C84382C66E3260055C393 /* Secrets.xcconfig */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		07EEA0DA2DC7A03D002FA682 /* Judgement */ = {
 			isa = PBXGroup;
 			children = (
@@ -522,7 +531,8 @@
 /* Begin XCBuildConfiguration section */
 		071C83E52C66E1CC0055C393 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 071C84382C66E3260055C393 /* Secrets.xcconfig */;
+			baseConfigurationReferenceAnchor = 07F4A1A82DEB2154007A44CC /* Secret */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -587,7 +597,8 @@
 		};
 		071C83E62C66E1CC0055C393 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 071C84382C66E3260055C393 /* Secrets.xcconfig */;
+			baseConfigurationReferenceAnchor = 07F4A1A82DEB2154007A44CC /* Secret */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -644,7 +655,8 @@
 		};
 		071C83E82C66E1CC0055C393 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 071C84382C66E3260055C393 /* Secrets.xcconfig */;
+			baseConfigurationReferenceAnchor = 07F4A1A82DEB2154007A44CC /* Secret */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -696,7 +708,8 @@
 		};
 		071C83E92C66E1CC0055C393 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 071C84382C66E3260055C393 /* Secrets.xcconfig */;
+			baseConfigurationReferenceAnchor = 07F4A1A82DEB2154007A44CC /* Secret */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
