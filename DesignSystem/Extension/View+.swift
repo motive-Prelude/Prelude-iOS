@@ -61,13 +61,6 @@ extension View {
     }
 }
 
-
-extension View {
-    func trackScreen(screenName: String) -> some View {
-        self.modifier(ScreenTrackingModifier(screenName: screenName))
-    }
-}
-
 struct ConditionalSafeAreaModifier: ViewModifier {
     func body(content: Content) -> some View {
         let safeEdges: Edge.Set = UIDevice.current.userInterfaceIdiom == .pad ? [.horizontal] : [.horizontal, .top, .bottom]
