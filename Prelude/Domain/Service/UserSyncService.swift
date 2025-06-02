@@ -93,7 +93,7 @@ final class UserSyncService {
         }
     }
     
-    func checkRejoinUser(id: String, from collection: UserCollection = .deleted) async throws(DomainError) -> UserInfo? {
+    func checkRejoinUser(id: String, from collection: UserCollection = .deleted) async -> UserInfo? {
         do {
             let deletedUser = try await remoteRepository.fetch(id: id, from: collection)
             return deletedUser

@@ -20,18 +20,22 @@ class LoginUseCase {
     func execute(parameter: AuthParameter) async throws(DomainError) -> UserInfo {
         do {
             let (userID, sub) = try await authRepository.logIn(parameter: parameter)
-            let deletedUser = try await userSyncService.checkRejoinUser(id: sub)
+            let deletedUser = await userSyncService.checkRejoinUser(id: sub)
             
-            if let deletedUser {
-                let rejoinUser = UserInfo(id: userID, remainingTimes: 0, didReceiveGift: deletedUser.didReceiveGift)
+            if deletedUser != nil {
+                let rejoinUser = UserInfo(id: userID, remainingTimes: 0, didReceiveGift: true)
                 try await userSyncService.save(user: rejoinUser, in: .active)
                 try await userSyncService.delete(id: sub, from: .deleted)
                 
                 return rejoinUser
             } else {
-                let userInfo = try await userSyncService.fetch(id: userID, from: .active)
-                
-                return userInfo
+                if let existingUser = try? await userSyncService.fetch(id: userID, from: .active) {
+                    return existingUser
+                } else {
+                    let newUser = UserInfo(id: userID, remainingTimes: 0, didReceiveGift: false)
+                    try await userSyncService.save(user: newUser, in: .active)
+                    return newUser
+                }
             }
         }
         catch let error as RepositoryError { throw ErrorMapper.mapToDomain(error) }
