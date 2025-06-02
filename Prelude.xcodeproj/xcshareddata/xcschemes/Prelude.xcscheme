@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1600"
+   LastUpgradeVersion = "1620"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -51,7 +51,7 @@
          </BuildableReference>
       </BuildableProductRunnable>
       <StoreKitConfigurationFileReference
-         identifier = "../../Junction/Resources/Prelude.storekit">
+         identifier = "../../Prelude/Resources/Store/Prelude.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction
