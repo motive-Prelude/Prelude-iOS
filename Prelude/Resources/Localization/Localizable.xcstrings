@@ -1605,6 +1605,9 @@
         }
       }
     },
+    "Login" : {
+
+    },
     "main_greeting_title_1" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2179,6 +2182,40 @@
         }
       }
     },
+    "toast_content_delete_account" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account deleted."
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "계정을 삭제했어요."
+          }
+        }
+      }
+    },
+    "toast_content_logged_out" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logged out."
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그아웃했어요."
+          }
+        }
+      }
+    },
     "toast_content_network_error" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2209,6 +2246,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "씨앗 %d개가 추가됐어요!"
+          }
+        }
+      }
+    },
+    "toast_content_save_complete" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changes saved!"
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장에 성공했어요!"
+          }
+        }
+      }
+    },
+    "toast_content_save_fail_network_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Network error. Failed to save."
+          }
+        },
+        "ko-KR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "네트워크 오류. 저장에 실패했어요."
           }
         }
       }

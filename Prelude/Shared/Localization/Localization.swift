@@ -154,6 +154,11 @@ enum Localization {
         
         static var deleteAccountDescription = String(localized: "delete_account_description")
         
+        static var completeDeleteAccountToastMessage = String(localized: "toast_content_delete_account")
+        static var saveFailedToastMessageDueToNetwokError = String(localized: "toast_content_save_fail_network_error")
+        static var saveCompleteToastMessage = String(localized: "toast_content_save_complete")
+        static var logoutToastMessage = String(localized: "toast_content_logged_out")
+        
         static func paySuccessToastMessage(_ count: Int) -> String {
             let formatString = NSLocalizedString("toast_content_pay_success", comment: "")
             return String(format: formatString, count)
