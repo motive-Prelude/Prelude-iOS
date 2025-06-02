@@ -28,35 +28,25 @@ class PromptGenerator {
             .randomElement() ?? greetingTitle1
     }
     
-    func generatePrompt(with healthInfo: HealthInfo?) -> String {
-        let languageCode = Locale.current.language.languageCode?.identifier ?? "en"
-        
-        return """
-            "prompt": [
-                "intro": "다음은 임산부 사용자의 건강 정보야",
-                "healthInfo": [
-                    "pregnantWeek": \(healthInfo?.gestationalWeek.localized ?? "No response"),
-                    "bmi": \(healthInfo?.bmi ?? 0.0),
-                    "bloodPressure": \(healthInfo?.bloodPressure.localized ?? "No response"),
-                    "diabetes": \(healthInfo?.diabetes.localized ?? "No response"),
-                    "restrictions": \(healthInfo?.restrictions.map { String($0.rawValue) }.joined(separator: ", ") ?? ""),
-                    "local": \(languageCode),
-                ]
-            ]
-        """
-    }
-    
     func generateHealthPrompt(with healthInfo: HealthInfo?) -> String {
         guard let healthInfo else { return "" }
         
         return """
-                Information about the pregnant woman's health:
                 - Gestational week: \(healthInfo.gestationalWeek.rawValue)
                 - BMI: \(healthInfo.bmi)
                 - Blood pressure: \(healthInfo.bloodPressure.rawValue)
                 - History of diabetes: \(healthInfo.diabetes.rawValue)
                 - Allergies: \(healthInfo.restrictions.map { String($0.rawValue) }.joined(separator: ", "))
                 """
+    }
+    
+    func generateFoodPrompt(with foodInformation: FoodInformation) -> String {
+        
+        return """
+            - Name: \(foodInformation.name)
+            - ingredients: \(foodInformation.ingredient.joined(separator: ", "))
+            - nutritions: \(foodInformation.nutritions.joined(separator: ", "))
+            """
     }
     
     func generateFindingFoodNamePrompt() -> String {
@@ -95,43 +85,37 @@ class PromptGenerator {
         """
     }
     
-    func generateJSONPostProcessingPrompt() -> String {
-        let languageCode = Locale.current.language.languageCode?.identifier ?? "en"
+    func generateJSONFormatPrompt() -> String {
         return """
-            1. Translate the response **strictly** according to the provided `languageCode`. The entire response must be translated without leaving out any content. If the translation does not match the specified language, the response will be considered invalid.
-        * If `languageCode` is 'ko', translate **all content** into Korean naturally and conversationally, avoiding overly formal or literal translation styles. Use everyday Korean expressions to ensure clarity and relatability.
-        2. Only provide the translated version in JSON format. Do not include the original English version or any additional explanations.
-        3. Organize the provided content into the JSON format specified below. Only include the fields specified in the format, and do not add any additional fields.
-        4. Start directly with the main content (the diagnosis of whether the food is safe for pregnant women). Do not include introductions or unnecessary context.
-        5. For the `is_safe` field in the JSON, provide one of the following values based on medical judgment: "positive," "caution," or "negative."
+            Organize the information from above precisely into the following JSON format
+            Only return the JSON format—additional explanations or text are strictly prohibited.
         
-        **Important:** If the response is not fully translated into the specified language (`languageCode`), or if any part of the content is omitted, it will be considered incomplete and invalid.
+            JSON FORMAT:
+            {
+                foodName: String
+                nutritionFacts: [
+                    {
+                        nutrient: String
+                        value: String(Must be quantitative)
+                    }
+                ]
+            }
         
-        Language Code: \(languageCode)
-        
-        JSON Format:
-        {
-        "food": "Food name",
-        "is_safe": "caution",
-        "nutrition": [
-        {
-            "nutrient": "Nutrient name",
-            "value": "Nutrient value(specific numbers)",
-            "description": "Impact of the nutrient on pregnant women's health based on medical evidence"
-        }
-        ]
-        }
         """
     }
     
-    func integrationPrompt(healthInfo: HealthInfo?) -> String {
+    func generateDiagnosePrompt(foodInformation: FoodInformation, healthInfo: HealthInfo?) -> String {
         let languageCode = Locale.current.language.languageCode?.identifier ?? "en"
         
         return """
-            You must strictly follow the four steps below in order. Under no circumstances should you provide any additional text or explanation besides the JSON.
+             You must strictly follow the four steps below in order. Under no circumstances should you provide any additional text or explanation besides the JSON.
+            
+            [Step 1] Evaluate whether the following food, with the given nutritional specification, is medically safe for the pregnant woman described below. Assess the medical impact of each nutrient strictly using recent (within 5 years) and highly credible medical evidence from reliable institutions (e.g., ACOG, WHO, FDA, PubMed, Web of Science). Clearly categorize each nutrient’s impact as exactly one of the following: "positive," "caution," or "negative."
+            
+            Food:
+            \(generateFoodPrompt(with: foodInformation))
 
-            [Step 1] Based on the pregnant woman's health information provided below, evaluate the medical impact of each nutrient on pregnancy strictly using recent (within 5 years) and highly credible medical evidence from reliable institutions (e.g., ACOG, WHO, FDA, PubMed, Web of Science). Clearly categorize each nutrient’s impact as exactly one of the following: "positive," "caution," or "negative."
-
+            Pregnant woman's health information:
             \(generateHealthPrompt(with: healthInfo))
 
             [Step 2] Organize the information from above precisely into the following JSON format, translating it exclusively into the language corresponding to "\(languageCode)". Absolutely no other languages or English should appear. Only return the JSON format—additional explanations or text are strictly prohibited.
