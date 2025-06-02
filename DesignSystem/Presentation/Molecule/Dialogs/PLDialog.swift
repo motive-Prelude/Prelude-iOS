@@ -16,8 +16,7 @@ struct PLDialog: View {
     let cancelButtonLabel: String
     let confirmButtonLabel: String
     
-    var primaryColor: Color?
-    var secondaryColor: Color?
+    let primaryButtonType: ButtonType
     
     let confirmAction: () -> Void
     let cancelAction: () -> Void
@@ -51,8 +50,7 @@ struct PLDialog: View {
                            type: .secondary,
                            contentType: .text,
                            size: .medium,
-                           shape: .none,
-                           directionalBackgroundColor: secondaryColor) {
+                           shape: .none) {
                 cancelAction()
             }
             
@@ -60,8 +58,7 @@ struct PLDialog: View {
                            type: .primary,
                            contentType: .text,
                            size: .small,
-                           shape: .rect,
-                           directionalBackgroundColor: primaryColor) {
+                           shape: .rect) {
                 confirmAction()
             }
         }
@@ -76,7 +73,8 @@ struct PLDialog: View {
     PLDialog(title: "Title",
              description: "Description",
              cancelButtonLabel: "Label",
-             confirmButtonLabel: "Label") {
+             confirmButtonLabel: "Label",
+             primaryButtonType: .primary) {
         print("Confirm")
     } cancelAction: {
         print("Cancel")
