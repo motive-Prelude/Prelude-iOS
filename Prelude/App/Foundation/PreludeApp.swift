@@ -6,33 +6,23 @@
 //
 
 import CloudKit
+import ComposableArchitecture
 import FirebaseCore
 import SwiftUI
 import SwiftData
 
 @main
 struct PreludeApp: App {
-    @StateObject private var diContainer = DIContainer.shared
-    @StateObject private var alertManager = AlertManager.shared
-    @StateObject private var store = Store()
-    @StateObject private var navigationManager = NavigationManager()
-    @StateObject private var userSession = UserSession(userSyncService: DIContainer.shared.resolve(UserSyncService.self)!, authFacade: DIContainer.shared.resolve(AuthFacade.self)!)
     @StateObject private var keyboardObserver = KeyboardObserver()
-    @StateObject private var networkMonitor = NetworkMonitor.shared
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    let appFeature = Store(initialState: AppFeature.State()) { AppFeature() }
     
     var body: some Scene {
         WindowGroup {
-            SplashView()
+            SplashView(store: appFeature)
                 .modelContainer(SwiftDataSource.shared.container!)
-                .environmentObject(alertManager)
                 .environmentObject(keyboardObserver)
-                .environmentObject(diContainer)
-                .environmentObject(navigationManager)
-                .environmentObject(store)
-                .environmentObject(userSession)
-                .environmentObject(networkMonitor)
                 .environment(\.plTypographySet, currentLocalizationTypographySet())
                 .dynamicTypeSize(.medium)
         }
