@@ -81,22 +81,6 @@ final class APIClient {
         return request
     }
     
-    @discardableResult
-    func uploadImage(to url: URL,
-                     image: UIImage,
-                     purpose: String = "vision",
-                     fileName: String = "image.jpeg") async throws(APIError) -> FileUploadResponse {
-        
-        let boundary = "Boundary-\(UUID().uuidString)"
-        let contentType = "multipart/form-data; boundary=\(boundary)"
-        
-        let bodyData = makeMultipartBody(with: image, boundary: boundary, purpose: purpose, fileName: fileName)
-        let request = makeURLRequest(to: url, method: .POST, body: .data(bodyData, contentType: contentType))
-        
-        return try await fetchData(with: request)
-        
-    }
-    
     // Multipart body를 생성하는 메서드
     private func makeMultipartBody(with image: UIImage, boundary: String, purpose: String, fileName: String) -> Data {
         var body = Data()
@@ -134,60 +118,6 @@ final class APIClient {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         request.setValue("assistants=v2", forHTTPHeaderField: "OpenAI-Beta")
-    }
-    
-    func makeThreadBody(role: String, messages: [String], fileId: String) -> MessageBody {
-        var messageContents = [MessageContent]()
-        
-        if !fileId.isEmpty {
-            let imageContent = MessageContentData(type: "image_file", text: nil, imageFile: ImageFileContent(fileID: fileId, detail: "high"))
-            messageContents.append(MessageContent(role: role, content: [imageContent]))
-        }
-        
-        for message in messages {
-            let textContent = MessageContentData(type: "text", text: message, imageFile: nil)
-            messageContents.append(MessageContent(role: role, content: [textContent]))
-        }
-        
-        return MessageBody(messages: messageContents)
-    }
-    
-    func makeMessageBody(role: String, text: String, fileId: String) -> MessageBody {
-        var body = MessageBody(messages: [])
-        
-        if !fileId.isEmpty {
-            let imageContent = MessageContentData(type: "image_file", text: nil, imageFile: ImageFileContent(fileID: fileId, detail: "high"))
-            body.messages.append(MessageContent(role: role, content: [imageContent]))
-        } else if !text.isEmpty {
-            let textContent = MessageContentData(type: "text", text: text, imageFile: nil)
-            body.messages.append(MessageContent(role: role, content: [textContent]))
-        } else {
-            let errorContent = MessageContentData(type: "text", text: "오류 발생", imageFile: nil)
-            body.messages.append(MessageContent(role: role, content: [errorContent]))
-        }
-        
-        return body
-    }
-    
-    func makeThreadAndRunBody(assistantID: String, role: String, messages: [String], fileID: String) -> ThreadAndRunBody {
-        var messageContents = [MessageContent]()
-        
-        if !fileID.isEmpty {
-            let imageContent = MessageContentData(type: "image_file", text: nil, imageFile: ImageFileContent(fileID: fileID, detail: "high"))
-            messageContents.append(MessageContent(role: role, content: [imageContent]))
-        }
-        
-        for message in messages {
-            let textContent = MessageContentData(type: "text", text: message.isEmpty ? "Not answered" : message, imageFile: nil)
-            messageContents.append(MessageContent(role: role, content: [textContent]))
-        }
-        
-        
-        return ThreadAndRunBody(assistantID: assistantID, thread: MessageBody(messages: messageContents))
-    }
-    
-    func createRunBody(assistantID: String) -> RunRequest {
-        return RunRequest(assistantID: assistantID)
     }
     
     private func parseError(_ error: URLError) -> APIError {

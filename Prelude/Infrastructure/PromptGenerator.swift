@@ -28,29 +28,10 @@ class PromptGenerator {
             .randomElement() ?? greetingTitle1
     }
     
-    func generatePrompt(with healthInfo: HealthInfo?) -> String {
-        let languageCode = Locale.current.language.languageCode?.identifier ?? "en"
-        
-        return """
-            "prompt": [
-                "intro": "다음은 임산부 사용자의 건강 정보야",
-                "healthInfo": [
-                    "pregnantWeek": \(healthInfo?.gestationalWeek.localized ?? "No response"),
-                    "bmi": \(healthInfo?.bmi ?? 0.0),
-                    "bloodPressure": \(healthInfo?.bloodPressure.localized ?? "No response"),
-                    "diabetes": \(healthInfo?.diabetes.localized ?? "No response"),
-                    "restrictions": \(healthInfo?.restrictions.map { String($0.rawValue) }.joined(separator: ", ") ?? ""),
-                    "local": \(languageCode),
-                ]
-            ]
-        """
-    }
-    
     func generateHealthPrompt(with healthInfo: HealthInfo?) -> String {
         guard let healthInfo else { return "" }
         
         return """
-                Information about the pregnant woman's health:
                 - Gestational week: \(healthInfo.gestationalWeek.rawValue)
                 - BMI: \(healthInfo.bmi)
                 - Blood pressure: \(healthInfo.bloodPressure.rawValue)
@@ -59,13 +40,13 @@ class PromptGenerator {
                 """
     }
     
-    func generateFoodNutritionPrompt(with foodNutrition: FoodNutritionResponse) -> String {
+    func generateFoodPrompt(with foodInformation: FoodInformation) -> String {
+        
         return """
-                Food Nutrition Information:
-                \(foodNutrition.nutritionInfo.map {
-                    "- \($0.nutrient): \($0.value)"
-                }.joined(separator: "\n"))
-                """
+            - Name: \(foodInformation.name)
+            - ingredients: \(foodInformation.ingredient.joined(separator: ", "))
+            - nutritions: \(foodInformation.nutritions.joined(separator: ", "))
+            """
     }
     
     func generateFindingFoodNamePrompt() -> String {
@@ -80,9 +61,12 @@ class PromptGenerator {
     func generateFindingFoodNutritionPrompt() -> String {
             """
             1. Must Perform a 'google grounding mode'(real time google web search) to find the exact nutritional information of the described food. Finding the product's Nutrition Facts label is the most accurate approach.
-            2. If you find the product's Nutrition Facts label, recognize all possible values listed on the label.
+            2. If you find the product's Nutrition Facts label, Extract and clearly list ALL nutritional values exactly as they appear on the Nutrition Facts label
             3. For foods whose nutritional content varies depending on additional ingredients or quantities, provide the average nutritional values.
-            4. Instead of results like "varies depending on the amount of soy sauce," present quantitative data such as "15g (average serving size)."
+            
+            Important:
+            - Ensure you do not omit any nutritional information listed on the label.
+            - All nutritional values must include exact numerical values (numbers and units) without qualitative descriptions.
             """
     }
     
@@ -101,32 +85,60 @@ class PromptGenerator {
         """
     }
     
-    func generateJSONPostProcessingPrompt() -> String {
-        let languageCode = Locale.current.language.languageCode?.identifier ?? "en"
+    func generateJSONFormatPrompt() -> String {
         return """
-            1. Translate the response **strictly** according to the provided `languageCode`. The entire response must be translated without leaving out any content. If the translation does not match the specified language, the response will be considered invalid.
-        * If `languageCode` is 'ko', translate **all content** into Korean naturally and conversationally, avoiding overly formal or literal translation styles. Use everyday Korean expressions to ensure clarity and relatability.
-        2. Only provide the translated version in JSON format. Do not include the original English version or any additional explanations.
-        3. Organize the provided content into the JSON format specified below. Only include the fields specified in the format, and do not add any additional fields.
-        4. Start directly with the main content (the diagnosis of whether the food is safe for pregnant women). Do not include introductions or unnecessary context.
-        5. For the `is_safe` field in the JSON, provide one of the following values based on medical judgment: "positive," "caution," or "negative."
+            Organize the information from above precisely into the following JSON format
+            Only return the JSON format—additional explanations or text are strictly prohibited.
         
-        **Important:** If the response is not fully translated into the specified language (`languageCode`), or if any part of the content is omitted, it will be considered incomplete and invalid.
+            JSON FORMAT:
+            {
+                foodName: String
+                nutritionFacts: [
+                    {
+                        nutrient: String
+                        value: String(Must be quantitative)
+                    }
+                ]
+            }
         
-        Language Code: \(languageCode)
-        
-        JSON Format:
-        {
-        "food": "Food name",
-        "is_safe": "caution",
-        "nutrition": [
-        {
-            "nutrient": "Nutrient name",
-            "value": "Nutrient value(specific numbers)",
-            "description": "Impact of the nutrient on pregnant women's health based on medical evidence"
-        }
-        ]
-        }
         """
+    }
+    
+    func generateDiagnosePrompt(foodInformation: FoodInformation, healthInfo: HealthInfo?) -> String {
+        let languageCode = Locale.current.language.languageCode?.identifier ?? "en"
+        
+        return """
+             You must strictly follow the four steps below in order. Under no circumstances should you provide any additional text or explanation besides the JSON.
+            
+            [Step 1] Evaluate whether the following food, with the given nutritional specification, is medically safe for the pregnant woman described below. Assess the medical impact of each nutrient strictly using recent (within 5 years) and highly credible medical evidence from reliable institutions (e.g., ACOG, WHO, FDA, PubMed, Web of Science). Clearly categorize each nutrient’s impact as exactly one of the following: "positive," "caution," or "negative."
+            
+            Food:
+            \(generateFoodPrompt(with: foodInformation))
+
+            Pregnant woman's health information:
+            \(generateHealthPrompt(with: healthInfo))
+
+            [Step 2] Organize the information from above precisely into the following JSON format, translating it exclusively into the language corresponding to "\(languageCode)". Absolutely no other languages or English should appear. Only return the JSON format—additional explanations or text are strictly prohibited.
+
+            Required JSON format:
+            {
+              "food": "Identified food name",
+              "is_safe": "Exactly one of positive/caution/negative",
+              "nutrition": [
+                {
+                  "nutrient": "Nutrient name",
+                  "value": "Exact numerical value (must include numbers)",
+                  "description": "Detailed, logical, and easily understandable medical impact on the pregnant woman consuming this nutrient"
+                }
+              ]
+            }
+
+            Warnings (Strictly adhere to these):
+            - If the JSON format does not match exactly, your response is invalid.
+            - If the translation is not perfectly done in the requested language, your response is invalid.
+            - Any additional explanations, sentences, greetings, or responses beyond the JSON are strictly prohibited.
+            - All information must be exclusively obtained through real-time Google web search ('google grounding mode').
+            - Medical evidence must strictly come from highly credible institutions (e.g., ACOG, WHO, FDA, PubMed, Web of Science).
+            """
     }
 }
